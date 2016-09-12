@@ -1,1 +1,7 @@
 /build
+/.idea/
+/local.properties
+/blockchain-web3J-android.iml
+/gradlew.bat
+/gradlew
+/gradle/
