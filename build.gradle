@@ -18,8 +18,27 @@ android {
     }
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.1'
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:24.1.1'
-    compile project(':blockchain-web3J')
+    compile 'io.reactivex:rxjava:1.1.6'
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.0'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
 }

@@ -5,7 +5,8 @@ import android.net.LocalSocketAddress;
 
 import java.io.IOException;
 
-import web3j.exception.Web3JException;
+import ethereumjava.exception.EthereumJavaException;
+import ethereumjava.net.provider.IpcAbstractProvider;
 
 /**
  * Created by gunicolas on 27/07/16.
@@ -14,7 +15,7 @@ public class AndroidIpcProvider extends IpcAbstractProvider {
 
     LocalSocket socket;
 
-    public AndroidIpcProvider(String _ipcFilePath) throws Web3JException {
+    public AndroidIpcProvider(String _ipcFilePath) throws EthereumJavaException {
         super(_ipcFilePath);
     }
 
@@ -27,12 +28,12 @@ public class AndroidIpcProvider extends IpcAbstractProvider {
     }
 
     @Override
-    public void stop() throws Web3JException {
+    public void stop() throws EthereumJavaException {
         if( this.socket != null ) {
             try {
                 this.socket.close();
             } catch (IOException e) {
-                throw new Web3JException(e);
+                throw new EthereumJavaException(e);
             }
         }
         super.stop();
