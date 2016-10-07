@@ -1,4 +1,4 @@
-package web3j.net.provider;
+package ethereumjava.net.provider;
 
 import android.net.LocalSocket;
 import android.net.LocalSocketAddress;

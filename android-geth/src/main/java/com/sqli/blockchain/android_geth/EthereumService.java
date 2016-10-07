@@ -6,11 +6,11 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.github.ethereum.go_ethereum.cmd.Geth;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.github.ethereum.go_ethereum.cmd.Geth;
 
 /**
  * Created by gunicolas on 26/07/16.
