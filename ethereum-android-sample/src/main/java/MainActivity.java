@@ -159,7 +159,7 @@ public class MainActivity extends EthereumActivity implements View.OnClickListen
 
         System.out.println("contract : "+CONTRACT_ADDRESS);
         System.out.println("from: "+account);
-        Hash txHash = contract.RentMe().sendTransaction(null);//account,new BigInteger("90000"));
+        Hash txHash = contract.RentMe().sendTransaction(account,new BigInteger("90000"));
 
     }
 
