@@ -14,7 +14,7 @@ android:
     - platform-tools
     - tools # to get the new `repository-11.xml`
     - tools # see https://github.com/travis-ci/travis-ci/issues/6040#issuecomment-219367943)
-    - build-tools-24.0.1
+    - build-tools-24.0.3
     - extra-android-support
     - android-24
 
@@ -31,3 +31,10 @@ android:
 
 script:
   - "./gradlew build connectedCheck --stacktrace"
+
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
