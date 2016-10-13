@@ -4,22 +4,18 @@ jdk:
   - oraclejdk8
 
 android:
-  #licenses: 
+  licenses:
+    - '.+' 
   #  - android-sdk-preview-license-52d11cd2
   #  - android-sdk-license-c81a61d9    
   #  - android-sdk-license-.+
   #  - google-gdk-license-.+
   components:
-    # Uncomment the lines below if you want to
-    # use the latest revision of Android SDK Tools
     - platform-tools
     - tools # to get the new `repository-11.xml`
     - tools # see https://github.com/travis-ci/travis-ci/issues/6040#issuecomment-219367943)
-
-    # The BuildTools version used by your project
     - build-tools-24.0.1
-
-    # The SDK version used to compile your project
+    - extra-android-support
     - android-24
 
     # Additional components
