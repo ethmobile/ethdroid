@@ -21,6 +21,10 @@ android {
     }
 }
 
+buildscript {
+	System.properties['com.android.build.gradle.overrideVersionCheck'] = 'true'
+}
+
 
 task wrapper(type: Wrapper) {
     gradleVersion = '3.1'

@@ -1,6 +1,5 @@
 /build
 /.idea/
 /local.properties
-/gradle/
 /.gradle
 /ethereum-android.iml
