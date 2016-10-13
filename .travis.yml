@@ -4,11 +4,11 @@ jdk:
   - oraclejdk8
 
 android:
-  licenses: 
-    - android-sdk-preview-license-52d11cd2
-    - android-sdk-license-c81a61d9    
-    - android-sdk-license-.+
-    - google-gdk-license-.+
+  #licenses: 
+  #  - android-sdk-preview-license-52d11cd2
+  #  - android-sdk-license-c81a61d9    
+  #  - android-sdk-license-.+
+  #  - google-gdk-license-.+
   components:
     # Uncomment the lines below if you want to
     # use the latest revision of Android SDK Tools
