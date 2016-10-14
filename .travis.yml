@@ -52,3 +52,9 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
+notifications:
+  slack:
+      on_success: change
+      on_failure: always
+      rooms:
+        - sqlinantes:8Usex84M6JTsUhBEymvhpm5w#team-blockchain
