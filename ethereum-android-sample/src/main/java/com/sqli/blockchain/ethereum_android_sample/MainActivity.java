@@ -1,10 +1,11 @@
+package com.sqli.blockchain.ethereum_android_sample;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.sqli.blockchain.android_geth.EthereumActivity;
-import com.sqli.blockchain.ethereum_android_sample.R;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -19,6 +20,7 @@ import ethereumjava.net.provider.AndroidIpcProvider;
 import ethereumjava.solidity.ContractType;
 import ethereumjava.solidity.SolidityFunction;
 import ethereumjava.solidity.SolidityUtils;
+import ethereumjava.solidity.types.SVoid;
 
 
 public class MainActivity extends EthereumActivity implements View.OnClickListener{
@@ -148,7 +150,7 @@ public class MainActivity extends EthereumActivity implements View.OnClickListen
     }
 
     interface Contract extends ContractType {
-        SolidityFunction<Void> RentMe();
+        SolidityFunction<SVoid> RentMe();
     }
 
     private void contract(){

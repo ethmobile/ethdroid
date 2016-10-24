@@ -2,11 +2,15 @@ package ethereumjava.net.provider;
 
 import android.net.LocalSocket;
 import android.net.LocalSocketAddress;
+import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import ethereumjava.exception.EthereumJavaException;
-import ethereumjava.net.provider.IpcAbstractProvider;
 
 /**
  * Created by gunicolas on 27/07/16.
@@ -20,11 +24,19 @@ public class AndroidIpcProvider extends IpcAbstractProvider {
     }
 
     @Override
-    protected void setStreams() throws IOException {
-        this.socket = new LocalSocket();
-        this.socket.connect(new LocalSocketAddress(ipcFilePath, LocalSocketAddress.Namespace.FILESYSTEM));
-        this.outputStream = this.socket.getOutputStream();
-        this.inputStream = this.socket.getInputStream();
+    public void init() throws EthereumJavaException {
+        try {
+            this.socket = new LocalSocket();
+            this.socket.connect(new LocalSocketAddress(ipcFilePath, LocalSocketAddress.Namespace.FILESYSTEM));
+            this.outputStream = this.socket.getOutputStream();
+            this.inputStream = this.socket.getInputStream();
+            this.in = new BufferedReader(new InputStreamReader(this.inputStream));
+            this.out = new DataOutputStream(this.outputStream);
+            super.init();
+        } catch (IOException e) {
+            throw new EthereumJavaException(e);
+        }
+
     }
 
     @Override
