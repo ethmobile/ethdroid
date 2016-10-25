@@ -30,9 +30,12 @@ public class EthereumService extends Service {
 
     private Thread gethThread;
     private Thread checkFileThread;
+    private boolean gethReady;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        setGethReady(false);
 
         dataDir = getFilesDir().getAbsolutePath();
         callbacks = new ArrayList<>();
@@ -43,13 +46,6 @@ public class EthereumService extends Service {
             Utils.saveAssetOnStorage(getBaseContext(),GETH_BOOTNODE_FILE,dataDir);
 
             final StringBuilder gethParams = new StringBuilder();
-            /*
-            gethParams.append("--ipcpath \""+getFilesDir().getAbsolutePath()+"/geth.ipc\"").append(" ");
-            gethParams.append("--ipcdisable").append(" ");
-            gethParams.append("--rpc").append(" ");
-            gethParams.append("--rpcport "+GETH_RPC_PORT).append(" ");
-            gethParams.append("--rpccorsdomain=*").append(" ");
-            */
             gethParams.append("--fast").append(" ");
             gethParams.append("--lightkdf").append(" ");
             gethParams.append("--nodiscover").append(" ");
@@ -90,10 +86,14 @@ public class EthereumService extends Service {
         }
     }
 
-    public void registerClient(EthereumServiceInterface client){
-        this.callbacks.add(client);
+    public synchronized void registerClient(EthereumServiceInterface client){
+        if( gethReady ){
+            client.onEthereumServiceReady();
+        } else {
+            this.callbacks.add(client);
+        }
     }
-    public void unregisterClient(EthereumServiceInterface client){
+    public synchronized void unregisterClient(EthereumServiceInterface client){
         this.callbacks.remove(client);
     }
 
@@ -102,7 +102,6 @@ public class EthereumService extends Service {
             @Override
             public void run() {
                 try {
-                    int attempts = 0;
                     while( !new File(dataDir+"/"+GETH_IPC_FILE).exists() ){
                         Thread.sleep(500);
                     }
@@ -118,6 +117,7 @@ public class EthereumService extends Service {
         checkFileThread.start();
     }
     private void dispatchCallback(){
+        setGethReady(true);
         for(EthereumServiceInterface client : this.callbacks){
             client.onEthereumServiceReady();
         }
@@ -135,10 +135,15 @@ public class EthereumService extends Service {
             Log.d(TAG,"ipc file deleted");
             checkFileThread.interrupt();
         } else Log.e(TAG,"delete ipc file error");
+
+        gethReady = false;
     }
 
     public String getIpcFilePath(){
         return dataDir + "/"+ GETH_IPC_FILE;
     }
 
+    public synchronized void setGethReady(boolean gethReady) {
+        this.gethReady = gethReady;
+    }
 }

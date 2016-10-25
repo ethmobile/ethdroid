@@ -1,26 +1,32 @@
 package com.sqli.blockchain.android_geth;
 
+import android.app.Application;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.support.v7.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
- * Created by gunicolas on 22/08/16.
+ * Created by root on 25/10/16.
  */
-public abstract class EthereumActivity extends AppCompatActivity implements EthereumService.EthereumServiceInterface {
 
-    static final String TAG = EthereumActivity.class.getSimpleName();
+public class EthereumApplication extends Application implements EthereumService.EthereumServiceInterface {
 
     protected EthereumService ethereumService;
     ServiceConnection ethereumServiceConnection;
     Intent ethereumServiceIntent;
 
+    List<EthereumService.EthereumServiceInterface> ethereumServiceReadySubscribers;
+
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void onCreate() {
+        super.onCreate();
+
+        ethereumServiceReadySubscribers = new ArrayList<>();
 
         ethereumServiceIntent = new Intent(this,EthereumService.class);
         ethereumServiceConnection = new ServiceConnection() {
@@ -28,7 +34,7 @@ public abstract class EthereumActivity extends AppCompatActivity implements Ethe
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
                 EthereumService.LocalBinder binder = (EthereumService.LocalBinder) iBinder;
                 ethereumService = binder.getServiceInstance();
-                ethereumService.registerClient(EthereumActivity.this);
+                ethereumService.registerClient(EthereumApplication.this);
                 ethereumService.checkGethReady();
             }
 
@@ -44,21 +50,24 @@ public abstract class EthereumActivity extends AppCompatActivity implements Ethe
     }
 
     @Override
-    protected void onStop() {
+    public void onTerminate() {
         ethereumService.stop();
         ethereumService.stopSelf();
         unbindService(ethereumServiceConnection);
         stopService(ethereumServiceIntent);
 
-        super.onStop();
+        super.onTerminate();
     }
 
     @Override
     public void onEthereumServiceReady() {
         ethereumService.unregisterClient(this);
+        for(EthereumService.EthereumServiceInterface subscriber : ethereumServiceReadySubscribers){
+            subscriber.onEthereumServiceReady();
+        }
     }
 
-
-
-
+    public void registerGethReady(EthereumService.EthereumServiceInterface subscriber){
+        ethereumServiceReadySubscribers.add(subscriber);
+    }
 }
