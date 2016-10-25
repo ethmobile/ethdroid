@@ -16,12 +16,14 @@ public class SampleApplication extends EthereumApplication {
 
     @Override
     public void onEthereumServiceReady() {
-        super.onEthereumServiceReady();
 
         String dir = ethereumService.getIpcFilePath();
         ethereumjava = new EthereumJava.Builder()
                 .provider(new AndroidIpcProvider(dir))
                 .build();
+
+        super.onEthereumServiceReady();
+
     }
 
 

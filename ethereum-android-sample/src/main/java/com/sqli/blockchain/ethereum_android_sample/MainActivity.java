@@ -25,7 +25,6 @@ import ethereumjava.solidity.types.SVoid;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, EthereumService.EthereumServiceInterface{
 
     static final String TAG = MainActivity.class.getSimpleName();
-
     Button button;
     Button tx;
     Button contract;
