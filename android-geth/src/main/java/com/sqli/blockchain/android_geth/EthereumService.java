@@ -40,6 +40,8 @@ public class EthereumService extends Service {
         dataDir = getFilesDir().getAbsolutePath();
         callbacks = new ArrayList<>();
 
+        deleteIpcFile(); //IF exists
+
         try {
 
             Utils.saveAssetOnStorage(getBaseContext(),GETH_GENESIS_FILE,dataDir);
