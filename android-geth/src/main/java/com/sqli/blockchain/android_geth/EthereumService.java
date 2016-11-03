@@ -40,19 +40,18 @@ public class EthereumService extends Service {
         dataDir = getFilesDir().getAbsolutePath();
         callbacks = new ArrayList<>();
 
-        deleteIpcFile(); //IF exists
+        deleteDatadir();
 
         try {
 
             Utils.saveAssetOnStorage(getBaseContext(),GETH_GENESIS_FILE,dataDir);
-            Utils.saveAssetOnStorage(getBaseContext(),GETH_BOOTNODE_FILE,dataDir);
 
             final StringBuilder gethParams = new StringBuilder();
             gethParams.append("--fast").append(" ");
             gethParams.append("--lightkdf").append(" ");
             gethParams.append("--nodiscover").append(" ");
             gethParams.append("--networkid "+GETH_NETWORK_ID).append(" ");
-            gethParams.append("--datadir=" + dataDir).append(" ");
+            gethParams.append("--datadir=" + dataDir + "/node").append(" ");
             gethParams.append("--genesis=" + dataDir + "/" + GETH_GENESIS_FILE).append(" ");
 
             runGeth(gethParams.toString());
@@ -62,6 +61,20 @@ public class EthereumService extends Service {
         }
 
         return START_NOT_STICKY;
+    }
+
+    private boolean deleteDatadir(){
+        File f = new File(dataDir+"/node");
+        deleteRecursive(f);
+        return true;
+    }
+
+    private void deleteRecursive(File fileOrDirectory) {
+        if (fileOrDirectory.isDirectory())
+            for (File child : fileOrDirectory.listFiles())
+                deleteRecursive(child);
+
+        fileOrDirectory.delete();
     }
 
     private void runGeth(final String gethParams) {
@@ -104,7 +117,7 @@ public class EthereumService extends Service {
             @Override
             public void run() {
                 try {
-                    while( !new File(dataDir+"/"+GETH_IPC_FILE).exists() ){
+                    while( !new File(getIpcFilePath()).exists() ){
                         Thread.sleep(500);
                     }
                     dispatchCallback();
@@ -125,15 +138,10 @@ public class EthereumService extends Service {
         }
     }
 
-    private boolean deleteIpcFile(){
-        File ipcFile = new File(dataDir+"/"+GETH_IPC_FILE);
-        return ipcFile.delete();
-    }
-
 
     public void stop(){
         gethThread.interrupt();
-        if( deleteIpcFile() ) {
+        if( deleteDatadir() ) {
             Log.d(TAG,"ipc file deleted");
             checkFileThread.interrupt();
         } else Log.e(TAG,"delete ipc file error");
@@ -142,7 +150,7 @@ public class EthereumService extends Service {
     }
 
     public String getIpcFilePath(){
-        return dataDir + "/"+ GETH_IPC_FILE;
+        return dataDir + "/node/"+ GETH_IPC_FILE;
     }
 
     public synchronized void setGethReady(boolean gethReady) {
