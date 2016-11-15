@@ -11,7 +11,6 @@ import ethereumjava.net.provider.AndroidIpcProvider;
 
 public class SampleApplication extends EthereumApplication {
 
-
     public EthereumJava ethereumjava;
 
     @Override

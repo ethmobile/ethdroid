@@ -156,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         System.out.println("contract : "+CONTRACT_ADDRESS);
         System.out.println("from: "+account);
         Hash txHash = contract.RentMe().sendTransaction(account,new BigInteger("90000"));
+        application.ethereumjava.admin.addPeer("");
 
     }
 

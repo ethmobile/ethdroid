@@ -38,5 +38,7 @@ dependencies {
     compile project(':android-geth')
     compile project(':ethereum-android')
     compile 'com.google.code.gson:gson:2.7'
-
+    compile 'me.relex:circleindicator:1.2.2@aar'
+    compile 'me.wangyuwei:LoadingiVew:1.0.5'
+    compile 'com.github.dmytrodanylyk.android-process-button:library:1.0.4'
 }

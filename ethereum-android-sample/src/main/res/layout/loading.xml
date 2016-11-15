@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:lv="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="@android:color/black">
+
+    <TextView
+        android:text="Geth node launching"
+        android:layout_width="match_parent"
+        android:layout_height="82dp"
+        android:id="@+id/textView2"
+        android:textAlignment="center"
+        android:textStyle="normal|bold"
+        android:textSize="20sp"
+        android:textColor="@android:color/white"
+        android:gravity="center"/>
+
+    <me.wangyuwei.loadingview.LoadingView
+        android:id="@+id/loading_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        lv:lv_duration="10"
+        lv:lv_start_color="#688fdb"
+        lv:lv_end_color="#fff"
+        lv:lv_internal_radius="5dp"
+        lv:lv_external_radius="92dp"/>
+
+</LinearLayout>
