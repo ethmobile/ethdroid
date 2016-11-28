@@ -1,6 +1,7 @@
 package com.sqli.blockchain.ethereum_android_sample.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import com.sqli.blockchain.ethereum_android_sample.R;
 
 import ethereumjava.module.objects.NodeInfo;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 /**
  * Created by root on 14/11/16.
@@ -44,45 +47,30 @@ public class NodeInfoFragment extends SampleFragment implements View.OnClickList
     public void onClick(View v) {
         if( v == nodeInfoButton ){
             ethereumJava.admin.getNodeInfo()
-                    .subscribe(new Subscriber<NodeInfo>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.e("GETH",e.getMessage());
-                            onNodeInfoError();
-                        }
-
-                        @Override
-                        public void onNext(NodeInfo nodeInfo) {
-                            if( nodeInfo != null ) {
-                                onNodeInfoSuccess(nodeInfo);
-                            }
-                        }
-                    });
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(onNodeInfoSuccess(), onNodeInfoError());
             nodeInfoButton.setMode(ActionProcessButton.Mode.ENDLESS);
         }
     }
 
-    private void onNodeInfoError(){
-        getActivity().runOnUiThread(new Runnable() {
+    @NonNull
+    private Action1<Throwable> onNodeInfoError() {
+        return new Action1<Throwable>() {
             @Override
-            public void run() {
+            public void call(Throwable throwable) {
                 nodeInfoButton.setProgress(-1);
             }
-        });
+        };
     }
 
-    private void onNodeInfoSuccess(final NodeInfo nodeInfo){
-        getActivity().runOnUiThread(new Runnable() {
+    @NonNull
+    private Action1<NodeInfo> onNodeInfoSuccess() {
+        return new Action1<NodeInfo>() {
             @Override
-            public void run() {
+            public void call(NodeInfo nodeInfo) {
                 nodeInfoButton.setProgress(100);
                 textView.setText(nodeInfo.enode);
             }
-        });
+        };
     }
 }
