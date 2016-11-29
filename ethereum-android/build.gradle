@@ -40,8 +40,14 @@ buildscript {
     }
 }
 
-assemble.doLast {
-    file('build/outputs/aar/ethereum-android-release.aar').renameTo("ethereum-android/build/ouputs/aar/ethereum-android-dailybuild-${(new Date()).format('yyyyMMdd')}.jar")
+android.libraryVariants.all { variant ->
+    variant.outputs.each { output ->
+        def outputFile = output.outputFile
+        if (outputFile != null && outputFile.name.endsWith('release.aar')) {
+            def fileName = "ethereum-android-dailybuild-" + (new Date()).format('yyyyMMdd') + ".aar"
+            output.outputFile = new File(outputFile.parent, fileName)
+        }
+    }
 }
 
 allprojects {
