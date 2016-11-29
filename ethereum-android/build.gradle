@@ -36,7 +36,16 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.1'
+        classpath 'com.android.tools.build:gradle:2.2.2'
     }
 }
 
+assemble.doLast {
+    file('build/outputs/aar/ethereum-android-release.aar').renameTo("ethereum-android/build/ouputs/aar/ethereum-android-dailybuild-${(new Date()).format('yyyyMMdd')}.jar")
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}

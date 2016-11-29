@@ -44,6 +44,15 @@ script:
  # - "./gradlew build connectedCheck --stacktrace"
   - "./gradlew build --stacktrace"
 
+before_deploy:
+  - ./before_deploy.sh
+deploy:
+  provider: bintray
+  file: bintray_descriptor.json
+  user: kbiger
+  key:
+    secure: QIIHh6dIKOklVKCWHqj6QIQj8AnIg/xL+EY+9m8OeDXlxVKpv7PLhDH6oRCUU/w7BE6HeadDBaJ+W+QQXOiedOMvndc/NWF0xoj12k/9aogLCy1EtdMKORwpjxM7yTQ860Ym2Kog6HFGCIPKQ7PQ6jYlVGzC2BjhiFFLl+rZsmU5t78luqrn8zMchN8BmYo+Ekqy86Q7p58Ue5otsdhNY6Z374IE+cjwicNKx7KoerFRKE8C289VbtObhh6EzW//vSr9MCmb3Gu1sfjimVWeJAwZbNMfaZYa3KLLipEMOFMDtloPnRemZ6iHEhXcMslKA1sUG5I/9TNt29XH9eI/IHv4ydlRxgWq5SM4NXkbvB4iBA29hO36SeP5HuHyFAYWvlOFtOwde9lLMDItAdGNu8xdajbOMh61Ana9ZiUuzbg31pnN5YxywOpinGopxwQgU3/buMtl+s82AbHekB2iaY11dk9kPOW6ZrXtB8j8Yjdofz4jhm27m5nF/8yUm/HX2WAdef16YRik//1i3VZjJvZPc7O8ILQEF1Fm5roXHp5jJRiCA0bB9ytcZKUtjPUUR34Avyfix+3d/USHiimnd5f1ONdvC9sf8T+VHmZr+jOf/ay+uuf0NpUbqvPPvyuSlEolTYdX9Yy/32+5Kbn4ZpuKpSfWCJqH4f0DSw9U3K8=
+
 
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
