@@ -24,7 +24,7 @@
     {"includePattern": "ethereum-android/build/outputs/aar/(.*dailybuild.*)",
       "uploadPattern": "/snapshots/$1",
       "matrixParams": {"override": 1 }
-    }
+    },
     {"includePattern": "android-geth/build/outputs/aar/(.*dailybuild.*)",
       "uploadPattern": "/snapshots/$1",
       "matrixParams": {"override": 1 }
