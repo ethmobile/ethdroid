@@ -43,3 +43,12 @@ dependencies {
     compile(group: 'ethereumandroid', name: 'geth', version: '1.5.0-unstable', ext: 'aar')
 }
 
+android.libraryVariants.all { variant ->
+    variant.outputs.each { output ->
+        def outputFile = output.outputFile
+        if (outputFile != null && outputFile.name.endsWith('release.aar')) {
+            def fileName = "android-geth-dailybuild-" + (new Date()).format('yyyyMMdd') + ".aar"
+            output.outputFile = new File(outputFile.parent, fileName)
+        }
+    }
+}
