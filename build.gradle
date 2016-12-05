@@ -5,12 +5,16 @@ task wrapper(type: Wrapper) {
 buildscript {
     repositories {
         jcenter()
+        maven { url "https://dl.bintray.com/sqli-nantes/ethereum-java" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.1'
     }
     System.properties['com.android.build.gradle.overrideVersionCheck'] = 'true'
 }
+
 
 allprojects {
     repositories {
@@ -23,3 +27,4 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+

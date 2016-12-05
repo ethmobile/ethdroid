@@ -1,4 +1,9 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: "com.jfrog.bintray"
+
+
+version = '0.1.' + (new Date()).format('yyyyMMdd')
 
 android {
     compileSdkVersion 24
@@ -7,8 +12,6 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
     }
     buildTypes {
         release {
@@ -21,37 +24,90 @@ android {
     }
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '3.1'
-}
-
 dependencies {
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'io.reactivex:rxjava:1.1.6'
     compile 'com.sqli.ethereum-java:ethereum-java-core:0.1.20161205'
 }
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
-    }
-}
+def siteUrl = 'https://github.com/sqli-nantes/ethereum-android/ethereum-android'      // Homepage URL of the library
+def gitUrl = 'https://github.com/sqli-nantes/ethereum-android/ethereum-android.git'   // Git repository URL
+group = "com.sqli"                                          // Maven Group ID for the artifact
 
-android.libraryVariants.all { variant ->
-    variant.outputs.each { output ->
-        def outputFile = output.outputFile
-        if (outputFile != null && outputFile.name.endsWith('release.aar')) {
-            def fileName = "ethereum-android-dailybuild-" + (new Date()).format('yyyyMMdd') + ".aar"
-            output.outputFile = new File(outputFile.parent, fileName)
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+
+                // Add your description here
+                name 'com.sqli:ethereum-android'
+                description = 'Description of your project HERE' // TODO
+                url 'https://github.com/sqli-nantes/ethereum-android/ethereum-android'
+
+                // Set your license
+                licenses {
+                    license {
+                        name 'MIT'
+                    }
+                }
+                scm {
+                    connection 'https://github.com/sqli-nantes/ethereum-android/ethereum-android.git'
+                    developerConnection 'https://github.com/sqli-nantes/ethereum-android/ethereum-android.git'
+                    url 'https://github.com/sqli-nantes/ethereum-android/ethereum-android/'
+                }
+            }
         }
     }
 }
 
-allprojects {
-    repositories {
-        jcenter()
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+// https://github.com/bintray/gradle-bintray-plugin
+bintray {
+    user = project.hasProperty('BINTRAY_USER_ETHAND') ? project.property('BINTRAY_USER_ETHAND') : System.getenv('BINTRAY_USER_ETHAND')
+    key = project.hasProperty('BINTRAY_APIKEY_ETHAND') ? project.property('BINTRAY_APIKEY_ETHAND') : System.getenv('BINTRAY_APIKEY_ETHAND')
+
+    configurations = ['archives']
+    pkg {
+        repo = "ethereum-android"
+        // it is the name that appears in bintray when logged
+        name = "ethereum-android"
+        userOrg = 'sqli-nantes'
+        websiteUrl = 'https://github.com/sqli-nantes/ethereum-android/ethereum-android/'
+        vcsUrl = 'https://github.com/sqli-nantes/ethereum-android/ethereum-android.git'
+        licenses = ["MIT"]
+        publish = true
+        // FIXME
+//        override = true
+        version {
+            name = '0.1.' + (new Date()).format('yyyyMMdd')
+            desc = 'Ethereum-Android library'
+            vcsTag = '0.1.' +(new Date()).format('yyyyMMdd')
+        }
     }
 }
+
