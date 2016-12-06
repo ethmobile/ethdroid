@@ -83,9 +83,6 @@ artifacts {
     archives sourcesJar
 }
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
 // https://github.com/bintray/gradle-bintray-plugin
 bintray {
     user = project.hasProperty('BINTRAY_USER_ETHAND') ? project.property('BINTRAY_USER_ETHAND') : System.getenv('BINTRAY_USER_ETHAND')
