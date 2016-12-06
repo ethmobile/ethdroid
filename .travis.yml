@@ -16,7 +16,7 @@ android:
   - extra-google-m2repository
   - sys-img-armeabi-v7a-android-24
 script:
-- "./gradlew build --stacktrace"
+- "./gradlew build bintrayUpload --stacktrace"
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
