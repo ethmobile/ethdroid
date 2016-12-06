@@ -102,8 +102,7 @@ bintray {
         vcsUrl = 'https://github.com/sqli-nantes/ethereum-android/android-geth.git'
         licenses = ["MIT"]
         publish = true
-        //FIXME
-//        override = true
+        override = true
         version {
             name = '0.1.' + (new Date()).format('yyyyMMdd')
             desc = 'Android Geth library'

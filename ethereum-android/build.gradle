@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: "com.jfrog.bintray"
 
-
 version = '0.1.' + (new Date()).format('yyyyMMdd')
 
 android {
@@ -98,8 +97,7 @@ bintray {
         vcsUrl = 'https://github.com/sqli-nantes/ethereum-android/ethereum-android.git'
         licenses = ["MIT"]
         publish = true
-        // FIXME
-//        override = true
+        override = true
         version {
             name = '0.1.' + (new Date()).format('yyyyMMdd')
             desc = 'Ethereum-Android library'
