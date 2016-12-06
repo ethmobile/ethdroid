@@ -12,10 +12,9 @@ import me.relex.circleindicator.CircleIndicator;
 import me.wangyuwei.loadingview.LoadingView;
 
 /**
- * Created by root on 14/11/16.
  */
 
-public class DemoActivity extends FragmentActivity implements EthereumService.EthereumServiceInterface{
+public class DemoActivity extends FragmentActivity implements EthereumService.EthereumServiceInterface {
 
     ViewPager viewPager;
     CircleIndicator circleIndicator;
@@ -36,7 +35,7 @@ public class DemoActivity extends FragmentActivity implements EthereumService.Et
         application.registerGethReady(this);
     }
 
-    public EthereumJava getEthereumJava(){
+    public EthereumJava getEthereumJava() {
         return application.ethereumjava;
     }
 
@@ -46,16 +45,16 @@ public class DemoActivity extends FragmentActivity implements EthereumService.Et
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-            setContentView(R.layout.demo);
+                setContentView(R.layout.demo);
 
-            loadingView.stop();
+                loadingView.stop();
 
-            viewPager = (ViewPager) findViewById(R.id.viewpager);
-            circleIndicator = (CircleIndicator) findViewById(R.id.indicator);
+                viewPager = (ViewPager) findViewById(R.id.viewpager);
+                circleIndicator = (CircleIndicator) findViewById(R.id.indicator);
 
-            viewPager.setAdapter(new SimplePagerAdapter(getSupportFragmentManager()));
-            circleIndicator.setViewPager(viewPager);
-            viewPager.setCurrentItem(0);
+                viewPager.setAdapter(new SimplePagerAdapter(getSupportFragmentManager()));
+                circleIndicator.setViewPager(viewPager);
+                viewPager.setCurrentItem(0);
             }
         });
 

@@ -6,11 +6,11 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.github.ethereum.go_ethereum.cmd.Geth;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.github.ethereum.go_ethereum.cmd.Geth;
 
 /**
  * Created by gunicolas on 26/07/16.
@@ -24,10 +24,8 @@ public class EthereumService extends Service {
     public static final String GETH_BOOTNODE_FILE = "static-nodes.json";
 
     public static String dataDir;
-
-    private List<EthereumServiceInterface> callbacks;
     private final IBinder mBinder = new LocalBinder();
-
+    private List<EthereumServiceInterface> callbacks;
     private Thread gethThread;
     private Thread checkFileThread;
     private boolean gethReady;
@@ -44,13 +42,13 @@ public class EthereumService extends Service {
 
         try {
 
-            Utils.saveAssetOnStorage(getBaseContext(),GETH_GENESIS_FILE,dataDir);
+            Utils.saveAssetOnStorage(getBaseContext(), GETH_GENESIS_FILE, dataDir);
 
             final StringBuilder gethParams = new StringBuilder();
             gethParams.append("--fast").append(" ");
             gethParams.append("--lightkdf").append(" ");
             gethParams.append("--nodiscover").append(" ");
-            gethParams.append("--networkid "+GETH_NETWORK_ID).append(" ");
+            gethParams.append("--networkid " + GETH_NETWORK_ID).append(" ");
             gethParams.append("--datadir=" + dataDir + "/node").append(" ");
             gethParams.append("--genesis=" + dataDir + "/" + GETH_GENESIS_FILE).append(" ");
 
@@ -63,16 +61,18 @@ public class EthereumService extends Service {
         return START_NOT_STICKY;
     }
 
-    private boolean deleteDatadir(){
-        File f = new File(dataDir+"/node");
+    private boolean deleteDatadir() {
+        File f = new File(dataDir + "/node");
         deleteRecursive(f);
         return true;
     }
 
     private void deleteRecursive(File fileOrDirectory) {
-        if (fileOrDirectory.isDirectory())
-            for (File child : fileOrDirectory.listFiles())
+        if (fileOrDirectory.isDirectory()) {
+            for (File child : fileOrDirectory.listFiles()) {
                 deleteRecursive(child);
+            }
+        }
 
         fileOrDirectory.delete();
     }
@@ -81,7 +81,7 @@ public class EthereumService extends Service {
         gethThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                Geth.run( gethParams );
+                Geth.run(gethParams);
             }
         });
         gethThread.start();
@@ -92,23 +92,15 @@ public class EthereumService extends Service {
         return mBinder;
     }
 
-    public interface EthereumServiceInterface {
-        void onEthereumServiceReady();
-    }
-    public class LocalBinder extends Binder {
-        public EthereumService getServiceInstance(){
-            return EthereumService.this;
-        }
-    }
-
-    public synchronized void registerClient(EthereumServiceInterface client){
-        if( gethReady ){
+    public synchronized void registerClient(EthereumServiceInterface client) {
+        if (gethReady) {
             client.onEthereumServiceReady();
         } else {
             this.callbacks.add(client);
         }
     }
-    public synchronized void unregisterClient(EthereumServiceInterface client){
+
+    public synchronized void unregisterClient(EthereumServiceInterface client) {
         this.callbacks.remove(client);
     }
 
@@ -117,7 +109,7 @@ public class EthereumService extends Service {
             @Override
             public void run() {
                 try {
-                    while( !new File(getIpcFilePath()).exists() ){
+                    while (!new File(getIpcFilePath()).exists()) {
                         Thread.sleep(500);
                     }
                     dispatchCallback();
@@ -131,29 +123,41 @@ public class EthereumService extends Service {
         });
         checkFileThread.start();
     }
-    private void dispatchCallback(){
+
+    private void dispatchCallback() {
         setGethReady(true);
-        for(EthereumServiceInterface client : this.callbacks){
+        for (EthereumServiceInterface client : this.callbacks) {
             client.onEthereumServiceReady();
         }
     }
 
-
-    public void stop(){
+    public void stop() {
         gethThread.interrupt();
-        if( deleteDatadir() ) {
-            Log.d(TAG,"ipc file deleted");
+        if (deleteDatadir()) {
+            Log.d(TAG, "ipc file deleted");
             checkFileThread.interrupt();
-        } else Log.e(TAG,"delete ipc file error");
+        } else {
+            Log.e(TAG, "delete ipc file error");
+        }
 
         gethReady = false;
     }
 
-    public String getIpcFilePath(){
-        return dataDir + "/node/"+ GETH_IPC_FILE;
+    public String getIpcFilePath() {
+        return dataDir + "/node/" + GETH_IPC_FILE;
     }
 
     public synchronized void setGethReady(boolean gethReady) {
         this.gethReady = gethReady;
+    }
+
+    public interface EthereumServiceInterface {
+        void onEthereumServiceReady();
+    }
+
+    public class LocalBinder extends Binder {
+        public EthereumService getServiceInstance() {
+            return EthereumService.this;
+        }
     }
 }

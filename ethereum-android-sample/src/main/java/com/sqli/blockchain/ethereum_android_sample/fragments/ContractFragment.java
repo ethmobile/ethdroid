@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import com.sqli.blockchain.ethereum_android_sample.R;
 
 /**
- * Created by root on 14/11/16.
  */
 
 public class ContractFragment extends SampleFragment {
@@ -19,7 +18,7 @@ public class ContractFragment extends SampleFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.contract,container,false);
+        return inflater.inflate(R.layout.contract, container, false);
     }
 
     @Override

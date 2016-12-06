@@ -11,7 +11,6 @@ import com.dd.processbutton.iml.ActionProcessButton;
 import com.sqli.blockchain.ethereum_android_sample.R;
 
 /**
- * Created by root on 14/11/16.
  */
 
 public class AddPeerFragment extends SampleFragment implements View.OnClickListener {
@@ -24,7 +23,7 @@ public class AddPeerFragment extends SampleFragment implements View.OnClickListe
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.addpeer,container,false);
+        return inflater.inflate(R.layout.addpeer, container, false);
     }
 
     @Override
@@ -42,11 +41,11 @@ public class AddPeerFragment extends SampleFragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if( v == addPeerButton ){
+        if (v == addPeerButton) {
             boolean peerAdded = ethereumJava.admin.addPeer(ENODE);
-            if( peerAdded ){
+            if (peerAdded) {
                 addPeerButton.setProgress(100);
-            } else{
+            } else {
                 addPeerButton.setProgress(-1);
             }
         }

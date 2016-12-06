@@ -6,7 +6,6 @@ import ethereumjava.EthereumJava;
 import ethereumjava.net.provider.AndroidIpcProvider;
 
 /**
- * Created by root on 25/10/16.
  */
 
 public class SampleApplication extends EthereumApplication {
@@ -18,8 +17,8 @@ public class SampleApplication extends EthereumApplication {
 
         String dir = ethereumService.getIpcFilePath();
         ethereumjava = new EthereumJava.Builder()
-                .provider(new AndroidIpcProvider(dir))
-                .build();
+            .provider(new AndroidIpcProvider(dir))
+            .build();
 
         super.onEthereumServiceReady();
 

@@ -11,7 +11,6 @@ import java.util.List;
 
 
 /**
- * Created by root on 25/10/16.
  */
 
 public class EthereumApplication extends Application implements EthereumService.EthereumServiceInterface {
@@ -28,7 +27,7 @@ public class EthereumApplication extends Application implements EthereumService.
 
         ethereumServiceReadySubscribers = new ArrayList<>();
 
-        ethereumServiceIntent = new Intent(this,EthereumService.class);
+        ethereumServiceIntent = new Intent(this, EthereumService.class);
         ethereumServiceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -45,7 +44,7 @@ public class EthereumApplication extends Application implements EthereumService.
         };
 
         startService(ethereumServiceIntent);
-        bindService(ethereumServiceIntent,ethereumServiceConnection,BIND_AUTO_CREATE);
+        bindService(ethereumServiceIntent, ethereumServiceConnection, BIND_AUTO_CREATE);
 
     }
 
@@ -62,12 +61,12 @@ public class EthereumApplication extends Application implements EthereumService.
     @Override
     public void onEthereumServiceReady() {
         ethereumService.unregisterClient(this);
-        for(EthereumService.EthereumServiceInterface subscriber : ethereumServiceReadySubscribers){
+        for (EthereumService.EthereumServiceInterface subscriber : ethereumServiceReadySubscribers) {
             subscriber.onEthereumServiceReady();
         }
     }
 
-    public void registerGethReady(EthereumService.EthereumServiceInterface subscriber){
+    public void registerGethReady(EthereumService.EthereumServiceInterface subscriber) {
         ethereumServiceReadySubscribers.add(subscriber);
     }
 }

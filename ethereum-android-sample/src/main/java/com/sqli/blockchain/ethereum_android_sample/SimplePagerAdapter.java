@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by root on 14/11/16.
  */
 
 public class SimplePagerAdapter extends FragmentPagerAdapter {

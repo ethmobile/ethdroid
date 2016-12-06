@@ -9,7 +9,6 @@ import com.sqli.blockchain.ethereum_android_sample.DemoActivity;
 import ethereumjava.EthereumJava;
 
 /**
- * Created by root on 14/11/16.
  */
 
 public class SampleFragment extends Fragment {

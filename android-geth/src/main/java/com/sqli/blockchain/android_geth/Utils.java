@@ -14,17 +14,18 @@ import java.io.OutputStream;
 public abstract class Utils {
 
 
-    public static void saveAssetOnStorage(Context context, String assetFilename,String storagePath) throws Exception {
+    public static void saveAssetOnStorage(Context context, String assetFilename, String storagePath) throws Exception {
         AssetManager asset = context.getAssets();
         InputStream in = asset.open(assetFilename);
-        String filePath = storagePath+"/"+assetFilename;
+        String filePath = storagePath + "/" + assetFilename;
         new File(filePath).createNewFile();
         OutputStream out = new FileOutputStream(filePath);
         byte[] buffer = new byte[1024];
         int read;
-        while((read=in.read(buffer)) != -1){
-            out.write(buffer,0,read);
+        while ((read = in.read(buffer)) != -1) {
+            out.write(buffer, 0, read);
         }
+        //TODO try finally or closeable
         in.close();
         in = null;
         out.flush();

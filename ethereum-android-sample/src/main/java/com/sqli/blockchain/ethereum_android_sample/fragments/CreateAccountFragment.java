@@ -11,7 +11,6 @@ import com.dd.processbutton.iml.ActionProcessButton;
 import com.sqli.blockchain.ethereum_android_sample.R;
 
 /**
- * Created by root on 14/11/16.
  */
 
 public class CreateAccountFragment extends SampleFragment implements View.OnClickListener {
@@ -24,7 +23,7 @@ public class CreateAccountFragment extends SampleFragment implements View.OnClic
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.createaccount,container,false);
+        return inflater.inflate(R.layout.createaccount, container, false);
     }
 
     @Override
@@ -40,7 +39,7 @@ public class CreateAccountFragment extends SampleFragment implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        if( v == createAccountButton ){
+        if (v == createAccountButton) {
             String accountId = ethereumJava.personal.newAccount(DEFAULT_PASSWORD);
             createAccountTextview.setText(accountId);
         }

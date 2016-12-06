@@ -15,7 +15,6 @@ import java.util.List;
 import ethereumjava.module.objects.Peer;
 
 /**
- * Created by root on 14/11/16.
  */
 
 public class PeersFragment extends SampleFragment implements View.OnClickListener {
@@ -28,7 +27,7 @@ public class PeersFragment extends SampleFragment implements View.OnClickListene
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.peers,container,false);
+        return inflater.inflate(R.layout.peers, container, false);
     }
 
     @Override
@@ -45,12 +44,12 @@ public class PeersFragment extends SampleFragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        if( v == peersButton ){
+        if (v == peersButton) {
             List<Peer> peers = ethereumJava.admin.peers();
             String textViewText;
-            if( peers == null || peers.size() <= 0 ){
+            if (peers == null || peers.size() <= 0) {
                 textViewText = DEFAULT_TEXTVIEW;
-            } else{
+            } else {
                 textViewText = peers.toString();
             }
             peersTextview.setText(textViewText);

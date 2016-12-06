@@ -18,7 +18,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
 /**
- * Created by root on 14/11/16.
  */
 
 public class NodeInfoFragment extends SampleFragment implements View.OnClickListener {
@@ -29,7 +28,7 @@ public class NodeInfoFragment extends SampleFragment implements View.OnClickList
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.nodeinfo,container,false);
+        return inflater.inflate(R.layout.nodeinfo, container, false);
     }
 
     @Override
@@ -45,7 +44,7 @@ public class NodeInfoFragment extends SampleFragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if( v == nodeInfoButton ){
+        if (v == nodeInfoButton) {
             ethereumJava.admin.getNodeInfo()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(onNodeInfoSuccess(), onNodeInfoError());

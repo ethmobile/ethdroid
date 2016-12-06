@@ -17,7 +17,6 @@ import ethereumjava.module.objects.TransactionRequest;
 import ethereumjava.solidity.SolidityUtils;
 
 /**
- * Created by root on 14/11/16.
  */
 
 public class SendTxFragment extends SampleFragment implements View.OnClickListener {
@@ -36,7 +35,7 @@ public class SendTxFragment extends SampleFragment implements View.OnClickListen
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.sendtx,container,false);
+        return inflater.inflate(R.layout.sendtx, container, false);
     }
 
     @Override
@@ -58,7 +57,7 @@ public class SendTxFragment extends SampleFragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        if( v == sendTxButton ){
+        if (v == sendTxButton) {
 
             // GET previously created account
 
@@ -66,14 +65,14 @@ public class SendTxFragment extends SampleFragment implements View.OnClickListen
             String to = toTextview.getText().toString();
             String value = valueTextview.getText().toString();
 
-            if( from == null || from.length() <= 0 ) value = FROM_DEFAULT;
-            if( to == null || to.length() <= 0 ) value = TO_DEFAULT;
-            if( value == null || value.length() <= 0 ) value = VALUE_DEFAULT;
+            if (from == null || from.length() <= 0) value = FROM_DEFAULT;
+            if (to == null || to.length() <= 0) value = TO_DEFAULT;
+            if (value == null || value.length() <= 0) value = VALUE_DEFAULT;
 
 
             BigDecimal amount = SolidityUtils.toWei(value, "ether");
             String amountHex = SolidityUtils.toHex(amount);
-            TransactionRequest tx = new TransactionRequest(from,to,amountHex,"message");
+            TransactionRequest tx = new TransactionRequest(from, to, amountHex, "message");
 
             Hash txHash = ethereumJava.eth.sendTransaction(tx);
 

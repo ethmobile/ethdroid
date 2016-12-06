@@ -5,7 +5,6 @@ import ethereumjava.solidity.SolidityFunction;
 import ethereumjava.solidity.types.SVoid;
 
 /**
- * Created by root on 15/11/16.
  */
 
 public interface ContractSample extends ContractType {

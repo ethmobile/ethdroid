@@ -38,7 +38,7 @@ public class AndroidIpcProvider extends IpcAbstractProvider {
 
     @Override
     public void stop() throws EthereumJavaException {
-        if( this.socket != null ) {
+        if (this.socket != null) {
             try {
                 this.socket.close();
             } catch (IOException e) {
