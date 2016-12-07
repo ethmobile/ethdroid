@@ -16,7 +16,7 @@ android:
   - extra-google-m2repository
   - sys-img-armeabi-v7a-android-24
 script:
-- "./gradlew build bintrayUpload --stacktrace"
+  - if [ "$TRAVIS_BRANCH" = "master" ]; then ./gradlew assemble bintrayUpload; else ./gradlew assemble; fi
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
