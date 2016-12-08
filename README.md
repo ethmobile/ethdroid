@@ -9,17 +9,9 @@ This repository contains Android-Geth and Ethereum-Android modules.
 * Ethereum-Android is an adaptation of [EthereumJava](https://github.com/sqli-nantes/ethereum-java) in Android context. It allows to communicate with a Geth node via IPC (Android Unix file socket) directly from your Android app.
 
 # Installation
-```bash
-git clone https://github.com/sqli-nantes/ethereum-android.git
-cd ethereum-android
-export ANDROID_HOME=/path/to/Android/SDK
-./gradlew assemble
-```
 
-You can import the generated aars in your android project :
-
-* ./ethereum-android/build/outputs/aar/ethereum-android-dailybuild-***build_number***.aar
-* ./android-geth/build/outputs/aar/android-geth-release.aar
+Add ```android-geth``` and ```ethereum-android``` in your project dependencies.
+**See** [repository](https://bintray.com/sqli-nantes/ethereum-android/android-geth)
 
 # Utilisation
 
