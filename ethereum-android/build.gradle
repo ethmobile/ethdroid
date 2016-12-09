@@ -26,9 +26,9 @@ task wrapper(type: Wrapper) {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'io.reactivex:rxjava:1.1.6'
+    compile 'com.sqli.ethereum-java:ethereum-java-core:0.1.20161205'
 }
 
 buildscript {
@@ -40,8 +40,3 @@ buildscript {
     }
 }
 
-allprojects {
-    repositories {
-        jcenter()
-    }
-}

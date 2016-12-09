@@ -34,18 +34,12 @@ task wrapper(type: Wrapper) {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
-    compile(name: 'geth', ext: 'aar')
+    compile(group: 'ethereumandroid', name: 'geth', version: '1.5.0-unstable', ext: 'aar')
 }
 
-repositories{
-    flatDir{
-        dirs 'libs'
-    }
-}
