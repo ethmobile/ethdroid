@@ -32,7 +32,7 @@ dependencies {
 buildscript{
     repositories {
         maven {
-            url "http://dl.bintray.com/sqli-nantes/ethereum-android"
+            url "http://dl.bintray.com/sqli-nantes/ethereum-java"
         }
     }
 }
