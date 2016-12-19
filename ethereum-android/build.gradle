@@ -26,8 +26,10 @@ android {
 dependencies {
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'io.reactivex:rxjava:1.1.6'
-    compile 'com.sqli.ethereum-java:ethereum-java-core:0.1.20161205'
+    compile 'com.sqli.ethereum-java:ethereum-java-core:0.1.20161207'
 }
+
+repositories { maven { url "http://dl.bintray.com/sqli-nantes/ethereum-java" } }
 
 def siteUrl = 'https://github.com/sqli-nantes/ethereum-android/ethereum-android'      // Homepage URL of the library
 def gitUrl = 'https://github.com/sqli-nantes/ethereum-android/ethereum-android.git'   // Git repository URL
