@@ -10,8 +10,57 @@ This repository contains Android-Geth and Ethereum-Android modules.
 
 # Installation
 
-Add ```android-geth``` and ```ethereum-android``` in your project dependencies.
-**See** [repository](https://bintray.com/sqli-nantes/ethereum-android/android-geth)
+## Android Geth
+
+In your app build.gradle
+
+```java 
+
+dependencies {
+    [...]
+    compile 'com.sqli:ethereum-android:0.1.20161219'
+}
+
+repositories {
+    maven {
+        url "http://dl.bintray.com/sqli-nantes/ethereum-android"
+    }
+}
+```
+
+:warning: **0.1.20161219** is a version of android-geth. You can specify another one listed in android-geth repository. Latest one is quoted at the top of this file.
+
+**See** [android-geth repository](https://bintray.com/sqli-nantes/ethereum-android/android-geth)
+
+## Ethereum-Android
+
+In your app build.gradle
+
+```java 
+
+dependencies {
+    [...]
+    compile 'com.sqli:ethereum-android:0.1.20161219'
+}
+
+repositories {
+    maven {
+        url "http://dl.bintray.com/sqli-nantes/ethereum-android"
+    }
+    maven {
+        url "http://dl.bintray.com/sqli-nantes/ethereum-java"
+    }
+}
+```
+
+:warning: **0.1.20161219** is a version of ethereum-android. You can specify another one listed in ethereum-android repository. Latest one is quoted at the top of this file.
+
+**Ethereum-android** is a library which extends **Ethereum-java-core** library.
+Both maven repositories are required because of they are unofficial. 
+
+**See** [ethereum-android repository](https://bintray.com/sqli-nantes/ethereum-android/ethereum-java)
+
+**See** [ethereum-java-core repository](https://bintray.com/sqli-nantes/ethereum-java/ethereum-java-core)
 
 # Utilisation
 
