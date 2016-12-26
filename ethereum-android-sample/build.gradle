@@ -32,10 +32,20 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
-    compile project(':android-geth')
-    compile project(':ethereum-android')
     compile 'com.google.code.gson:gson:2.7'
     compile 'me.relex:circleindicator:1.2.2@aar'
     compile 'me.wangyuwei:LoadingiVew:1.0.5'
     compile 'com.github.dmytrodanylyk.android-process-button:library:1.0.4'
+    compile 'com.sqli:ethereum-android:0.1.20161220'
+    compile 'com.sqli:android-geth:0.1.20161220'
+
+}
+
+repositories {
+    maven {
+        url "http://dl.bintray.com/sqli-nantes/ethereum-android"
+    }
+    maven {
+        url "http://dl.bintray.com/sqli-nantes/ethereum-java"
+    }
 }
