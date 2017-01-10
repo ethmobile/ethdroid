@@ -26,7 +26,7 @@ publishing {
             pom.withXml {
                 asNode().appendNode('description', 'Ethereum Java library')
             }
-            groupId 'com.sqli.ethereum-java'
+            groupId 'com.sqli.ethereum-android'
             artifactId 'ethereum-java-core'
         }
     }
@@ -35,6 +35,9 @@ publishing {
 task wrapper(type: Wrapper) {
     gradleVersion = '3.1'
 }
+
+//Removes test when check is called. Used to remove test task in build task.
+check.dependsOn.remove(test)
 
 sourceSets {
     test {
@@ -94,3 +97,5 @@ bintray {
         }
     }
 }
+
+

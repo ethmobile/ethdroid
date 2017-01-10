@@ -22,7 +22,6 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven { url "https://dl.bintray.com/sqli-nantes/ethereum-java" }
         maven { url "http://dl.bintray.com/androidgeth/Geth" }
     }
 }
