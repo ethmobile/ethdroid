@@ -1,0 +1,19 @@
+{
+	"rpcProviderPort" : 8547,
+	"rpcProviderAddr" : "localhost",
+	"ethAddr": "::",
+	"ethPort": 30303,
+	"networkId": 100,
+	"difficulty": "5242880",
+	"accounts":[
+		{
+			"id":"0xTEST_USER0_ADDRESS",
+			"password":"TEST_USER0_PASSWORD"
+		},
+		{
+			"id":"0xTEST_USER1_ADDRESS",
+			"password":"TEST_USER1_PASSWORD"
+		}
+	],
+	"contractAddress":"CONTRACT_ADDRESS"
+}
