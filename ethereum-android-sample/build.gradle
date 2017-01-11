@@ -36,8 +36,8 @@ dependencies {
     compile 'me.relex:circleindicator:1.2.2@aar'
     compile 'me.wangyuwei:LoadingiVew:1.0.5'
     compile 'com.github.dmytrodanylyk.android-process-button:library:1.0.4'
-    compile 'com.sqli:ethereum-android:0.1.20161220'
-    compile 'com.sqli:android-geth:0.1.20161220'
+    compile 'com.sqli:ethereum-android:0.1.20170110@aar'
+    compile 'com.sqli:android-geth:0.1.20170110'
 
 }
 
@@ -46,6 +46,6 @@ repositories {
         url "http://dl.bintray.com/sqli-nantes/ethereum-android"
     }
     maven {
-        url "http://dl.bintray.com/sqli-nantes/ethereum-java"
+        url "http://dl.bintray.com/androidgeth/Geth"
     }
 }

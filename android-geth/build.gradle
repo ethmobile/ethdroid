@@ -29,8 +29,16 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
-    compile(group: 'ethereumandroid', name: 'geth', version: '1.5.0-unstable', ext: 'aar')
+    compile 'ethereumandroid:geth:1.5.0-unstable@aar'
 }
+
+repositories {
+    maven {
+        url "http://dl.bintray.com/androidgeth/Geth"
+    }
+}
+
+
 
 def siteUrl = 'https://github.com/sqli-nantes/ethereum-android/android-geth'      // Homepage URL of the library
 def gitUrl = 'https://github.com/sqli-nantes/ethereum-android/android-geth.git'   // Git repository URL

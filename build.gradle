@@ -19,10 +19,9 @@ buildscript {
 }
 
 
-allprojects {
-    repositories {
+allprojects{
+    repositories{
         jcenter()
-        maven { url "http://dl.bintray.com/androidgeth/Geth" }
     }
 }
 
