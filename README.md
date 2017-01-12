@@ -5,7 +5,11 @@
 [ ![Download Ethereum-android](https://api.bintray.com/packages/sqli-nantes/ethereum-android/ethereum-android/images/download.svg) ](https://bintray.com/sqli-nantes/ethereum-android/ethereum-android/_latestVersion)
 [ ![Download Ethereum-java-core](https://api.bintray.com/packages/sqli-nantes/ethereum-android/ethereum-java-core/images/download.svg) ](https://bintray.com/sqli-nantes/ethereum-android/ethereum-java-core/_latestVersion)
 
-## Motivations
+## Why using Ethereum-Android
+Ethereum-Android permit to handle blockchain transactions with an android device. Specificly, the android's applications would be able to read nodes' informations, managed personnal ethereum account and call functions.
+It is based on Web3.js, permitting IRC communication, and use Rx 1.x. In view to manipulate blockchain transaction, it permit to launch and drive a geth's node.
+To use this package, you need to use Android 21 at least and Geth 1.4.
+
 ## Installation
 ## Getting Started
 ### Start an inproc node
