@@ -39,7 +39,7 @@ dependencies {
     compile 'com.sqli:ethereum-android:0.1.20170110@aar'
     compile 'com.sqli:android-geth:0.1.20170110@aar'
 
-    compile 'com.sqli.ethereum-android:ethereum-java-core:0.1.20170110'
+    compile 'com.sqli:ethereum-java-core:0.1.20170111'
 }
 
 repositories {
