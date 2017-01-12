@@ -1,70 +1,13 @@
-# Ethereum-android
+# Ethereum-android : Easy-to-use Ethereum client wrapper for Android 
 
 [![Build Status](https://travis-ci.org/sqli-nantes/ethereum-android.svg?branch=master)](https://travis-ci.org/sqli-nantes/ethereum-android)
 [ ![Download Android-geth](https://api.bintray.com/packages/sqli-nantes/ethereum-android/android-geth/images/download.svg) ](https://bintray.com/sqli-nantes/ethereum-android/android-geth/_latestVersion)
 [ ![Download Ethereum-android](https://api.bintray.com/packages/sqli-nantes/ethereum-android/ethereum-android/images/download.svg) ](https://bintray.com/sqli-nantes/ethereum-android/ethereum-android/_latestVersion)
 
-This repository contains Android-Geth and Ethereum-Android modules.
-* Android-Geth allows to easily start Geth service inside your Android app.
-* Ethereum-Android is an adaptation of [EthereumJava](https://github.com/sqli-nantes/ethereum-java) in Android context. It allows to communicate with a Geth node via IPC (Android Unix file socket) directly from your Android app.
-
-# Installation
-
-## Android Geth
-
-In your app build.gradle
-
-```java 
-
-dependencies {
-    [...]
-    compile 'com.sqli:ethereum-android:0.1.20161219'
-}
-
-repositories {
-    maven {
-        url "http://dl.bintray.com/sqli-nantes/ethereum-android"
-    }
-}
-```
-
-:warning: **0.1.20161219** is a version of android-geth. You can specify another one listed in android-geth repository. Latest one is quoted at the top of this file.
-
-**See** [android-geth repository](https://bintray.com/sqli-nantes/ethereum-android/android-geth)
-
-## Ethereum-Android
-
-In your app build.gradle
-
-```java 
-
-dependencies {
-    [...]
-    compile 'com.sqli:ethereum-android:0.1.20161219'
-}
-
-repositories {
-    maven {
-        url "http://dl.bintray.com/sqli-nantes/ethereum-android"
-    }
-    maven {
-        url "http://dl.bintray.com/sqli-nantes/ethereum-java"
-    }
-}
-```
-
-:warning: **0.1.20161219** is a version of ethereum-android. You can specify another one listed in ethereum-android repository. Latest one is quoted at the top of this file.
-
-**Ethereum-android** is a library which extends **Ethereum-java-core** library.
-Both maven repositories are required because of they are unofficial. 
-
-**See** [ethereum-android repository](https://bintray.com/sqli-nantes/ethereum-android/ethereum-java)
-
-**See** [ethereum-java-core repository](https://bintray.com/sqli-nantes/ethereum-java/ethereum-java-core)
-
-# Utilisation
-
-## Android-Geth
+## Motivations
+## Installation
+## Getting Started
+### Start an inproc node
 
 Create your Application subclass of EthereumApplication
 ```java
@@ -97,9 +40,7 @@ public class MainActivity implements EthereumService.EthereumServiceInterface{
 }
 ```
 
-## Ethereum-android
-
-### Setup EthereumJava 
+### Connect to a node
 
 In your Application class for example :
 ```java
@@ -121,8 +62,7 @@ public void onEthereumServiceReady() {
 }  
 ```
 
-### Call from Activity
-
+### Call a node module
 Example : get NodeInfo asynchronously 
 ```java
 EthereumJava ethereumJava = ((MyApplication) getApplication()).getEthereumJava()
@@ -135,3 +75,13 @@ observable.subscribe(new Action1<NodeInfo>() {
 });
 
 ```
+
+
+### Send a transaction
+### Interact with deployed *smart-contract*
+### Listen to *smart-contract* events
+
+## Project Architecture 
+## Our architecture vs the world
+## Contribute
+## Licence
