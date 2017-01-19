@@ -95,6 +95,29 @@ observable.subscribe(new Action1<NodeInfo>() {
 
 ### Send a transaction
 
+//TODO
+
+### *smart-contract* instanciation
+
+```
+contract ContractExample {
+
+    void foo(){
+    }
+}    
+```
+
+```java
+interface ....{
+//TODO
+}
+
+```
+
+//TODO
+```java
+eth....
+```
 
 ### Interact with deployed *smart-contract*
 
@@ -121,24 +144,6 @@ contract.increase().sendTransactionAndGetMined(accountId,new BigInteger("90000")
 Subscribe on event and be notice each 5 transactions. 
 
 ```java
-contract Counter {
-
-    int public counter;
-    event fivesMore(int);
-
-    function Counter(){
-        counter = 0;
-    }
-
-    function increase() {
-        counter++;
-        if( counter%5 == 0 ){
-            fivesMore(counter);
-        }
-    }
-
-}
-
 contract.fivesMore.watch()
     .observeOn(AndroidSchedulers.mainThread())
     .subscribe(new Action1<SInt256>() {
@@ -154,6 +159,11 @@ contract.fivesMore.watch()
 ```
 
 ## Project Architecture 
+
+//TODO
 ## Our architecture vs the world
+//TODO
 ## Contribute
+//TODO
 ## Licence
+//TODO
