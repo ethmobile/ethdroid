@@ -41,9 +41,10 @@ public class EthereumService extends Service {
 
         boolean resetDatadir = intent.getBooleanExtra(RESET_DATADIR_FLAG,false);
 
-
         if( resetDatadir ) {
             deleteDatadir();
+        }else {
+            deleteIpcFile();
         }
 
         try {
@@ -65,6 +66,15 @@ public class EthereumService extends Service {
         }
 
         return START_NOT_STICKY;
+    }
+
+    private boolean deleteIpcFile(){
+        boolean deleted = false;
+        File f = new File(dataDir+"/node/"+GETH_IPC_FILE);
+        if( f.exists() ){
+            deleted = f.delete();
+        }
+        return deleted;
     }
 
     private boolean deleteDatadir() {
