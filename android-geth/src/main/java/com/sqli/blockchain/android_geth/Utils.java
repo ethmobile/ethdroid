@@ -14,11 +14,20 @@ import java.io.OutputStream;
 public abstract class Utils {
 
 
+    /*
+        Save given asset file to storage.
+        If file already exists it override it.
+     */
     public static void saveAssetOnStorage(Context context, String assetFilename, String storagePath) throws Exception {
         AssetManager asset = context.getAssets();
         InputStream in = asset.open(assetFilename);
         String filePath = storagePath + "/" + assetFilename;
-        new File(filePath).createNewFile();
+        File f = new File(filePath);
+        boolean exists = f.exists();
+        if( exists ){
+            f.delete();
+        }
+        f.createNewFile();
         OutputStream out = new FileOutputStream(filePath);
         byte[] buffer = new byte[1024];
         int read;

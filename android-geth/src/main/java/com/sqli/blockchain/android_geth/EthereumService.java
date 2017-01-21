@@ -42,12 +42,13 @@ public class EthereumService extends Service {
         boolean resetDatadir = intent.getBooleanExtra(RESET_DATADIR_FLAG,false);
 
 
+        if( resetDatadir ) {
+            deleteDatadir();
+        }
+
         try {
 
-            if( resetDatadir ) {
-                deleteDatadir();
-                Utils.saveAssetOnStorage(getBaseContext(), GETH_GENESIS_FILE, dataDir);
-            }
+            Utils.saveAssetOnStorage(getBaseContext(), GETH_GENESIS_FILE, dataDir);
 
             final StringBuilder gethParams = new StringBuilder();
             gethParams.append("--fast").append(" ");
