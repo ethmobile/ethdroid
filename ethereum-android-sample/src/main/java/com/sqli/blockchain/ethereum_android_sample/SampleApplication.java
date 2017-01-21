@@ -12,6 +12,7 @@ public class SampleApplication extends EthereumApplication {
 
     public EthereumJava ethereumjava;
 
+
     @Override
     public void onEthereumServiceReady() {
 
@@ -23,6 +24,5 @@ public class SampleApplication extends EthereumApplication {
         super.onEthereumServiceReady();
 
     }
-
 
 }

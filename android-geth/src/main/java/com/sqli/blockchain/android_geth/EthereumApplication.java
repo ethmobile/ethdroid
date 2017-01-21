@@ -9,6 +9,8 @@ import android.os.IBinder;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sqli.blockchain.android_geth.EthereumService.RESET_DATADIR_FLAG;
+
 
 /**
  */
@@ -21,6 +23,7 @@ public class EthereumApplication extends Application implements EthereumService.
 
     List<EthereumService.EthereumServiceInterface> ethereumServiceReadySubscribers;
 
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -28,6 +31,7 @@ public class EthereumApplication extends Application implements EthereumService.
         ethereumServiceReadySubscribers = new ArrayList<>();
 
         ethereumServiceIntent = new Intent(this, EthereumService.class);
+        ethereumServiceIntent.putExtra(RESET_DATADIR_FLAG,isResetDatadir());
         ethereumServiceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -68,5 +72,10 @@ public class EthereumApplication extends Application implements EthereumService.
 
     public void registerGethReady(EthereumService.EthereumServiceInterface subscriber) {
         ethereumServiceReadySubscribers.add(subscriber);
+    }
+
+
+    protected boolean isResetDatadir(){
+        return false;
     }
 }
