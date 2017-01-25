@@ -40,7 +40,7 @@ public abstract class AbstractFilter<T> {
         return new Func1<List<T>, Boolean>() {
             @Override
             public Boolean call(List<T> ts) {
-                return ts.size() > 0;
+                return ts != null && ts.size() > 0;
             }
         };
     }
