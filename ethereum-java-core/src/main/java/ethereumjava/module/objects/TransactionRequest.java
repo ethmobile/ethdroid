@@ -1,6 +1,7 @@
 package ethereumjava.module.objects;
 
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -59,13 +60,13 @@ public class TransactionRequest {
     @Override
     public String toString() {
 
-        JSONObject jsonObject = new JSONObject();
+        JsonObject jsonObject = new JsonObject();
 
-        if (fromHex != null) jsonObject.put("from", fromHex);
-        if (toHex != null) jsonObject.put("to", toHex);
-        if (gasHex != null) jsonObject.put("gas", gasHex);
-        if (valueHex != null) jsonObject.put("value", valueHex);
-        if (dataHex != null) jsonObject.put("data", dataHex);
+        if (fromHex != null) jsonObject.add("from", new JsonPrimitive(fromHex));
+        if (toHex != null) jsonObject.add("to", new JsonPrimitive( toHex));
+        if (gasHex != null) jsonObject.add("gas", new JsonPrimitive( gasHex));
+        if (valueHex != null) jsonObject.add("value",  new JsonPrimitive(valueHex));
+        if (dataHex != null) jsonObject.add("data",  new JsonPrimitive(dataHex));
 
         return jsonObject.toString();
 

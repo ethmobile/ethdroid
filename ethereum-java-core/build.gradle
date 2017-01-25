@@ -10,7 +10,6 @@ dependencies {
     testCompile 'pl.pragmatists:JUnitParams:1.0.5'
     compile 'io.reactivex:rxjava:1.1.6'
     compile 'com.google.code.gson:gson:2.7'
-    compile 'org.json:json:20160810'
 
     sourceCompatibility = 1.7
     targetCompatibility = 1.7

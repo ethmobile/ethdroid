@@ -1,9 +1,9 @@
 package ethereumjava.solidity;
 
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -301,7 +301,7 @@ public abstract class SolidityUtils {
             BigDecimal bd = (BigDecimal) obj;
             return "0x" + bigDecimalToHexString(bd);
         } else if (isJsonObject(obj)) {
-            JSONObject json = (JSONObject) obj;
+            JsonObject json = (JsonObject) obj;
             return utf8ToHex(json.toString());
         } else if (isString(obj)) {
             String s = (String) obj;
@@ -441,18 +441,18 @@ public abstract class SolidityUtils {
     }
 
     public static boolean isJsonArray(Object obj) {
-        return obj instanceof JSONArray;
+        return obj instanceof JsonArray;
     }
 
     public static boolean isJsonObject(Object obj) {
-        return obj instanceof JSONObject;
+        return obj instanceof JsonObject;
     }
 
     public static boolean isJsonString(String value) {
         try {
-            new JSONObject(value);
+            new JsonPrimitive(value);
             return true;
-        } catch (JSONException e) {
+        } catch (Exception e) {
             return false;
         }
     }

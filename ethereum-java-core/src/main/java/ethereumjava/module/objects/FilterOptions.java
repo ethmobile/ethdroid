@@ -1,6 +1,8 @@
 package ethereumjava.module.objects;
 
-import org.json.JSONObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import java.util.List;
 
@@ -23,10 +25,15 @@ public class FilterOptions {
 
         //TODO move code to "serialise" function
 
-        JSONObject jsonObject = new JSONObject();
+        JsonObject jsonObject = new JsonObject();
 
-        if (topics != null) jsonObject.put("topics", topics);
-        if (address != null) jsonObject.put("address", address);
+        JsonArray topicsArrayJson = new JsonArray();
+        for(String topic : topics){
+            topicsArrayJson.add(topic);
+        }
+
+        if (topics != null) jsonObject.add("topics", topicsArrayJson);
+        if (address != null) jsonObject.add("address", new JsonPrimitive(address));
 
         return jsonObject.toString();
     }
