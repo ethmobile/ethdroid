@@ -2,6 +2,7 @@ package ethereumjava.solidity.coder.decoder;
 
 import java.math.BigInteger;
 
+import ethereumjava.solidity.SolidityUtils;
 import ethereumjava.solidity.types.SInt;
 
 /**
@@ -11,6 +12,6 @@ public abstract class SIntDecoder implements SDecoder<SInt> {
 
     @Override
     public SInt decode(String toDecode) {
-        return SInt.fromBigInteger256(new BigInteger(toDecode));
+        return SInt.fromBigInteger256(SolidityUtils.hexToBigDecimal(toDecode).toBigInteger());
     }
 }
