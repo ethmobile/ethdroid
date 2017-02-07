@@ -2,6 +2,7 @@ package ethereumjava.solidity.coder;
 
 import ethereumjava.exception.EthereumJavaException;
 import ethereumjava.solidity.SolidityUtils;
+import ethereumjava.solidity.coder.decoder.SDecoder;
 import ethereumjava.solidity.coder.encoder.SEncoder;
 import ethereumjava.solidity.types.SType;
 
@@ -17,29 +18,43 @@ public abstract class SCoder {
         String encodedParameters = "";
         for (Object parameter : parameters) {
 
-            Class paramClass = parameter.getClass();
-            Class<? extends SEncoder> encoder = SCoderMapper.getEncoderForClass(paramClass);
+            encodedParameters += encodeParam(parameter);
 
-            if (encoder == null) {
-                throw new EthereumJavaException("No encoder found for this class : " + paramClass.getSimpleName());
-            }
-            try {
-                String encodedParam = encoder.newInstance().encode(parameter);
+            String typeName = SolidityUtils.extractSolidityTypeName(parameter);
+            int staticPartLength = SType.staticPartLength(typeName);
+            int roundedStaticPartLength = (int) (Math.floor((staticPartLength + 31) / 32) * 32);
+            dynamicOffset += roundedStaticPartLength;
 
-                encodedParameters += encodedParam;
-
-                String typeName = SolidityUtils.extractSolidityTypeName(parameter);
-                int staticPartLength = SType.staticPartLength(typeName);
-                int roundedStaticPartLength = (int) (Math.floor((staticPartLength + 31) / 32) * 32);
-                dynamicOffset += roundedStaticPartLength;
-
-            } catch (Exception e) {
-                throw new EthereumJavaException(e);
-            }
         }
-
 
         return encodedParameters;
     }
 
+    public static String encodeParam(Object parameter) throws EthereumJavaException{
+        Class paramClass = parameter.getClass();
+        Class<? extends SEncoder> encoder = SCoderMapper.getEncoderForClass(paramClass);
+
+        if (encoder == null) {
+            throw new EthereumJavaException("No encoder found for this class : " + paramClass.getSimpleName());
+        }
+        try {
+            String encodedParam = encoder.newInstance().encode(parameter);
+
+            return encodedParam;
+        } catch (Exception e) {
+            throw new EthereumJavaException(e);
+        }
+    }
+
+    public static <T> T decodeParam(String parameter,Class<T> parameterClass){
+        Class<? extends SDecoder> decoder = SCoderMapper.getDecoderForClass(parameterClass);
+        if( decoder == null ){
+            throw new EthereumJavaException("No decoder found for this class : " + parameterClass.getSimpleName());
+        }
+        try {
+            return (T) decoder.newInstance().decode(parameter);
+        } catch( Exception e ){
+            throw new EthereumJavaException(e);
+        }
+    }
 }

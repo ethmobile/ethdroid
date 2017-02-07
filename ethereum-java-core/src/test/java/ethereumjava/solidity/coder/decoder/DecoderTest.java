@@ -1,8 +1,4 @@
-package ethereumjava.solidity;
-
-import com.google.gson.JsonElement;
-import junitparams.JUnitParamsRunner;
-import org.junit.runner.RunWith;
+package ethereumjava.solidity.coder.decoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +6,10 @@ import java.util.List;
 /**
  * Created by gunicolas on 06/10/16.
  */
-@RunWith(JUnitParamsRunner.class)
+
 public class DecoderTest {
 
-    private Object[] parametersForTestEncoderSimpleType() {
+    private Object[] parametersForTestDecoderSimpleType() {
         List<String> list = new ArrayList<>();
 
         list.add("{ type: 'address', " +
@@ -417,20 +413,8 @@ public class DecoderTest {
             "'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff' +" +
             "'fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff100'}");
 
-        return parseTests(list);
-    }
-
-    private Object[] parseTests(List<String> list) {
         return null;
     }
 
-    public void testEncoderSimpleType(Object param, String expected) throws Exception {
 
-    }
-
-    private class Test {
-        String type;
-        JsonElement value;
-        String expected;
-    }
 }

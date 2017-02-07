@@ -179,6 +179,7 @@ public class ContractTest extends RPCTest {
         SolidityFunction<SUInt.SUInt256> GetPrice();
 
 
+
     }
 
 }

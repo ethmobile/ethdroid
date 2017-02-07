@@ -1,8 +1,9 @@
 package ethereumjava.solidity;
 
 
+import com.google.gson.JsonObject;
+
 import ethereumjava.sha3.Sha3;
-import org.json.JSONObject;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -128,7 +129,9 @@ public class SolidityUtilsTest {
 
     @Test
     public void testToHexJSON() throws Exception {
-        JSONObject json = new JSONObject("{a:\"b\",c:\"d\"}");
+        JsonObject json = new JsonObject();
+        json.addProperty("a","b");
+        json.addProperty("c","d");
         assertEquals("0x7b2261223a2262222c2263223a2264227d", SolidityUtils.toHex(json));
     }
 

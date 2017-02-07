@@ -1,18 +1,22 @@
-package ethereumjava.solidity;
+package ethereumjava.solidity.coder.encoder;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import ethereumjava.solidity.coder.SCoder;
-import ethereumjava.solidity.types.SBytes;
-import ethereumjava.solidity.types.SInt;
-import ethereumjava.solidity.types.SUInt;
-import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
+
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import ethereumjava.solidity.coder.SCoder;
+import ethereumjava.solidity.types.SBool;
+import ethereumjava.solidity.types.SBytes;
+import ethereumjava.solidity.types.SInt;
+import ethereumjava.solidity.types.SUInt;
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -227,10 +231,10 @@ public class EncoderTest {
             Test test = gson.fromJson(s, Test.class);
             Object input = null;
             if (test.type.compareTo("SBool") == 0) {
-//                if( !isComplexType(test.type) )
-//                    input = SBool.fromBoolean(test.value.getAsBoolean());
-//                else
-                input = null; //TODO it's a complex type
+                if( !isComplexType(test.type) )
+                    input = SBool.fromBoolean(test.value.getAsBoolean());
+                else
+                    input = null; //TODO it's a complex type
             } else if (test.type.compareTo("SString") == 0) {
 //                if( !isComplexType(test.type) )
 //                    input = SString.fromString(test.value.getAsString());
@@ -310,7 +314,7 @@ public class EncoderTest {
     @org.junit.Test
     @Parameters
     public void testEncoderSimpleType(Object param, String expected) throws Exception {
-        String result = SCoder.encodeParams(new Object[]{param});
+        String result = SCoder.encodeParam(param);
         assertEquals(expected, result);
     }
 
@@ -319,13 +323,5 @@ public class EncoderTest {
         JsonElement value;
         String expected;
     }
-
-/*    @org.junit.Test
-    @Parameters
-    public void testEncodeSimpleTypeFail() throws Exception{
-        String result = SCoder.encodeParams(new Object[]{param});
-        assertEquals(expected,result);
-    }*/
-
 
 }
