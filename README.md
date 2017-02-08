@@ -16,6 +16,10 @@ To use this package, you need to use Android 21 at least and Geth 1.4.
 
 ## Getting Started
 ### Start an inproc node
+Add internet permission to your Android Manifest 
+```
+<uses-permission android:name="android.permission.INTERNET" />
+```
 
 Create your Application subclass of EthereumApplication
 ```java
@@ -63,7 +67,7 @@ public EthereumJava getEthereumJava() {
 @Override
 public void onEthereumServiceReady() {
     ethereumjava = new EthereumJava.Builder()
-            .provider(new AndroidIpcProvider(ethereumService.getIpcFilePath();))
+            .provider(new AndroidIpcProvider(ethereumService.getIpcFilePath()))
             .build();
 
     super.onEthereumServiceReady();
