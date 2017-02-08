@@ -5,6 +5,7 @@ import ethereumjava.module.annotation.EthereumMethod;
 import ethereumjava.module.annotation.GenericTypeIndex;
 import rx.Observable;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -18,7 +19,7 @@ import java.util.Arrays;
 /**
  * Utility methods
  */
-abstract class Utils {
+public abstract class Utils {
 
     /**
      * Check given method to extract it's return type or parametized type with the exact generic type
@@ -132,5 +133,21 @@ abstract class Utils {
             }
         }
         throw new EthereumJavaException("InvocationHandler error: No Ethereum method Found for " + method.getName());
+    }
+
+    /**
+     * Returns first occurence of annotationType in annotationArray
+     * @param annotationArray the annotation array to test
+     * @param annotationType the annotation type to find
+     * @param <T> the annotation type
+     * @return the first occurence of annotationType in annotationArray
+     */
+    public static <T extends Annotation> T arrayContainsAnnotation(Annotation[] annotationArray, Class<T> annotationType ){
+        for(Annotation annotation : annotationArray ){
+            if( annotationType.isInstance(annotation) ){
+                return (T) annotation;
+            }
+        }
+        return null;
     }
 }

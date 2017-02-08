@@ -45,7 +45,6 @@ public class SArrayDecoderTest {
                                 SArray.fromArray(new SBool[]{SBool.fromBoolean(false)}),
                                 SArray.fromArray(new SBool[]{SBool.fromBoolean(false)})
                             }),
-
             }
 
         };

@@ -154,6 +154,28 @@ public class ContractTest extends RPCTest {
 
     }
 
+    @Test
+    public void submitTest(){
+        TestSubscriber testSubscriber = new TestSubscriber();
+
+        SUInt.SUInt8[] vote = new SUInt.SUInt8[3];
+        vote[0] = SUInt.SUInt8.fromShort((short) 0);
+        vote[1] = SUInt.SUInt8.fromShort((short) 1);
+        vote[2] = SUInt.SUInt8.fromShort((short) 2);
+
+        Observable<Transaction> obs = contract.submit(SArray.fromArray(vote)).sendTransactionAndGetMined(testAccount.id, new BigInteger("90000"));
+        obs.subscribe(testSubscriber);
+
+        testSubscriber.assertNoErrors();
+        testSubscriber.awaitTerminalEvent();
+        List<Transaction> tx = testSubscriber.getOnNextEvents();
+
+
+        Assert.assertTrue(tx != null);
+
+
+    }
+
     interface TestContract extends ContractType {
 
         @SolidityEvent.Anonymous(false)
@@ -181,12 +203,12 @@ public class ContractTest extends RPCTest {
         SolidityFunction<SUInt.SUInt256> GetPrice();
 
         @SolidityFunction.ReturnType(SBool.class)
-        @SArray.FixedSize(parameterIndex = 1,size = 3)
-        SolidityFunction<SBool> submit(SArray<SUInt.SUInt8> submission);
+        SolidityFunction<SBool> submit(@SArray.Type("uint8[3]") SArray<SUInt.SUInt8> submission);
 
-        @SolidityFunction.ReturnType(SUInt.SUInt8.class)
-        @SArray.FixedSize(parameterIndex = 0,size = 3)
-        SolidityFunction<SArray<SUInt.SUInt8>> mySubmission();
+
+/*        @SolidityFunction.ReturnType(SUInt.SUInt8.class)
+        @SArray.FixedSize(parameterIndex = 0,type = "uint8[3]")
+        SolidityFunction<SArray<SUInt.SUInt8>> mySubmission();*/
 
     }
 

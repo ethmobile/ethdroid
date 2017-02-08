@@ -1,7 +1,6 @@
 package ethereumjava.solidity.coder;
 
 import ethereumjava.exception.EthereumJavaException;
-import ethereumjava.solidity.SolidityUtils;
 import ethereumjava.solidity.coder.decoder.SDecoder;
 import ethereumjava.solidity.coder.encoder.SEncoder;
 import ethereumjava.solidity.types.SType;

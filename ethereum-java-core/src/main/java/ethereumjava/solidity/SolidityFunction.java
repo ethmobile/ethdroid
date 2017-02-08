@@ -55,22 +55,6 @@ public class SolidityFunction<T extends SType> extends SolidityElement {
         return "0x" + this.signature() + encodedParameters;
     }
 
-    private T decodeResponse(String dataHex) {
-
-        //TODO move to SCoder.decodeParam()
-
-        Class<? extends SDecoder> decoderClass = SCoderMapper.getDecoderForClass(returnType);
-        if (decoderClass == null) {
-            throw new EthereumJavaException("no decoder found for type : " + returnType.getSimpleName());
-        }
-
-        try {
-            return (T) decoderClass.newInstance().decode(dataHex); //TODO remove cast
-        } catch (Exception e) {
-            throw new EthereumJavaException(e);
-        }
-    }
-
     private TransactionRequest formatRequest(String from, BigInteger gas, BigInteger value) {
         //TODO can estimate gas before
         String payload = encode();
@@ -144,7 +128,7 @@ public class SolidityFunction<T extends SType> extends SolidityElement {
 
         String encodedResponse = eth.call(request, "latest");
 
-        return decodeResponse(encodedResponse);
+        return SCoder.decodeParam(encodedResponse,returnType);
     }
 
 

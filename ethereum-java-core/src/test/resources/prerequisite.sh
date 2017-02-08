@@ -8,7 +8,7 @@ chmod +x killPrerequisite.sh
 passwd="admin"
 rpc_provider_port="8547"
 rpc_provider_addr="0.0.0.0"
-rpc_provider_api="admin,eth,net,web3,personal"
+rpc_provider_api="admin,eth,net,web3,personal,miner"
 eth_port=30303
 eth_network_id=100
 
@@ -58,11 +58,12 @@ trap - TERM INT
 wait $PID
 EXIT_STATUS=$?
 
-# Reset files 
-rm -rf ./data ./genesis.json 
-mv genesis.json.backup genesis.json 
+# Reset files
+rm -rf ./data ./genesis.json
+mv genesis.json.backup genesis.json
 rm contract.log
 rm config.json
 mv config.json.backup config.json
 rm killPrerequisite.sh
-
+rm out.err.log
+rm out.log

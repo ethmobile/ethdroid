@@ -57,20 +57,14 @@ public class SArray<T extends SType> extends SType<T[]> {
         return fixedSize == -1;
     }
 
-    @Target(ElementType.METHOD)
+    @Target(ElementType.PARAMETER)
     @Retention(RetentionPolicy.RUNTIME)
-    public @interface FixedSize {
+    public @interface Type {
         /**
-         * Index of the SArray in method parameters.
-         * Index starts at 0 with the return type.
-         * @return index of the SArray parameter with fixed size
+         * Get the type definition of the SArray
+         * Ex: SArray<SArray<SBool>> -> bool[X][Y]
+         * @return type definition of the SArray
          */
-        int parameterIndex();
-
-        /**
-         * Get the fixed size of the SArray
-         * @return fixed size of the SArray
-         */
-        int size();
+        String value();
     }
 }
