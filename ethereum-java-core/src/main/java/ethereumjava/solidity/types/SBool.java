@@ -37,5 +37,9 @@ public class SBool extends SType<Boolean> {
         return value ? "1" : "0";
     }
 
+    public static Class<? extends SType> getClazz() {
+        return SBool.class;
+    }
+
 
 }

@@ -43,4 +43,8 @@ public class SAddress extends SType<String> {
         return value;
     }
 
+    public static Class<? extends SType> getClazz() {
+        return SAddress.class;
+    }
+
 }

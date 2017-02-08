@@ -13,17 +13,18 @@ public abstract class SCoder {
 
     public static String encodeParams(Object[] parameters) {
 
-        int dynamicOffset = 0;
+        //int dynamicOffset = 0;
 
         String encodedParameters = "";
         for (Object parameter : parameters) {
 
             encodedParameters += encodeParam(parameter);
 
-            String typeName = SolidityUtils.extractSolidityTypeName(parameter);
+            /*String typeName = SolidityUtils.extractSolidityTypeName(parameter);
             int staticPartLength = SType.staticPartLength(typeName);
             int roundedStaticPartLength = (int) (Math.floor((staticPartLength + 31) / 32) * 32);
-            dynamicOffset += roundedStaticPartLength;
+            dynamicOffset += roundedStaticPartLength;*/
+
 
         }
 
@@ -46,7 +47,7 @@ public abstract class SCoder {
         }
     }
 
-    public static <T> T decodeParam(String parameter,Class<T> parameterClass){
+    public static <T extends SType> T decodeParam(String parameter,Class<T> parameterClass){
         Class<? extends SDecoder> decoder = SCoderMapper.getDecoderForClass(parameterClass);
         if( decoder == null ){
             throw new EthereumJavaException("No decoder found for this class : " + parameterClass.getSimpleName());

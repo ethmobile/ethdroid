@@ -4,6 +4,8 @@ import ethereumjava.config.Config;
 import ethereumjava.config.RPCTest;
 import ethereumjava.module.objects.Hash;
 import ethereumjava.module.objects.Transaction;
+import ethereumjava.solidity.types.SArray;
+import ethereumjava.solidity.types.SBool;
 import ethereumjava.solidity.types.SUInt;
 import ethereumjava.solidity.types.SVoid;
 import org.junit.Assert;
@@ -178,7 +180,13 @@ public class ContractTest extends RPCTest {
         @SolidityFunction.ReturnType(SUInt.SUInt256.class)
         SolidityFunction<SUInt.SUInt256> GetPrice();
 
+        @SolidityFunction.ReturnType(SBool.class)
+        @SArray.FixedSize(parameterIndex = 1,size = 3)
+        SolidityFunction<SBool> submit(SArray<SUInt.SUInt8> submission);
 
+        @SolidityFunction.ReturnType(SUInt.SUInt8.class)
+        @SArray.FixedSize(parameterIndex = 0,size = 3)
+        SolidityFunction<SArray<SUInt.SUInt8>> mySubmission();
 
     }
 

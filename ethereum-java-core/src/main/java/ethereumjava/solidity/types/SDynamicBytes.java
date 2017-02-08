@@ -33,5 +33,9 @@ public class SDynamicBytes extends SType<List<Byte>> {
         return value.toString();
     }
 
+    public static Class<? extends SType> getClazz() {
+        return SDynamicBytes.class;
+    }
+
 
 }

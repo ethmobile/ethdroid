@@ -18,4 +18,8 @@ public class SVoid extends SType<Void> {
     public String asString() {
         return "";
     }
+
+    public static Class<? extends SType> getClazz() {
+        return SVoid.class;
+    }
 }

@@ -55,5 +55,9 @@ public class SBytes extends SType<Byte[]> {
         return sb.toString();
     }
 
+    public static Class<? extends SType> getClazz() {
+        return SBytes.class;
+    }
+
 
 }

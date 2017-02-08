@@ -84,5 +84,9 @@ public abstract class SType<T> {
 
     public abstract String asString();
 
+    public static Class<? extends SType> getClazz(){
+        return SType.class;
+    }
+
 
 }

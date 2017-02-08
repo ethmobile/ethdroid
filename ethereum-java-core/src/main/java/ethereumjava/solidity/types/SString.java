@@ -36,5 +36,9 @@ public class SString extends SType<String> {
         return value;
     }
 
+    public static Class<? extends SType> getClazz() {
+        return SString.class;
+    }
+
 
 }

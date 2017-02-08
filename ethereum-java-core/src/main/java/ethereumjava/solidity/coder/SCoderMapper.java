@@ -8,11 +8,13 @@ import ethereumjava.solidity.coder.decoder.SBoolDecoder;
 import ethereumjava.solidity.coder.decoder.SDecoder;
 import ethereumjava.solidity.coder.decoder.SIntDecoder;
 import ethereumjava.solidity.coder.decoder.SUIntDecoder;
+import ethereumjava.solidity.coder.encoder.SArrayEncoder;
 import ethereumjava.solidity.coder.encoder.SBoolEncoder;
 import ethereumjava.solidity.coder.encoder.SBytesEncoder;
 import ethereumjava.solidity.coder.encoder.SEncoder;
 import ethereumjava.solidity.coder.encoder.SIntEncoder;
 import ethereumjava.solidity.coder.encoder.SUIntEncoder;
+import ethereumjava.solidity.types.SArray;
 import ethereumjava.solidity.types.SBool;
 import ethereumjava.solidity.types.SBytes;
 import ethereumjava.solidity.types.SInt;
@@ -30,6 +32,7 @@ public abstract class SCoderMapper {
         put(SUInt.class, SUIntEncoder.class); //TODO SUIntEncoder == SIntEncoder --> Refactor to use the same encoder
         put(SBytes.class, SBytesEncoder.class);
         put(SBool.class, SBoolEncoder.class);
+        put(SArray.class, SArrayEncoder.class);
     }};
 
 

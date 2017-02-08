@@ -59,6 +59,10 @@ public abstract class SInt<T> extends SType<T> {
         public static boolean isType(String name) {
             return Pattern.compile("^int8(\\[([0-9])*\\])*$").matcher(name).matches();
         }
+
+        public static Class<? extends SType> getClazz() {
+            return SInt8.class;
+        }
     }
 
     public static final class SInt16<Short> extends SInt {
@@ -68,6 +72,10 @@ public abstract class SInt<T> extends SType<T> {
 
         public static boolean isType(String name) {
             return Pattern.compile("^int16(\\[([0-9])*\\])*$").matcher(name).matches();
+        }
+
+        public static Class<? extends SType> getClazz() {
+            return SInt16.class;
         }
     }
 
@@ -79,6 +87,10 @@ public abstract class SInt<T> extends SType<T> {
         public static boolean isType(String name) {
             return Pattern.compile("^int32(\\[([0-9])*\\])*$").matcher(name).matches();
         }
+
+        public static Class<? extends SType> getClazz() {
+            return SInt32.class;
+        }
     }
 
     public static final class SInt64<Long> extends SInt {
@@ -88,6 +100,10 @@ public abstract class SInt<T> extends SType<T> {
 
         public static boolean isType(String name) {
             return Pattern.compile("^int64(\\[([0-9])*\\])*$").matcher(name).matches();
+        }
+
+        public static Class<? extends SType> getClazz() {
+            return SInt64.class;
         }
     }
 
@@ -99,6 +115,10 @@ public abstract class SInt<T> extends SType<T> {
         public static boolean isType(String name) {
             return Pattern.compile("^int128(\\[([0-9])*\\])*$").matcher(name).matches();
         }
+
+        public static Class<? extends SType> getClazz() {
+            return SInt128.class;
+        }
     }
 
     public static final class SInt256<BigInteger> extends SInt {
@@ -108,6 +128,10 @@ public abstract class SInt<T> extends SType<T> {
 
         public static boolean isType(String name) {
             return Pattern.compile("^int(256)?(\\[([0-9])*\\])*$").matcher(name).matches();
+        }
+
+        public static Class<? extends SType> getClazz() {
+            return SInt256.class;
         }
     }
 }

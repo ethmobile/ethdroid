@@ -82,6 +82,10 @@ public abstract class SUInt<T> extends SType<T> {
         public static boolean isType(String name) {
             return Pattern.compile("^uint8(\\[([0-9])*\\])*$").matcher(name).matches();
         }
+
+        public static Class<? extends SType> getClazz() {
+            return SUInt8.class;
+        }
     }
 
     public static class SUInt16 extends SUInt<Integer> {
@@ -92,11 +96,19 @@ public abstract class SUInt<T> extends SType<T> {
         public static boolean isType(String name) {
             return Pattern.compile("^uint16(\\[([0-9])*\\])*$").matcher(name).matches();
         }
+
+        public static Class<? extends SType> getClazz() {
+            return SUInt16.class;
+        }
     }
 
     public static class SUInt32 extends SUInt<Long> {
         public SUInt32(Long value) {
             super(value);
+        }
+
+        public static Class<? extends SType> getClazz() {
+            return SUInt32.class;
         }
     }
 
@@ -105,17 +117,29 @@ public abstract class SUInt<T> extends SType<T> {
         public SUInt64(BigInteger value) {
             super(value);
         }
+
+        public static Class<? extends SType> getClazz() {
+            return SUInt64.class;
+        }
     }
 
     public static class SUInt128 extends SUInt<BigInteger> {
         public SUInt128(BigInteger value) {
             super(value);
         }
+
+        public static Class<? extends SType> getClazz() {
+            return SUInt128.class;
+        }
     }
 
     public static class SUInt256 extends SUInt<BigInteger> {
         public SUInt256(BigInteger value) {
             super(value);
+        }
+
+        public static Class<? extends SType> getClazz() {
+            return SUInt256.class;
         }
     }
 
