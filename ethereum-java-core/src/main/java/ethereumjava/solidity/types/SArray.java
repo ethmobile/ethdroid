@@ -62,7 +62,7 @@ public class SArray<T extends SType> extends SType<T[]> {
     public @interface Type {
         /**
          * Get the type definition of the SArray
-         * Ex: SArray<SArray<SBool>> -> bool[X][Y]
+         * Ex: {@literal SArray<SArray<SBool>> -> bool[X][Y] }
          * @return type definition of the SArray
          */
         String value();
