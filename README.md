@@ -6,22 +6,64 @@
 [ ![Download Ethereum-java-core](https://api.bintray.com/packages/sqli-nantes/ethereum-android/ethereum-java-core/images/download.svg) ](https://bintray.com/sqli-nantes/ethereum-android/ethereum-java-core/_latestVersion)
 
 ## Why using Ethereum-Android
-Ethereum-Android permit to handle blockchain transactions with an android device. Specificly, the android's applications would be able to read nodes' informations, managed personnal ethereum account, call functions contains in *smart-contract* or send transactions.
 
-It is based on Web3.js, permitting IRC communication, and use Rx 1.x. In view to manipulate blockchain transaction, it permit to launch and drive a geth's node.
+If you think that smartphone is future of blockchain, **Ethereum-android** is here to help you building amazing decentralized smartphone apps. 
 
-To use this package, you need to use Android 21 at least and Geth 1.4.
+This project was born as soon as the Geth community built the first android archive. Our needs was to allow an Android App communicate with an inproc Geth node through IPC and RPC. 
+
+Thanks to our hard work, we've reached our goals and built 3 differents use-cases of decentralized smartphone apps : 
+* decentralized car sharing
+* voting through blockchain
+* location of peoples all arround the world
+
+Contact us for more informations on our works.
+
+With Ethereum-android it becomes easier to :
+* instanciate an Ethereum go-ethereum inproc node, 
+* manage accounts, 
+* get nodes information, 
+* send Ether 
+* and also call smart-contracts. 
+
+Futhermore **Rx-java** and its extensions simplify control of asynchronous flows and background processes.
+
+This package can be used on **Android 21+** and with **Geth 1.4+**.
 
 ## Installation
 
+1. Start an Android project
+2. In you build.gradle, add these dependencies :
+
+    ```
+    compile 'com.sqli:ethereum-android:0.1.$VERSION@aar'
+    compile 'com.sqli:android-geth:0.1.$VERSION@aar'
+    compile 'com.sqli:ethereum-java-core:0.1.$VERSION'
+    compile 'ethereumandroid:geth:1.5.0-unstable'
+    ```
+    and these related repositories :
+    ```
+    repositories {
+        maven { url "http://dl.bintray.com/sqli-nantes/ethereum-android"}
+        maven { url "http://dl.bintray.com/androidgeth/Geth" }
+    }
+    ```
+
+3. Put the *genesis.json* of your private blockchain in the *src/main/assets* folder
+4. Add these permissions in *AndroidManifest.xml* :
+
+    ```
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    ```
+4. Rebuild project to download dependencies
+5. Start building awesome apps.
+
 ## Getting Started
 ### Start an inproc node
-Add internet permission to your Android Manifest 
-```
-<uses-permission android:name="android.permission.INTERNET" />
-```
 
 Create your Application subclass of EthereumApplication
+
+:warning: don't forget to declare the Application in *AndroidManifest.xml*
 ```java
 import com.sqli.blockchain.android_geth.EthereumApplication;
 
@@ -31,6 +73,7 @@ public class MyApplication extends EthereumApplication{
 ```
 
 In each activity you can be notified when Geth service is available, registering to the event in onCreate method.
+
 When onEthereumServiceReady is called, you can do everything you want, like update UI, or create instanciate EthereumJava (see next section).
 ```java
 import com.sqli.blockchain.android_geth.EthereumService;
@@ -52,9 +95,9 @@ public class MainActivity implements EthereumService.EthereumServiceInterface{
 }
 ```
 
-### Connect to a node
+### Communicate with a node
 
-In your Application class for example :
+In your Application class :
 ```java
 [...]
 public EthereumJava ethereumjava;
@@ -74,7 +117,7 @@ public void onEthereumServiceReady() {
 }  
 ```
 
-### Create a account
+### Accounts management
 
 ```java
 String password = "passwd";
@@ -83,7 +126,7 @@ boolean unlocked = ethereumJava.personal.unlockAccount(accountId);
 ```
 
 ### Call a node module
-Example : get NodeInfo asynchronously 
+**Example :** get node information asynchronously 
 ```java
 EthereumJava ethereumJava = ((MyApplication) getApplication()).getEthereumJava()
 Observable<NodeInfo> observable = ethereumJava.admin.getNodeInfo()
@@ -97,46 +140,75 @@ observable.subscribe(new Action1<NodeInfo>() {
 ```
 
 
-### Send a transaction
+### Send 1 Ether
 
-//TODO
+```java
+String from = "0xaaaa...";
+String to = "0xbbbb...";
 
-### *smart-contract* instanciation
+TransactionRequest tr = new TransactionRequest("","");
+tr.setValueHex(SolidityUtils.toWei(BigInteger.ONE.toString(),"ether").toBigInteger());        
+Hash transactionHash = ethereumJava.eth.sendTransaction(tr);
 
 ```
-contract ContractExample {
 
-    void foo(){
+
+
+### Instanciate a *smart-contract* 
+
+1. From the following Solidity smart-contract source code:
+    ```javascript
+    contract ContractExample {
+
+        event e(bool);
+
+        void foo(){
+            [...]
+        }
+
+        uint bar(int a){
+            [...]
+        }
+    }    
+    ```
+
+2. Create the related Java interface :
+    ```java
+    interface ContractExample extends ContractType{
+
+        @SolidityEvent.Parameters({
+            @SolidityEvent.Parameter(SBool.class)
+        })
+        SolidityEvent<SBool> e();
+
+        @SolidityFunction.ReturnType(SVoid.class)
+        SolidityFunction<SVoid> foo();
+
+        @SolidityFunction.ReturnType(SUint.SUInt256.class)
+        SolidityFunction<SVoid> bar(SInt.SInt256 a);
     }
-}    
-```
+    ```
 
-```java
-interface ....{
-//TODO
-}
+3. Instanciate the *smart-contract* available on the blockchain at the given address
 
-```
-
-//TODO
-```java
-eth....
-```
+    ```java
+    ContractExample contract = ethereumJava.contract.withAbi(ContractExample.class).at("0xcccc...");
+    ```
 
 ### Interact with deployed *smart-contract*
 
-Call an function on smartcontract (asynchrone call)
+#### Call a *smart-contract* function and be notified when it's mined
 
 ```java
-String accountId = "0x000000000000..."; /* put here the account which call the function */
-contract.increase().sendTransactionAndGetMined(accountId,new BigInteger("90000"))
+String from = "0xaaaa..."; /* put here the account which call the function */
+contract.foo().sendTransactionAndGetMined(from,new BigInteger("90000"))
     .observeOn(AndroidSchedulers.mainThread())
     .subscribe(new Action1<Transaction>() {
         @Override
         public void call(Transaction s) {
             /*
                 Call has been made on the contract
-                can verify with the transaction reference
+                can verify with the transaction reference and update the android view
             */
         }
     });
@@ -145,10 +217,11 @@ contract.increase().sendTransactionAndGetMined(accountId,new BigInteger("90000")
 
 
 ### Listen to *smart-contract* events
-Subscribe on event and be notice each 5 transactions. 
+
+From Android app, subscribe to Solidity events in a background process and be notified in main thread to update the view.
 
 ```java
-contract.fivesMore.watch()
+contract.e.watch()
     .observeOn(AndroidSchedulers.mainThread())
     .subscribe(new Action1<SInt256>() {
         @Override
