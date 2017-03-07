@@ -25,7 +25,7 @@ With Ethereum-android it becomes easier to :
 * send Ether 
 * and also call smart-contracts. 
 
-Futhermore **Rx-java** and its extensions simplify control of asynchronous flows and background processes.
+Futhermore **Rx-java 1** and its extensions simplify control of asynchronous flows and background processes.
 
 This package can be used on **Android 21+** and with **Geth 1.4+**.
 
@@ -35,9 +35,9 @@ This package can be used on **Android 21+** and with **Geth 1.4+**.
 2. In you build.gradle, add these dependencies :
 
     ```
-    compile 'com.sqli:ethereum-android:0.1.$VERSION@aar'
-    compile 'com.sqli:android-geth:0.1.$VERSION@aar'
-    compile 'com.sqli:ethereum-java-core:0.1.$VERSION'
+    compile 'com.sqli:ethereum-android:0.1.20170213@aar'
+    compile 'com.sqli:android-geth:0.1.20170213@aar'
+    compile 'com.sqli:ethereum-java-core:0.1.20170213'
     compile 'ethereumandroid:geth:1.5.0-unstable'
     ```
     and these related repositories :
@@ -130,12 +130,7 @@ boolean unlocked = ethereumJava.personal.unlockAccount(accountId);
 ```java
 EthereumJava ethereumJava = ((MyApplication) getApplication()).getEthereumJava()
 Observable<NodeInfo> observable = ethereumJava.admin.getNodeInfo()
-observable.subscribe(new Action1<NodeInfo>() {
-    @Override
-    public void call(NodeInfo nodeInfo) {
-        System.out.println(nodeInfo);  
-    }
-});
+observable.subscribe(nodeInfo -> System.out.println(nodeInfo));
 
 ```
 
@@ -203,18 +198,12 @@ Hash transactionHash = ethereumJava.eth.sendTransaction(tr);
 String from = "0xaaaa..."; /* put here the account which call the function */
 contract.foo().sendTransactionAndGetMined(from,new BigInteger("90000"))
     .observeOn(AndroidSchedulers.mainThread())
-    .subscribe(new Action1<Transaction>() {
-        @Override
-        public void call(Transaction s) {
-            /*
-                Call has been made on the contract
-                can verify with the transaction reference and update the android view
-            */
-        }
-    });
+    .subscribe(minedTransaction -> doWhenMined()); 
+    /*
+        doWhenMined is a local method called when transaction has been mined.
+        You can refresh the view directly in this method
+    */
 ```
-
-
 
 ### Listen to *smart-contract* events
 
@@ -223,22 +212,15 @@ From Android app, subscribe to Solidity events in a background process and be no
 ```java
 contract.e.watch()
     .observeOn(AndroidSchedulers.mainThread())
-    .subscribe(new Action1<SInt256>() {
-        @Override
-        public void call(SInt256 s) {
-            /*
-                you're notified that counter has been incremented 5 more times
-                parameter 's' has the current counter's value.
-                You can directly update your app view
-            */
-        }
-    });
+    .subscribe(booleanAnswer -> doWhenEventTriggered());
+    /*
+        doWhenEvent is a local method called when event is triggered by the deployed smart-contract
+        booleanAnswer is the parameter returned by the triggered event. 
+        You can directly update your app view
+    */
 ```
 
 ## Project Architecture 
-
-//TODO
-## Our architecture vs the world
 //TODO
 ## Contribute
 //TODO
