@@ -19,10 +19,6 @@ public abstract class SType<T> {
         this.value = value;
     }
 
-    public static boolean isType(String name) {
-        return false;
-    }
-
     public static int staticPartLength(String name) {
         return -1;
     }
