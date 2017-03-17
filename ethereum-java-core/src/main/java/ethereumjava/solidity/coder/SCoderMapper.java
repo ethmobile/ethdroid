@@ -1,13 +1,22 @@
 package ethereumjava.solidity.coder;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import ethereumjava.solidity.coder.decoder.SBoolDecoder;
 import ethereumjava.solidity.coder.decoder.SDecoder;
-import ethereumjava.solidity.coder.decoder.SIntDecoder;
-import ethereumjava.solidity.coder.decoder.SUIntDecoder;
+import ethereumjava.solidity.coder.decoder.sintdecoder.SInt128Decoder;
+import ethereumjava.solidity.coder.decoder.sintdecoder.SInt16Decoder;
+import ethereumjava.solidity.coder.decoder.sintdecoder.SInt256Decoder;
+import ethereumjava.solidity.coder.decoder.sintdecoder.SInt32Decoder;
+import ethereumjava.solidity.coder.decoder.sintdecoder.SInt64Decoder;
+import ethereumjava.solidity.coder.decoder.sintdecoder.SInt8Decoder;
+import ethereumjava.solidity.coder.decoder.suintdecoder.SUInt128Decoder;
+import ethereumjava.solidity.coder.decoder.suintdecoder.SUInt16Decoder;
+import ethereumjava.solidity.coder.decoder.suintdecoder.SUInt256Decoder;
+import ethereumjava.solidity.coder.decoder.suintdecoder.SUInt32Decoder;
+import ethereumjava.solidity.coder.decoder.suintdecoder.SUInt64Decoder;
+import ethereumjava.solidity.coder.decoder.suintdecoder.SUInt8Decoder;
 import ethereumjava.solidity.coder.encoder.SArrayEncoder;
 import ethereumjava.solidity.coder.encoder.SBoolEncoder;
 import ethereumjava.solidity.coder.encoder.SBytesEncoder;
@@ -18,7 +27,6 @@ import ethereumjava.solidity.types.SArray;
 import ethereumjava.solidity.types.SBool;
 import ethereumjava.solidity.types.SBytes;
 import ethereumjava.solidity.types.SInt;
-import ethereumjava.solidity.types.SType;
 import ethereumjava.solidity.types.SUInt;
 
 /**
@@ -37,8 +45,18 @@ public abstract class SCoderMapper {
 
 
     private static final Map<Class, Class<? extends SDecoder>> decoderMapping = new HashMap<Class, Class<? extends SDecoder>>() {{
-        put(SInt.class, SIntDecoder.class);
-        put(SUInt.class, SUIntDecoder.class);
+        put(SInt.SInt8.class, SInt8Decoder.class);
+        put(SInt.SInt16.class, SInt16Decoder.class);
+        put(SInt.SInt32.class, SInt32Decoder.class);
+        put(SInt.SInt64.class, SInt64Decoder.class);
+        put(SInt.SInt128.class, SInt128Decoder.class);
+        put(SInt.SInt256.class, SInt256Decoder.class);
+        put(SUInt.SUInt8.class, SUInt8Decoder.class);
+        put(SUInt.SUInt16.class, SUInt16Decoder.class);
+        put(SUInt.SUInt32.class, SUInt32Decoder.class);
+        put(SUInt.SUInt64.class, SUInt64Decoder.class);
+        put(SUInt.SUInt128.class, SUInt128Decoder.class);
+        put(SUInt.SUInt256.class, SUInt256Decoder.class);
         put(SBool.class, SBoolDecoder.class);
     }};
 

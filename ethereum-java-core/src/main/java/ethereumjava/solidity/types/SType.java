@@ -13,6 +13,7 @@ import ethereumjava.solidity.SolidityUtils;
  */
 public abstract class SType<T> {
 
+    public static int ENCODED_SIZE = 64;
     T value;
 
     public SType(T value) {
@@ -84,5 +85,10 @@ public abstract class SType<T> {
         return SType.class;
     }
 
-
+    @Override
+    public boolean equals(Object o) {
+        if( !(o instanceof SType) ) return false;
+        SType toCompare = (SType) o;
+        return get().equals(toCompare.get());
+    }
 }

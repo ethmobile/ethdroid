@@ -19,6 +19,9 @@ contract TestContract {
     function testFunctionOutputsPrimitive() returns(uint){
         return 3;
     }
+    function testFunctionOutputsMatrix() returns(uint8[3][3]){
+        return [[uint8(0),uint8(1),uint8(2)],[uint8(2),uint8(1),uint8(1)],[uint8(2),uint8(0),uint8(1)]];
+    }
     /*-----------------------------*/
 
     /* Test input types*/

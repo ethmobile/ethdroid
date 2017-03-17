@@ -12,8 +12,8 @@ import ethereumjava.module.objects.Transaction;
 import ethereumjava.solidity.types.SArray;
 import ethereumjava.solidity.types.SBool;
 import ethereumjava.solidity.types.SInt;
+import ethereumjava.solidity.types.SType;
 import ethereumjava.solidity.types.SUInt;
-import ethereumjava.solidity.types.SVoid;
 import rx.Observable;
 import rx.observers.TestSubscriber;
 
@@ -100,20 +100,46 @@ public class ContractTest extends RPCTest {
 
     @Test
     public void testFunctionOutputsVoid() throws Exception{
-        SVoid got = contract.testFunctionOutputsVoid().call();
-        Assert.assertTrue(got != null);
+        SType s = contract.testFunctionOutputsVoid().call();
+        Assert.assertTrue(s == null);
     }
 
     @Test
     public void testFunctionOutputsBool() throws Exception{
         SBool got = contract.testFunctionOutputsBool().call();
-        Assert.assertTrue(got == SBool.fromBoolean(true));
+        Assert.assertTrue(got.get());
+    }
+
+    @Test
+    public void testFunctionOutputsMatrix() throws Exception{
+        SArray<SArray<SUInt.SUInt8>> got = contract.testFunctionOutputsMatrix().call();
+
+        SArray<SArray> expected = SArray.fromArray(new SArray[]{
+            SArray.fromArray(new SUInt.SUInt8[]{
+                SUInt.SUInt8.fromShort((short) 0),
+                SUInt.SUInt8.fromShort((short) 1),
+                SUInt.SUInt8.fromShort((short) 2)
+            }),
+            SArray.fromArray(new SUInt.SUInt8[]{
+                SUInt.SUInt8.fromShort((short) 2),
+                SUInt.SUInt8.fromShort((short) 1),
+                SUInt.SUInt8.fromShort((short) 1)
+            }),
+            SArray.fromArray(new SUInt.SUInt8[]{
+                SUInt.SUInt8.fromShort((short) 2),
+                SUInt.SUInt8.fromShort((short) 0),
+                SUInt.SUInt8.fromShort((short) 1)
+            })
+        });
+
+        Assert.assertTrue(got.equals(expected));
     }
 
     @Test
     public void testFunctionOutputsPrimitive() throws Exception{
         SUInt.SUInt256 got = contract.testFunctionOutputsPrimitive().call();
-        Assert.assertTrue(got == SUInt.fromBigInteger256(BigInteger.valueOf(3)));
+        SUInt.SUInt256 expected = SUInt.fromBigInteger256(BigInteger.valueOf(3));
+        Assert.assertTrue(got.equals(expected));
     }
 
     @Test

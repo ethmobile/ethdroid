@@ -4,7 +4,6 @@ import ethereumjava.solidity.types.SArray;
 import ethereumjava.solidity.types.SBool;
 import ethereumjava.solidity.types.SInt;
 import ethereumjava.solidity.types.SUInt;
-import ethereumjava.solidity.types.SVoid;
 
 /**
  * Created by gunicolas on 08/03/17.
@@ -15,50 +14,43 @@ interface ITestContract extends ContractType {
     /*------------------------------*/
     /* Test events                  */
     /*------------------------------*/
-    @SolidityEvent.Parameters({
-        @SolidityEvent.Parameter(SUInt.SUInt256.class)
-    })
-    @SolidityElement.ReturnType("uint")
     SolidityEvent<SUInt.SUInt256> testEventReturnsUInt();
-    @SolidityFunction.ReturnType(SVoid.class)
-    SolidityFunction<SVoid> throwEventReturnsUInt();
+    SolidityFunction throwEventReturnsUInt();
 
-    @SolidityEvent.Parameters({
-        @SolidityEvent.Parameter(SBool.class)
-    })
     SolidityEvent<SBool> testEventReturnsBool();
-    @SolidityFunction.ReturnType(SVoid.class)
-    SolidityFunction<SVoid> throwEventReturnsBool();
+    SolidityFunction throwEventReturnsBool();
 
-    @SolidityElement.ReturnType("int[3][3]")
+    @SolidityElement.ReturnParameters({@SArray.Size({3,3})})
     SolidityEvent<SArray<SArray<SInt.SInt256>>> testEventReturnsMatrix();
-    @SolidityFunction.ReturnType(SVoid.class)
-    SolidityFunction<SVoid> throwEventReturnsMatrix();
+    SolidityFunction throwEventReturnsMatrix();
     /*-----------------------------*/
 
 
     /*------------------------------*/
     /* Test output types            */
     /*------------------------------*/
-    @SolidityFunction.ReturnType(SVoid.class)
-    SolidityFunction<SVoid> testFunctionOutputsVoid();
-
-    @SolidityFunction.ReturnType(SBool.class)
+    SolidityFunction testFunctionOutputsVoid();
     SolidityFunction<SBool> testFunctionOutputsBool();
-
-    @SolidityFunction.ReturnType(SUInt.SUInt256.class)
     SolidityFunction<SUInt.SUInt256> testFunctionOutputsPrimitive();
+    @SolidityElement.ReturnParameters({@SArray.Size({3,3})})
+    SolidityFunction<SArray<SArray<SUInt.SUInt8>>> testFunctionOutputsMatrix();
+    /*
+    @SolidityElement.ReturnParameters(
+        {
+            @SArray.Size(),
+            @SArray.Size({3,3})
+        }
+    )
+    SolidityFunction<SBool,SArray<SArray<SBool>>> testFunnctionOutputsMultiple();
+    */
     /*-----------------------------*/
 
 
     /*------------------------------*/
     /* Test input types             */
     /*------------------------------*/
-    @SolidityFunction.ReturnType(SVoid.class)
-    SolidityFunction<SVoid> testFunctionInputsPrimitives(SUInt.SUInt256 x, SUInt.SUInt256 y);
-
-    @SolidityFunction.ReturnType(SVoid.class)
-    SolidityFunction<SVoid> testFunctionInputsArray(@SArray.Type("uint8[3]") SArray<SUInt.SUInt8> a);
+    SolidityFunction testFunctionInputsPrimitives(SUInt.SUInt256 x, SUInt.SUInt256 y);
+    SolidityFunction testFunctionInputsArray(@SArray.Size({3}) SArray<SUInt.SUInt8> a);
     /*-----------------------------*/
 
 }
