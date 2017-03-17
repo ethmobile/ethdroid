@@ -1,6 +1,7 @@
 package ethereumjava.module.objects;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 
 /**
  * Created by gunicolas on 14/10/16.
@@ -27,5 +28,20 @@ public class Log {
         this.address = address;
         this.data = data;
         this.topics = topics;
+    }
+
+    @Override
+    public String toString() {
+        return "Log{" +
+            "removed=" + removed +
+            ", logIndex=" + logIndex +
+            ", transactionIndex=" + transactionIndex +
+            ", transactionHash='" + transactionHash + '\'' +
+            ", blockHash='" + blockHash + '\'' +
+            ", blockNumber=" + blockNumber +
+            ", address='" + address + '\'' +
+            ", data='" + data + '\'' +
+            ", topics=" + Arrays.toString(topics) +
+            '}';
     }
 }
