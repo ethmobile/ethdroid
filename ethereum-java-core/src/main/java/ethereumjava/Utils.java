@@ -136,11 +136,11 @@ public abstract class Utils {
     }
 
     /**
-     * Returns first occurence of annotationType in annotationArray
+     * Returns first occurence of annotationType in annotationArray or null if doesn't exist
      * @param annotationArray the annotation array to test
      * @param annotationType the annotation type to find
      * @param <T> the annotation type
-     * @return the first occurence of annotationType in annotationArray
+     * @return the first occurence of annotationType in annotationArray or null if doesn't exist
      */
     public static <T extends Annotation> T arrayContainsAnnotation(Annotation[] annotationArray, Class<T> annotationType ){
         for(Annotation annotation : annotationArray ){
@@ -150,4 +150,21 @@ public abstract class Utils {
         }
         return null;
     }
+
+    /**
+     * Multiply the given value by values contained in the array
+     * Ex: (3,[1,2,3]) -> 3*1*2*3=18
+     * @param a the base value
+     * @param array an array of values to multiply by
+     * @return the multiplication of the given value by values contained in the array
+     */
+    public static int multiplyByArrayValues(int a,int[] array){
+        int ret = a;
+        for(int value : array){
+            ret *= value;
+        }
+        return ret;
+    }
+
+
 }
