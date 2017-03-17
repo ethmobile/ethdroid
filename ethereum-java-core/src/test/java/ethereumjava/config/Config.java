@@ -6,12 +6,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
 
+import static ethereumjava.config.RPCTest.PATH;
+
 /**
  * Created by gunicolas on 22/11/16.
  */
 public final class Config {
 
-    private static final String PATH = "src/test/resources/config.json";
+    private static final String CONFIG_FILE_PATH =  PATH + "config.json";
     private static Config INSTANCE;
     public int rpcProviderPort;
     public String rpcProviderAddr;
@@ -34,7 +36,7 @@ public final class Config {
     }
 
     public static Config newInstance() throws FileNotFoundException {
-        FileReader reader = new FileReader(PATH);
+        FileReader reader = new FileReader(CONFIG_FILE_PATH);
         Gson deserializer = new Gson();
         INSTANCE = deserializer.fromJson(reader, Config.class);
         return INSTANCE;

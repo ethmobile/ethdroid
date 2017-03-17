@@ -17,6 +17,8 @@ import static org.junit.Assert.assertTrue;
  */
 public class RPCTest {
 
+    static final String PATH = System.getProperty("user.dir") + "/ethereum-java-core/src/test/resources/";
+
     protected EthereumJava ethereumJava;
     protected Config config;
     protected Process p;
@@ -31,21 +33,21 @@ public class RPCTest {
 
                 try {
 
-                    ProcessBuilder builder = new ProcessBuilder("/bin/bash", System.getProperty("user.dir") + "/src/test/resources/prerequisite.sh");
-                    builder.directory(new File(System.getProperty("user.dir") + "/src/test/resources/"));
-                    builder.redirectOutput(new File(System.getProperty("user.dir") + "/src/test/resources/out.log"));
-                    builder.redirectError(new File(System.getProperty("user.dir") + "/src/test/resources/out.err.log"));
+                    ProcessBuilder builder = new ProcessBuilder("/bin/bash", PATH + "prerequisite.sh");
+                    builder.directory(new File(PATH));
+                    builder.redirectOutput(new File(PATH + "out.log"));
+                    builder.redirectError(new File(PATH + "out.err.log"));
                     p = builder.start();
 
                 } catch (IOException e) {
-                    assertTrue("Prerequisite couldn't be executed" + e, false);
+                    assertTrue("Prerequisite couldn't be executed : " + e, false);
                 }
             }
         }).start();
 
         Thread.sleep(1000);
 
-        BufferedReader br = new BufferedReader(new FileReader(new File(System.getProperty("user.dir") + "/src/test/resources/out.err.log")));
+        BufferedReader br = new BufferedReader(new FileReader(new File(PATH + "out.err.log")));
         String line;
         boolean keepReading = true;
         while (keepReading) {
@@ -72,7 +74,7 @@ public class RPCTest {
     public void after() throws Exception {
         ethereumJava.close();
 
-        String killer = System.getProperty("user.dir") + "/src/test/resources/killPrerequisite.sh";
+        String killer = PATH + "killPrerequisite.sh";
 
         if (new File(killer).exists()) {
             p.destroy();
