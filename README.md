@@ -35,9 +35,9 @@ This package can be used on **Android 21+** and with **Geth 1.4+**.
 2. In you build.gradle, add these dependencies :
 
     ```
-    compile 'com.sqli:ethereum-android:0.1.20170213@aar'
-    compile 'com.sqli:android-geth:0.1.20170213@aar'
-    compile 'com.sqli:ethereum-java-core:0.1.20170213'
+    compile 'com.sqli:ethereum-android:0.1.20170320@aar'
+    compile 'com.sqli:android-geth:0.1.20170320@aar'
+    compile 'com.sqli:ethereum-java-core:0.1.20170320'
     compile 'ethereumandroid:geth:1.5.0-unstable'
     ```
     and these related repositories :
@@ -164,6 +164,18 @@ Hash transactionHash = ethereumJava.eth.sendTransaction(tr);
         uint bar(int a){
             [...]
         }
+        
+        event eventOutputMatrix(int[3][3]){
+            [...]
+        }
+        
+        function functionOutputMatrix() returns(uint8[2][8]){
+            [...]
+        }
+        
+        function functionInputMatrix(uint8[3]){
+            [...]
+        }
     }    
     ```
 
@@ -171,18 +183,23 @@ Hash transactionHash = ethereumJava.eth.sendTransaction(tr);
     ```java
     interface ContractExample extends ContractType{
 
-        @SolidityEvent.Parameters({
-            @SolidityEvent.Parameter(SBool.class)
-        })
         SolidityEvent<SBool> e();
-
-        @SolidityFunction.ReturnType(SVoid.class)
-        SolidityFunction<SVoid> foo();
-
-        @SolidityFunction.ReturnType(SUint.SUInt256.class)
-        SolidityFunction<SVoid> bar(SInt.SInt256 a);
+        SolidityFunction foo();
+        SolidityFunction bar(SInt.SInt256 a);
+     
+       @SolidityElement.ReturnParameters({@SArray.Size({3,3})}) 
+       SolidityEvent<SArray<SArray<SInt.SInt256>>> eventOutputMatrix();
+ 
+       @SolidityElement.ReturnParameters({@SArray.Size({2,8})})
+       SolidityFunction<SArray<SArray<SUInt.SUInt8>>> functionOutputMatrix();
+  
+       SolidityFunction functionInputMatrix(@SArray.Size({3}) SArray<SUInt.SUInt8> a);
     }
     ```
+    
+    When an array/matrix is returned by a SolidityElement (function/event), you have to specify its 
+    size with the **@SolidityElement.ReturnParameters** annotation. The value is an array of **@SArray.Size** 
+    annotations. This annotation takes an array of integer sizes like *int[2][3][4] -> {2,3,4}*.
 
 3. Instanciate the *smart-contract* available on the blockchain at the given address
 

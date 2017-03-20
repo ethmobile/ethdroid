@@ -74,11 +74,12 @@ public class SArray<T extends SType> extends SType<T[]> {
     /**
      * Converts given size array to its representative String
      * Ex:
+     * {@literal
      * {3,3} --> [3][3]
      * {0,3,0} --> [][3][]
      * {} --> ""
      * null --> ""
-     *
+     * }
      * @param size size of an array
      * @return string representation of the given size
      */
@@ -98,10 +99,18 @@ public class SArray<T extends SType> extends SType<T[]> {
     public @interface Size {
         /**
          * Contains an array of sizes of the annotated SArray.
-         * fixe sized array must have a value greater than 0. (ex: int[3] -> {3})
-         * dynamic sized array must have a value of 0 (ex: int[] -> {0})
-         * single value must have a no values (ex: int -> {})
-         *
+         * fixe sized array must have a value greater than 0.
+         * {@literal
+         * (ex: int[3] -> {3})
+         * }
+         * dynamic sized array must have a value of 0
+         * {@literal
+         * (ex: int[] -> {0})
+         * }
+         * single value must have a no values
+         * {@literal
+         * (ex: int -> {})
+         * }
          * @return an array of sizes of the annotated SArray
          */
         int[] value() default {};

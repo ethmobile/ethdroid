@@ -16,10 +16,8 @@ interface ITestContract extends ContractType {
     /*------------------------------*/
     SolidityEvent<SUInt.SUInt256> testEventReturnsUInt();
     SolidityFunction throwEventReturnsUInt();
-
     SolidityEvent<SBool> testEventReturnsBool();
     SolidityFunction throwEventReturnsBool();
-
     @SolidityElement.ReturnParameters({@SArray.Size({3,3})})
     SolidityEvent<SArray<SArray<SInt.SInt256>>> testEventReturnsMatrix();
     SolidityFunction throwEventReturnsMatrix();
@@ -34,15 +32,6 @@ interface ITestContract extends ContractType {
     SolidityFunction<SUInt.SUInt256> testFunctionOutputsPrimitive();
     @SolidityElement.ReturnParameters({@SArray.Size({3,3})})
     SolidityFunction<SArray<SArray<SUInt.SUInt8>>> testFunctionOutputsMatrix();
-    /*
-    @SolidityElement.ReturnParameters(
-        {
-            @SArray.Size(),
-            @SArray.Size({3,3})
-        }
-    )
-    SolidityFunction<SBool,SArray<SArray<SBool>>> testFunnctionOutputsMultiple();
-    */
     /*-----------------------------*/
 
 

@@ -9,5 +9,5 @@ import ethereumjava.solidity.types.SVoid;
 
 public interface ContractSample extends ContractType {
 
-    SolidityFunction<SVoid> increase();
+    SolidityFunction increase();
 }

@@ -153,7 +153,9 @@ public abstract class Utils {
 
     /**
      * Multiply the given value by values contained in the array
+     * {@literal
      * Ex: (3,[1,2,3]) -> 3*1*2*3=18
+     * }
      * @param a the base value
      * @param array an array of values to multiply by
      * @return the multiplication of the given value by values contained in the array
