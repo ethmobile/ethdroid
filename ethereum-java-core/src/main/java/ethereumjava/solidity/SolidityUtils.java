@@ -431,11 +431,6 @@ public abstract class SolidityUtils {
         return obj instanceof String;
     }
 
-    public static boolean isFunction(Object obj) {
-        //TODO keep SolidityFunction ?
-        return obj instanceof SolidityFunction;
-    }
-
     public static boolean isBoolean(Object obj) {
         return obj instanceof Boolean;
     }
