@@ -176,31 +176,50 @@ Hash transactionHash = ethereumJava.eth.sendTransaction(tr);
         function functionInputMatrix(uint8[3]){
             [...]
         }
+        
+        function functionOutputMultiple() returns(bool,uint8[2][3]){
+            [...]
+        }
     }    
     ```
 
 2. Create the related Java interface :
     ```java
     interface ContractExample extends ContractType{
-
-        SolidityEvent<SBool> e();
-        SolidityFunction foo();
-        SolidityFunction bar(SInt.SInt256 a);
+       
+       SolidityEvent<SBool> e();
+       
+       SolidityFunction foo();
+       
+       SolidityFunction bar(SInt.SInt256 a);
      
        @SolidityElement.ReturnParameters({@SArray.Size({3,3})}) 
        SolidityEvent<SArray<SArray<SInt.SInt256>>> eventOutputMatrix();
- 
+       
        @SolidityElement.ReturnParameters({@SArray.Size({2,8})})
        SolidityFunction<SArray<SArray<SUInt.SUInt8>>> functionOutputMatrix();
-  
+      
        SolidityFunction functionInputMatrix(@SArray.Size({3}) SArray<SUInt.SUInt8> a);
+       
+       @SolidityElement.ReturnParameters({@SArray.Size(),@SArray.Size({2,3})})
+       SolidityFunction2<SBool,SArray<SArray<SUInt.SUInt8>>> functionOutputMultiple();
+       
     }
     ```
     
-    When an array/matrix is returned by a SolidityElement (function/event), you have to specify its 
-    size with the **@SolidityElement.ReturnParameters** annotation. The value is an array of **@SArray.Size** 
-    annotations. This annotation takes an array of integer sizes like *int[2][3][4] -> {2,3,4}*.
-
+    When an input/output parameter of a function/event is an array, you have to specify its size with 
+    the annotation : **@SArray.Size**. 
+    
+    Its parameter is an array of integers like **@SArray.Size{2,3,4}** (its equivalent to an array
+    of a size *type*[2][3][4])
+    
+    When your function/event returns an array, to specify its length you have to use the annotation 
+    **@SolidityElement.ReturnParameters({})** which takes an array of @SArray.Size annotations as value.
+    
+    When your function returns multiple types, you have to specify the related SolidityFunction.
+    For exemple, if your function returns 2 booleans you must use return **SolidityFunction2<SBool,SBool>**
+    
+    
 3. Instanciate the *smart-contract* available on the blockchain at the given address
 
     ```java
@@ -209,13 +228,29 @@ Hash transactionHash = ethereumJava.eth.sendTransaction(tr);
 
 ### Interact with deployed *smart-contract*
 
-#### Call a *smart-contract* function and be notified when it's mined
+[**Official doc of smart-contract interaction**](https://github.com/ethereum/go-ethereum/wiki/Contracts-and-Transactions#interacting-with-contracts)
+
+#### Make a local then reverted call to a *smart-contract* function 
 
 ```java
-String from = "0xaaaa..."; /* put here the account which call the function */
-contract.foo().sendTransactionAndGetMined(from,new BigInteger("90000"))
-    .observeOn(AndroidSchedulers.mainThread())
-    .subscribe(minedTransaction -> doWhenMined()); 
+
+    PairReturn<SBool,SArray<SArray<SUInt.SUInt8>>> result = contract.functionOutputMultiple().call();
+    
+    SBool resultSBool = result.getElement1();
+    
+    SArray<SArray<SUInt.SUInt8>> resultMatrix = result.getElement2();
+
+```
+
+#### Make a persistent call to a *smart-contract* function and be notified when it's mined
+
+```java
+    String from = "0xaaaa..."; /* put here the account which call the function */
+    
+    contract.foo().sendTransactionAndGetMined(from,new BigInteger("90000"))
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(minedTransaction -> doWhenMined()); 
+    
     /*
         doWhenMined is a local method called when transaction has been mined.
         You can refresh the view directly in this method
@@ -227,9 +262,10 @@ contract.foo().sendTransactionAndGetMined(from,new BigInteger("90000"))
 From Android app, subscribe to Solidity events in a background process and be notified in main thread to update the view.
 
 ```java
-contract.e.watch()
-    .observeOn(AndroidSchedulers.mainThread())
-    .subscribe(booleanAnswer -> doWhenEventTriggered());
+    contract.e.watch()
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(booleanAnswer -> doWhenEventTriggered());
+    
     /*
         doWhenEvent is a local method called when event is triggered by the deployed smart-contract
         booleanAnswer is the parameter returned by the triggered event. 
