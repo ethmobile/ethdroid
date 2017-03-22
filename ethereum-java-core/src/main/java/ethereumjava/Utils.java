@@ -168,5 +168,20 @@ public abstract class Utils {
         return ret;
     }
 
+    /**
+     * Test if the first parameter is a class or a subclass of the second parameter.
+     * @param toTest the (sub)class to test
+     * @param clazz the reference class
+     * @return true if the first parameter is a class or a subclass of the second parameter.
+     */
+    public static boolean isClassOrSubclass(Class toTest,Class clazz){
+        try{
+            toTest.asSubclass(clazz);
+            return true;
+        } catch( ClassCastException e){
+            return false;
+        }
+    }
+
 
 }
