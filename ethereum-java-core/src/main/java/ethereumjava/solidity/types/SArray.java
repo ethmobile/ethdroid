@@ -40,21 +40,8 @@ public class SArray<T extends SType> extends SType<T[]> {
     }
 
     @Override
-    public boolean isDynamicType() {
-        return false;
-    }
-
-    @Override
     public String asString() {
         return null;
-    }
-
-    public static Class<? extends SType> getClazz() {
-        return SArray.class;
-    }
-
-    public int getFixedSize() {
-        return fixedSize;
     }
 
     public boolean isDynamic(){

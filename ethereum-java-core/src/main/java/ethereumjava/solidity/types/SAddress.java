@@ -11,8 +11,6 @@ public class SAddress extends SType<String> {
 
     private SAddress(String address) {
         super(address);
-        //InputIntFormatter(),
-        //OuputAddressFormatter()
     }
 
     public static SAddress fromString(String from) throws EthereumJavaException {
@@ -27,15 +25,6 @@ public class SAddress extends SType<String> {
 
     public static boolean isType(String name) {
         return Pattern.compile("^address(\\[([0-9])*\\])*$").matcher(name).matches();
-    }
-
-    public static int staticPartLength(String name) {
-        return 32 * staticArrayLength(name);
-    }
-
-    @Override
-    public boolean isDynamicType() {
-        return false;
     }
 
     @Override

@@ -10,8 +10,6 @@ public class SString extends SType<String> {
 
     private SString(String value) {
         super(value);
-        //InputStringFormatter()
-        //OuputStringFormatter()
     }
 
     public static SString fromString(String from) {
@@ -22,23 +20,9 @@ public class SString extends SType<String> {
         return Pattern.compile("^string(\\[([0-9])*\\])*$").matcher(name).matches();
     }
 
-    public static int staticPartLength(String name) {
-        return 32 * staticArrayLength(name);
-    }
-
-    @Override
-    public boolean isDynamicType() {
-        return true;
-    }
-
     @Override
     public String asString() {
         return value;
     }
-
-    public static Class<? extends SType> getClazz() {
-        return SString.class;
-    }
-
 
 }

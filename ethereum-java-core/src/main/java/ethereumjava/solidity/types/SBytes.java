@@ -26,25 +26,6 @@ public class SBytes extends SType<Byte[]> {
         return Pattern.compile("^bytes([0-9])+(\\[([0-9])*\\])*$").matcher(name).matches();
     }
 
-    public static int staticPartLength(String name) {
-        if (isType(name)) {
-            int start = "bytes".length();
-            int arrayIndex = name.indexOf("[");
-            if (arrayIndex == -1) arrayIndex = name.length();
-
-            String sizeStr = name.substring(start, arrayIndex);
-
-            return Integer.parseInt(sizeStr) * staticArrayLength(name);
-
-        }
-        return -1; //ERROR
-    }
-
-    @Override
-    public boolean isDynamicType() {
-        return false;
-    }
-
     @Override
     public String asString() {
         StringBuilder sb = new StringBuilder();
@@ -54,10 +35,4 @@ public class SBytes extends SType<Byte[]> {
         }
         return sb.toString();
     }
-
-    public static Class<? extends SType> getClazz() {
-        return SBytes.class;
-    }
-
-
 }

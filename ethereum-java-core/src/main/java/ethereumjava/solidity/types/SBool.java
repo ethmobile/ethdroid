@@ -10,10 +10,7 @@ public class SBool extends SType<Boolean> {
 
     private SBool(boolean value) {
         super(value);
-        //InputBoolFormatter(),
-        //OutputBoolFormatter());
     }
-
 
     public static SBool fromBoolean(boolean value) {
         return new SBool(value);
@@ -23,23 +20,9 @@ public class SBool extends SType<Boolean> {
         return Pattern.compile("^bool(\\[([0-9])*\\])*$").matcher(name).matches();
     }
 
-    public static int staticPartLength(String name) {
-        return 32 * staticArrayLength(name);
-    }
-
-    @Override
-    public boolean isDynamicType() {
-        return false;
-    }
-
     @Override
     public String asString() {
         return value ? "1" : "0";
     }
-
-    public static Class<? extends SType> getClazz() {
-        return SBool.class;
-    }
-
 
 }
