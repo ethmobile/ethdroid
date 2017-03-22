@@ -11,6 +11,7 @@ import ethereumjava.config.RPCTest;
 import ethereumjava.module.objects.Transaction;
 import ethereumjava.solidity.element.function.SolidityFunction2;
 import ethereumjava.solidity.element.returns.PairReturn;
+import ethereumjava.solidity.element.returns.SingleReturn;
 import ethereumjava.solidity.element.returns.TripleReturn;
 import ethereumjava.solidity.types.SArray;
 import ethereumjava.solidity.types.SBool;
@@ -39,7 +40,7 @@ public class ContractTest extends RPCTest {
     @Test
     public void testEventReturnsUInt() throws Exception {
 
-        TestSubscriber<SUInt.SUInt256> testSubscriber = new TestSubscriber();
+        TestSubscriber<SingleReturn<SUInt.SUInt256>> testSubscriber = new TestSubscriber<>();
         contract.testEventReturnsUInt().watch().first().subscribe(testSubscriber);
 
         contract.throwEventReturnsUInt().sendTransaction(testAccount.id, new BigInteger("90000"));
@@ -47,15 +48,15 @@ public class ContractTest extends RPCTest {
         testSubscriber.awaitTerminalEvent();
 
         testSubscriber.assertNoErrors();
-        List<SUInt.SUInt256> states = testSubscriber.getOnNextEvents();
-        int state = states.get(0).get().intValue();
+        List<SingleReturn<SUInt.SUInt256>> states = testSubscriber.getOnNextEvents();
+        int state = states.get(0).getElement1().get().intValue();
         Assert.assertTrue(state == 2);
     }
 
     @Test
     public void testEventReturnsBool() throws Exception {
 
-        TestSubscriber<SBool> testSubscriber = new TestSubscriber();
+        TestSubscriber<SingleReturn<SBool>> testSubscriber = new TestSubscriber<>();
         contract.testEventReturnsBool().watch().first().subscribe(testSubscriber);
 
         contract.throwEventReturnsBool().sendTransaction(testAccount.id, new BigInteger("90000"));
@@ -63,15 +64,15 @@ public class ContractTest extends RPCTest {
         testSubscriber.awaitTerminalEvent();
 
         testSubscriber.assertNoErrors();
-        List<SBool> states = testSubscriber.getOnNextEvents();
-        boolean state = states.get(0).get();
+        List<SingleReturn<SBool>> states = testSubscriber.getOnNextEvents();
+        boolean state = states.get(0).getElement1().get();
         Assert.assertTrue(state);
     }
 
     @Test
     public void testEventReturnsMatrix() throws Exception {
 
-        TestSubscriber<SArray<SArray<SInt.SInt256>>> testSubscriber = new TestSubscriber();
+        TestSubscriber<SingleReturn<SArray<SArray<SInt.SInt256>>>> testSubscriber = new TestSubscriber<>();
         contract.testEventReturnsMatrix().watch().first().subscribe(testSubscriber);
 
         contract.throwEventReturnsMatrix().sendTransaction(testAccount.id, new BigInteger("90000"));
@@ -79,8 +80,8 @@ public class ContractTest extends RPCTest {
         testSubscriber.awaitTerminalEvent();
 
         testSubscriber.assertNoErrors();
-        List<SArray<SArray<SInt.SInt256>>> states = testSubscriber.getOnNextEvents();
-        SArray<SArray<SInt.SInt256>> received = states.get(0);
+        List<SingleReturn<SArray<SArray<SInt.SInt256>>>> states = testSubscriber.getOnNextEvents();
+        SingleReturn<SArray<SArray<SInt.SInt256>>> received = states.get(0);
 
         SArray expected = SArray.fromArray(new SArray[]{
             SArray.fromArray(new SInt.SInt256[]{
@@ -97,8 +98,29 @@ public class ContractTest extends RPCTest {
                 SInt.SInt256.fromBigInteger256(BigInteger.valueOf(1))})
         });
 
-        Assert.assertEquals(expected,received);
+        Assert.assertTrue(expected.equals(received.getElement1()));
 
+    }
+
+    @Test
+    public void testEventReturnsMultiple() throws Exception{
+        TestSubscriber<TripleReturn<SBool,SBool,SBool>> testSubscriber = new TestSubscriber<>();
+        contract.testEventReturnsMultiple()
+            .watch()
+            .first()
+            .subscribe(testSubscriber);
+
+        contract.throwEventReturnsMultiple().sendTransaction(testAccount.id, new BigInteger("90000"));
+
+        testSubscriber.awaitTerminalEvent();
+
+        testSubscriber.assertNoErrors();
+        List<TripleReturn<SBool,SBool,SBool>> states = testSubscriber.getOnNextEvents();
+        TripleReturn<SBool,SBool,SBool> received = states.get(0);
+
+        Assert.assertTrue(received.getElement1().get());
+        Assert.assertFalse(received.getElement2().get());
+        Assert.assertTrue(received.getElement3().get());
     }
 
     @Test

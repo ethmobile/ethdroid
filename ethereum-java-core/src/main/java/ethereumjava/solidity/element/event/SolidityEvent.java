@@ -1,4 +1,4 @@
-package ethereumjava.solidity.element;
+package ethereumjava.solidity.element.event;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -14,6 +14,7 @@ import ethereumjava.module.objects.FilterOptions;
 import ethereumjava.module.objects.Log;
 import ethereumjava.solidity.coder.SCoder;
 import ethereumjava.solidity.element.SolidityElement;
+import ethereumjava.solidity.element.returns.SingleReturn;
 import ethereumjava.solidity.types.SArray;
 import ethereumjava.solidity.types.SType;
 import rx.Observable;
@@ -41,24 +42,43 @@ public class SolidityEvent<T extends SType> extends SolidityElement {
         return new FilterOptions(topics, this.address);
     }
 
-    public Observable<T> watch() {
+    Observable<SType[]> createFilterAndDecode(){
         FilterOptions options = encode();
         this.defaultFilter = new DefaultFilter(options, eth);
         return this.defaultFilter.watch()
-                                 .map(decodeLog());
+                                .map(cleanLogs())
+                                .map(decodeLog());
     }
 
-    private Func1<Log, T> decodeLog() {
-        return new Func1<Log, T>() {
+    public Observable<SingleReturn<T>> watch() {
+        return createFilterAndDecode().map(wrapDecodedLogs());
+    }
+
+    private Func1<Log,String> cleanLogs(){
+        return new Func1<Log,String>() {
             @Override
-            public T call(Log log) {
+            public String call(Log log) {
+                return log.data.substring(2); // Remove 0x prefix
+            }
+        };
+    }
+
+    private Func1<String, SType[]> decodeLog() {
+        return new Func1<String, SType[]>() {
+            @Override
+            public SType[] call(String log) {
                 if( returns.size() == 0 ) return null;
+                else return SCoder.decodeParams(log,returns);
 
-                String encodedResponse = log.data.substring(2); // Remove 0x prefix
+            }
+        };
+    }
 
-                T[] decodedParams = (T[]) SCoder.decodeParams(encodedResponse,returns);
-                if( decodedParams != null ) return decodedParams[0]; //TODO return multiple results
-                else throw new EthereumJavaException("can't decode logs : "+log.toString());
+    protected Func1<SType[],SingleReturn<T>> wrapDecodedLogs(){
+        return new Func1<SType[],SingleReturn<T>>(){
+            @Override
+            public SingleReturn<T> call(SType[] decodedParams) {
+                return new SingleReturn(decodedParams[0]);
             }
         };
     }

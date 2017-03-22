@@ -1,7 +1,8 @@
 package ethereumjava.solidity;
 
 import ethereumjava.solidity.element.SolidityElement;
-import ethereumjava.solidity.element.SolidityEvent;
+import ethereumjava.solidity.element.event.SolidityEvent;
+import ethereumjava.solidity.element.event.SolidityEvent3;
 import ethereumjava.solidity.element.function.SolidityFunction;
 import ethereumjava.solidity.element.function.SolidityFunction2;
 import ethereumjava.solidity.element.function.SolidityFunction3;
@@ -26,6 +27,9 @@ interface ITestContract extends ContractType {
     @SolidityElement.ReturnParameters({@SArray.Size({3,3})})
     SolidityEvent<SArray<SArray<SInt.SInt256>>> testEventReturnsMatrix();
     SolidityFunction throwEventReturnsMatrix();
+    SolidityEvent3<SBool,SBool,SBool> testEventReturnsMultiple();
+    SolidityFunction throwEventReturnsMultiple();
+
     /*-----------------------------*/
 
     /*------------------------------*/

@@ -7,7 +7,7 @@ import ethereumjava.Utils;
 import ethereumjava.exception.EthereumJavaException;
 import ethereumjava.module.Eth;
 import ethereumjava.solidity.element.SolidityElement;
-import ethereumjava.solidity.element.SolidityEvent;
+import ethereumjava.solidity.element.event.SolidityEvent;
 import ethereumjava.solidity.element.function.SolidityFunction;
 
 /**
@@ -51,7 +51,9 @@ public class Contract {
                 Object instance = classFunction.getDeclaredConstructors()[0].newInstance(address, method, eth, args);
                 return classFunction.cast(instance);
             } else if (Utils.isClassOrSubclass(returnType,SolidityEvent.class)) {
-                return new SolidityEvent(address, method, eth);
+                Class<? extends SolidityEvent> classEvent = returnType;
+                Object instance = classEvent.getDeclaredConstructors()[0].newInstance(address, method, eth);
+                return classEvent.cast(instance);
             }
             throw new EthereumJavaException("Contract element return type is invalid");
         }

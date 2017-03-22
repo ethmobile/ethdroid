@@ -156,6 +156,7 @@ Hash transactionHash = ethereumJava.eth.sendTransaction(tr);
     contract ContractExample {
 
         event e(bool);
+        event multipleEvent(bool,bool,bool);
 
         void foo(){
             [...]
@@ -189,10 +190,13 @@ Hash transactionHash = ethereumJava.eth.sendTransaction(tr);
        
        SolidityEvent<SBool> e();
        
+       SolidityEvent3<SBool,SBool,SBool> multipleEvent();
+          
        SolidityFunction foo();
        
        SolidityFunction bar(SInt.SInt256 a);
      
+  
        @SolidityElement.ReturnParameters({@SArray.Size({3,3})}) 
        SolidityEvent<SArray<SArray<SInt.SInt256>>> eventOutputMatrix();
        
@@ -219,13 +223,23 @@ Hash transactionHash = ethereumJava.eth.sendTransaction(tr);
     When your function returns multiple types, you have to specify the related SolidityFunction.
     For exemple, if your function returns 2 booleans you must use return **SolidityFunction2<SBool,SBool>**
     
+    Table of multiple return type elements and their related wrapper :
+    
+    |Number of Returns  |Function                       |Event                      |Output                     |
+    |--:                |---                            |---                        |---                        |
+    |0                  |SolidityFunction               |SolidityEvent              |SType                      |
+    |1                  |SolidityFunction`<T>`          |SolidityEvent`<T>`         |SingleReturn`<T>`          |
+    |2                  |SolidityFunction2`<T1,T2>`     |SolidityEvent2`<T1,T2>`    |PairReturn`<T1,T2>`        |
+    |3                  |SolidityFunction3`<T1,T2,T3>`  |SolidityEvent3`<T1,T2,T3>` |TripleReturn`<T1,T2,T3>`   |
     
 3. Instanciate the *smart-contract* available on the blockchain at the given address
 
     ```java
-    ContractExample contract = ethereumJava.contract.withAbi(ContractExample.class).at("0xcccc...");
+    
+       ContractExample contract = ethereumJava.contract.withAbi(ContractExample.class).at("0xcccc...");
+    
     ```
-
+        
 ### Interact with deployed *smart-contract*
 
 [**Official doc of smart-contract interaction**](https://github.com/ethereum/go-ethereum/wiki/Contracts-and-Transactions#interacting-with-contracts)
