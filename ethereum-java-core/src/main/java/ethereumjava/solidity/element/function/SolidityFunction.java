@@ -1,16 +1,15 @@
-package ethereumjava.solidity;
+package ethereumjava.solidity.element.function;
 
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.IdentityHashMap;
-import java.util.Map;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import ethereumjava.Utils;
-import ethereumjava.exception.EthereumJavaException;
 import ethereumjava.module.Eth;
 import ethereumjava.module.objects.Block;
 import ethereumjava.module.objects.BlockFilter;
@@ -18,6 +17,8 @@ import ethereumjava.module.objects.Hash;
 import ethereumjava.module.objects.Transaction;
 import ethereumjava.module.objects.TransactionRequest;
 import ethereumjava.solidity.coder.SCoder;
+import ethereumjava.solidity.element.SolidityElement;
+import ethereumjava.solidity.element.returns.SingleReturn;
 import ethereumjava.solidity.types.SArray;
 import ethereumjava.solidity.types.SType;
 import rx.Observable;
@@ -27,9 +28,9 @@ import rx.functions.Func1;
  * Created by gunicolas on 4/08/16.
  */
 
-public class SolidityFunction<T extends SType> extends SolidityElement {
+public class SolidityFunction<T extends SType> extends SolidityElement{
 
-    Object[] args;
+    protected Object[] args;
 
     public SolidityFunction(String address, Method method, Eth eth, Object[] args) {
         super(address, method, eth);
@@ -37,14 +38,14 @@ public class SolidityFunction<T extends SType> extends SolidityElement {
     }
 
     @Override
-    protected Map<Type,SArray.Size> getParametersType() {
+    protected List<AbstractMap.SimpleEntry<Type,SArray.Size>> getParametersType() {
         Type[] parametersType = method.getGenericParameterTypes();
         Annotation[][] parametersAnnotations = method.getParameterAnnotations();
 
-        Map<Type,SArray.Size> ret = new IdentityHashMap<>();
+        List<AbstractMap.SimpleEntry<Type,SArray.Size>> ret = new ArrayList<>();
         for(int i=0;i<parametersType.length;i++){
             SArray.Size arraySize = Utils.arrayContainsAnnotation(parametersAnnotations[i], SArray.Size.class);
-            ret.put(parametersType[i],arraySize);
+            ret.add(new AbstractMap.SimpleEntry<>(parametersType[i], arraySize));
         }
         return ret;
     }
@@ -127,8 +128,7 @@ public class SolidityFunction<T extends SType> extends SolidityElement {
         };
     }
 
-    T call() {
-
+    SType[] makeCallAndDecode(){
         String payload = encode();
         TransactionRequest request = new TransactionRequest(address);
         request.setDataHex(payload);
@@ -139,9 +139,11 @@ public class SolidityFunction<T extends SType> extends SolidityElement {
 
         if( returns.size() == 0 ) return null;
 
-        T[] decodedParams = (T[]) SCoder.decodeParams(encodedResponse,returns);
-        if( decodedParams != null ) return decodedParams[0]; //TODO return multiple results
-        else throw new EthereumJavaException("can't decode logs : "+encodedResponse);
+        return SCoder.decodeParams(encodedResponse,returns);
     }
 
+    public SingleReturn<T> call() {
+        SType[] decodedParams = makeCallAndDecode();
+        return new SingleReturn(decodedParams[0]);
+    }
 }

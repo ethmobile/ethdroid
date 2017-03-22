@@ -1,5 +1,10 @@
 package ethereumjava.solidity;
 
+import ethereumjava.solidity.element.SolidityElement;
+import ethereumjava.solidity.element.SolidityEvent;
+import ethereumjava.solidity.element.function.SolidityFunction;
+import ethereumjava.solidity.element.function.SolidityFunction2;
+import ethereumjava.solidity.element.function.SolidityFunction3;
 import ethereumjava.solidity.types.SArray;
 import ethereumjava.solidity.types.SBool;
 import ethereumjava.solidity.types.SInt;
@@ -23,7 +28,6 @@ interface ITestContract extends ContractType {
     SolidityFunction throwEventReturnsMatrix();
     /*-----------------------------*/
 
-
     /*------------------------------*/
     /* Test output types            */
     /*------------------------------*/
@@ -32,8 +36,11 @@ interface ITestContract extends ContractType {
     SolidityFunction<SUInt.SUInt256> testFunctionOutputsPrimitive();
     @SolidityElement.ReturnParameters({@SArray.Size({3,3})})
     SolidityFunction<SArray<SArray<SUInt.SUInt8>>> testFunctionOutputsMatrix();
-    /*-----------------------------*/
 
+    SolidityFunction2<SBool,SBool> testFunctionOutputs2();
+    @SolidityElement.ReturnParameters({@SArray.Size(),@SArray.Size({2,3})})
+    SolidityFunction3<SBool,SArray<SArray<SUInt.SUInt8>>,SBool> testFunctionOutputs3Matrix();
+    /*-----------------------------*/
 
     /*------------------------------*/
     /* Test input types             */

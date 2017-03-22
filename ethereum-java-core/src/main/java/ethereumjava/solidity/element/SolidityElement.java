@@ -1,4 +1,4 @@
-package ethereumjava.solidity;
+package ethereumjava.solidity.element;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,11 +7,10 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.IdentityHashMap;
-import java.util.Map;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 
-import ethereumjava.exception.EthereumJavaException;
 import ethereumjava.module.Eth;
 import ethereumjava.sha3.Sha3;
 import ethereumjava.solidity.types.SArray;
@@ -20,18 +19,18 @@ import ethereumjava.solidity.types.SArray;
  * Abstract class which designate Solidity contract elements like Function or Events
  * Created by gunicolas on 13/10/16.
  */
-abstract class SolidityElement {
+public abstract class SolidityElement {
 
-    String address;
-    Method method;
-    String fullName;
-    Eth eth;
+    protected String address;
+    protected Method method;
+    protected String fullName;
+    protected Eth eth;
 
-    Map<Type,SArray.Size> parameters;
-    Map<Type,SArray.Size> returns;
+    protected List<AbstractMap.SimpleEntry<Type,SArray.Size>> parameters;
+    protected List<AbstractMap.SimpleEntry<Type,SArray.Size>> returns;
 
 
-    SolidityElement(String address, Method method, Eth eth) {
+    protected SolidityElement(String address, Method method, Eth eth) {
         this.address = address;
         this.method = method;
         this.eth = eth;
@@ -54,17 +53,18 @@ abstract class SolidityElement {
 
         sbStr.append('(');
 
-        for (Type parameter : parameters.keySet()) {
+        for (AbstractMap.SimpleEntry<Type,SArray.Size> parameter : parameters) {
 
             Class clazz;
-            SArray.Size arraySize = parameters.get(parameter);
+            Type parameterType = parameter.getKey();
+            SArray.Size parameterSize = parameter.getValue();
 
-            if (arraySize != null) { // It's an array
-                clazz = SArray.getNestedType(parameter);
+            if (parameterSize != null) { // It's an array
+                clazz = SArray.getNestedType(parameterType);
             } else { // It's a simple type
-                clazz = (Class) parameter;
+                clazz = (Class) parameterType;
             }
-            String arrayStr = SArray.sizeToString(arraySize);
+            String arrayStr = SArray.sizeToString(parameterSize);
 
             sbStr.append(clazz.getSimpleName().substring(1).toLowerCase());
             sbStr.append(arrayStr);
@@ -78,18 +78,24 @@ abstract class SolidityElement {
         return sbStr.toString();
     }
 
-    protected abstract Map<Type,SArray.Size> getParametersType();
+    protected abstract List<AbstractMap.SimpleEntry<Type,SArray.Size>> getParametersType();
 
-    protected Map<Type,SArray.Size> getReturnsType(){
+    protected List<AbstractMap.SimpleEntry<Type,SArray.Size>> getReturnsType(){
         Type[] returnTypes = extractReturnTypesFromElement();
-        Map<Type,SArray.Size> ret = new IdentityHashMap<>();
+        List<AbstractMap.SimpleEntry<Type,SArray.Size>> ret = new ArrayList<>();
 
         ReturnParameters annotations = method.getAnnotation(ReturnParameters.class);
         SArray.Size[] arraySizeAnnotations = annotations == null ? new SArray.Size[]{} : annotations.value();
 
         for (int i = 0; i < returnTypes.length; i++) {
-            SArray.Size arraySizeAnnotation = arraySizeAnnotations.length > i ? arraySizeAnnotations[i] : null;
-            ret.put(returnTypes[i], arraySizeAnnotation);
+            SArray.Size size = null;
+            if( arraySizeAnnotations.length > i ){
+                size = arraySizeAnnotations[i];
+                if( size.value().length == 0 ){
+                    size = null;
+                }
+            }
+            ret.add(new AbstractMap.SimpleEntry<>(returnTypes[i], size));
         }
         return ret;
     }

@@ -22,6 +22,9 @@ contract TestContract {
     function testFunctionOutputsMatrix() returns(uint8[3][3]){
         return [[uint8(0),uint8(1),uint8(2)],[uint8(2),uint8(1),uint8(1)],[uint8(2),uint8(0),uint8(1)]];
     }
+    function testFunctionOutputs2() returns(bool,bool){
+        return(true,false);
+    }
     /*-----------------------------*/
 
     /* Test input types*/

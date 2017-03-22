@@ -1,6 +1,7 @@
 package ethereumjava.solidity.coder;
 
 import java.lang.reflect.Type;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,19 +45,18 @@ public abstract class SCoder {
         }
     }
 
-    public static SType[] decodeParams(String encodedData, Map<Type,SArray.Size> returnTypes){
+    public static SType[] decodeParams(String encodedData, List<AbstractMap.SimpleEntry<Type,SArray.Size>> returnTypes){
 
         int numberParams = returnTypes.size();
         SType[] ret = new SType[numberParams];
         int offset = 0;
-        Type[] keys = returnTypes.keySet().toArray(new Type[numberParams]);
-        SArray.Size[] values = returnTypes.values().toArray(new SArray.Size[numberParams]);
 
         for( int i=0;i<numberParams;i++ ){
             int length;
             SType param;
-            Type t = keys[i];
-            SArray.Size size = values[i];
+            AbstractMap.SimpleEntry<Type,SArray.Size> returnType = returnTypes.get(i);
+            Type t = returnType.getKey();
+            SArray.Size size = returnType.getValue();
             if( size == null ){
                 length = SType.ENCODED_SIZE;
                 param = decodeParam(encodedData.substring(offset,offset+length), (Class<SType>) t);

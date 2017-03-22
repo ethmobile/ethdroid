@@ -1,7 +1,8 @@
-package ethereumjava.solidity;
+package ethereumjava.solidity.element;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,7 @@ import ethereumjava.module.objects.DefaultFilter;
 import ethereumjava.module.objects.FilterOptions;
 import ethereumjava.module.objects.Log;
 import ethereumjava.solidity.coder.SCoder;
-import ethereumjava.solidity.coder.decoder.SDecoder;
+import ethereumjava.solidity.element.SolidityElement;
 import ethereumjava.solidity.types.SArray;
 import ethereumjava.solidity.types.SType;
 import rx.Observable;
@@ -30,7 +31,7 @@ public class SolidityEvent<T extends SType> extends SolidityElement {
     }
 
     @Override
-    protected Map<Type,SArray.Size> getParametersType() {
+    protected List<AbstractMap.SimpleEntry<Type,SArray.Size>> getParametersType() {
         return returns;
     }
 

@@ -3,8 +3,12 @@ package ethereumjava.solidity;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+import ethereumjava.Utils;
 import ethereumjava.exception.EthereumJavaException;
 import ethereumjava.module.Eth;
+import ethereumjava.solidity.element.SolidityElement;
+import ethereumjava.solidity.element.SolidityEvent;
+import ethereumjava.solidity.element.function.SolidityFunction;
 
 /**
  * Created by gunicolas on 30/08/16.
@@ -40,10 +44,13 @@ public class Contract {
 
         @Override
         public SolidityElement invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            Class returnType = method.getReturnType();
 
-            if (method.getReturnType().isAssignableFrom(SolidityFunction.class)) {
-                return new SolidityFunction(address, method, eth, args);
-            } else if (method.getReturnType().isAssignableFrom(SolidityEvent.class)) {
+            if (Utils.isClassOrSubclass(returnType,SolidityFunction.class)) {
+                Class<? extends SolidityFunction> classFunction = returnType;
+                Object instance = classFunction.getDeclaredConstructors()[0].newInstance(address, method, eth, args);
+                return classFunction.cast(instance);
+            } else if (Utils.isClassOrSubclass(returnType,SolidityEvent.class)) {
                 return new SolidityEvent(address, method, eth);
             }
             throw new EthereumJavaException("Contract element return type is invalid");

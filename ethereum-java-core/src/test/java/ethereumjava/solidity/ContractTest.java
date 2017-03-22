@@ -9,6 +9,9 @@ import java.util.List;
 import ethereumjava.config.Config;
 import ethereumjava.config.RPCTest;
 import ethereumjava.module.objects.Transaction;
+import ethereumjava.solidity.element.function.SolidityFunction2;
+import ethereumjava.solidity.element.returns.PairReturn;
+import ethereumjava.solidity.element.returns.TripleReturn;
 import ethereumjava.solidity.types.SArray;
 import ethereumjava.solidity.types.SBool;
 import ethereumjava.solidity.types.SInt;
@@ -100,19 +103,19 @@ public class ContractTest extends RPCTest {
 
     @Test
     public void testFunctionOutputsVoid() throws Exception{
-        SType s = contract.testFunctionOutputsVoid().call();
+        SType s = contract.testFunctionOutputsVoid().call().getElement1();
         Assert.assertTrue(s == null);
     }
 
     @Test
     public void testFunctionOutputsBool() throws Exception{
-        SBool got = contract.testFunctionOutputsBool().call();
+        SBool got = contract.testFunctionOutputsBool().call().getElement1();
         Assert.assertTrue(got.get());
     }
 
     @Test
     public void testFunctionOutputsMatrix() throws Exception{
-        SArray<SArray<SUInt.SUInt8>> got = contract.testFunctionOutputsMatrix().call();
+        SArray<SArray<SUInt.SUInt8>> got = contract.testFunctionOutputsMatrix().call().getElement1();
 
         SArray<SArray> expected = SArray.fromArray(new SArray[]{
             SArray.fromArray(new SUInt.SUInt8[]{
@@ -137,9 +140,40 @@ public class ContractTest extends RPCTest {
 
     @Test
     public void testFunctionOutputsPrimitive() throws Exception{
-        SUInt.SUInt256 got = contract.testFunctionOutputsPrimitive().call();
+        SUInt.SUInt256 got = contract.testFunctionOutputsPrimitive().call().getElement1();
         SUInt.SUInt256 expected = SUInt.fromBigInteger256(BigInteger.valueOf(3));
         Assert.assertTrue(got.equals(expected));
+    }
+
+    @Test
+    public void testFunctionOutputs2() throws Exception{
+        PairReturn<SBool,SBool> got = contract.testFunctionOutputs2().call();
+        Assert.assertTrue(got.getElement1().get());
+        Assert.assertFalse(got.getElement2().get());
+    }
+
+    @Test
+    public void testFunctionOutputs3Matrix() throws Exception{
+        TripleReturn<SBool,SArray<SArray<SUInt.SUInt8>>,SBool> got = contract.testFunctionOutputs3Matrix().call();
+
+        SArray<SArray> expectedMatrix = SArray.fromArray(new SArray[]{
+            SArray.fromArray(new SUInt.SUInt8[]{
+                SUInt.SUInt8.fromShort((short) 0),
+                SUInt.SUInt8.fromShort((short) 1)
+            }),
+            SArray.fromArray(new SUInt.SUInt8[]{
+                SUInt.SUInt8.fromShort((short) 2),
+                SUInt.SUInt8.fromShort((short) 1)
+            }),
+            SArray.fromArray(new SUInt.SUInt8[]{
+                SUInt.SUInt8.fromShort((short) 0),
+                SUInt.SUInt8.fromShort((short) 1)
+            })
+        });
+
+        Assert.assertTrue(got.getElement1().get());
+        Assert.assertTrue(got.getElement2().equals(expectedMatrix));
+        Assert.assertFalse(got.getElement3().get());
     }
 
     @Test
