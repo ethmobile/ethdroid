@@ -288,7 +288,8 @@ From Android app, subscribe to Solidity events in a background process and be no
 ```
 
 ## Project Architecture 
-//TODO
+![library architecture](./ressources/images/library_architecture.png)
+
 ## Contribute
 //TODO
 ## Licence
