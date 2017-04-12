@@ -1,2 +1,6 @@
 /build
 /ethereum-android-sample.iml
+
+.classpath
+.project
+.settings/

@@ -1,2 +1,5 @@
 /build
 /android-geth.iml
+.classpath
+.project
+.settings/

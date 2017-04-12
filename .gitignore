@@ -3,3 +3,6 @@
 /local.properties
 /.gradle
 /ethereum-android.iml
+.classpath
+.project
+.settings/
