@@ -20,6 +20,6 @@ public class SolidityFunction2<T1 extends SType, T2 extends SType> extends Solid
     @Override
     public PairReturn<T1,T2> call() {
         SType[] decodedParams = makeCallAndDecode();
-        return new PairReturn(decodedParams[0],decodedParams[1]);
+        return new PairReturn<>((T1) decodedParams[0], (T2) decodedParams[1]);
     }
 }

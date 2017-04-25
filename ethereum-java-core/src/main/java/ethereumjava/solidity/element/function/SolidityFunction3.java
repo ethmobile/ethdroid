@@ -19,6 +19,6 @@ public class SolidityFunction3<T1 extends SType, T2 extends SType,T3 extends STy
     @Override
     public TripleReturn<T1,T2,T3> call() {
         SType[] decodedParams = makeCallAndDecode();
-        return new TripleReturn(decodedParams[0],decodedParams[1],decodedParams[2]);
+        return new TripleReturn<>((T1) decodedParams[0], (T2) decodedParams[1], (T3) decodedParams[2]);
     }
 }

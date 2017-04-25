@@ -44,6 +44,9 @@ interface ITestContract extends ContractType {
     SolidityFunction2<SBool,SBool> testFunctionOutputs2();
     @SolidityElement.ReturnParameters({@SArray.Size(),@SArray.Size({2,3})})
     SolidityFunction3<SBool,SArray<SArray<SUInt.SUInt8>>,SBool> testFunctionOutputs3Matrix();
+
+    @SolidityElement.ReturnParameters({@SArray.Size(),@SArray.Size({3})})
+    SolidityFunction2<SBool,SArray<SUInt.SUInt8>> testFunctionThrowsException();
     /*-----------------------------*/
 
     /*------------------------------*/
