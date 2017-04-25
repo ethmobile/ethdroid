@@ -11,6 +11,7 @@ rpc_provider_addr="0.0.0.0"
 rpc_provider_api="admin,eth,net,web3,personal,miner"
 eth_port=30303
 eth_network_id=100
+geth_binary_path=./binaries/geth
 
 
 trap 'kill -TERM $PID' TERM INT
@@ -18,20 +19,19 @@ trap 'kill -TERM $PID' TERM INT
 cp genesis.json genesis.json.backup
 cp config.json config.json.backup
 
-addr0=$(geth --datadir ./data --password <(echo $passwd) account new | grep -o -P '(?<={).*(?=})')
+addr0=$($geth_binary_path --datadir ./data --password <(echo $passwd) account new | grep -o -P '(?<={).*(?=})')
 sed -i -- "s/TEST_USER0_ADDRESS/$addr0/g" genesis.json
 
-addr1=$(geth --datadir ./data --password <(echo $passwd) account new | grep -o -P '(?<={).*(?=})')
+addr1=$($geth_binary_path --datadir ./data --password <(echo $passwd) account new | grep -o -P '(?<={).*(?=})')
 sed -i -- "s/TEST_USER1_ADDRESS/$addr1/g" genesis.json
 
-geth --datadir ./data init genesis.json
-geth --datadir ./data --networkid $eth_network_id --unlock 0 --password <(echo $passwd) js deployContract.js > contract.log
+$geth_binary_path --datadir ./data init genesis.json
+$geth_binary_path --datadir ./data --networkid $eth_network_id --unlock 0 --password <(echo $passwd) js deployContract.js > contract.log
 
 
 contractAddr=$(cat contract.log | grep -o -P '(?<=CONTRACT{).*(?=})')
 #eth_difficulty=$(cat contract.log | grep -o -P '(?<=DIFFICULTY{).*(?=})')
 #eth_ip=$(cat contract.log | grep -o -P '(?<=IP{).*(?=})')
-
 
 #Set config file
 
@@ -48,7 +48,15 @@ sed -i -- "s/TEST_USER1_PASSWORD/$passwd/g" config.json
 
 
 
-geth --datadir ./data --networkid $eth_network_id --rpc --rpcaddr $rpc_provider_addr --rpcport $rpc_provider_port --rpcapi $rpc_provider_api --rpccorsdomain "*" --nodiscover js mineOnlyWhenTx.js &
+$geth_binary_path   --datadir ./data \
+                    --networkid $eth_network_id \
+                    --rpc \
+                    --rpcaddr $rpc_provider_addr \
+                    --rpcport $rpc_provider_port \
+                    --rpcapi $rpc_provider_api \
+                    --rpccorsdomain "*" \
+                    --nodiscover \
+                    js mineOnlyWhenTx.js &
 
 
 #Wait terminaison signal and kill geth when got it
