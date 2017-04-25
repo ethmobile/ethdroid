@@ -11,6 +11,7 @@ import java.util.List;
 
 import ethereumjava.Utils;
 import ethereumjava.exception.EthereumJavaException;
+import ethereumjava.exception.SmartContractException;
 import ethereumjava.module.Eth;
 import ethereumjava.module.objects.Block;
 import ethereumjava.module.objects.BlockFilter;
@@ -139,7 +140,7 @@ public class SolidityFunction<T extends SType> extends SolidityElement{
         encodedResponse = encodedResponse.substring(2); // Remove 0x prefix
 
         if( returns.size() == 0 ) return null;
-        if( encodedResponse.length() == 0 ) throw new EthereumJavaException("Exception thrown by contract");
+        if( encodedResponse.length() == 0 ) throw new SmartContractException();
         return SCoder.decodeParams(encodedResponse,returns);
     }
 

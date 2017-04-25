@@ -10,6 +10,7 @@ import ethereumjava.EthereumJava;
 import ethereumjava.config.Config;
 import ethereumjava.config.RPCTest;
 import ethereumjava.exception.EthereumJavaException;
+import ethereumjava.exception.SmartContractException;
 import ethereumjava.module.objects.Transaction;
 import ethereumjava.solidity.element.function.SolidityFunction2;
 import ethereumjava.solidity.element.returns.PairReturn;
@@ -200,7 +201,7 @@ public class ContractTest extends RPCTest {
         Assert.assertFalse(got.getElement3().get());
     }
 
-    @Test(expected = EthereumJavaException.class )
+    @Test(expected = SmartContractException.class )
     public void testFunctionThrowsException() throws Exception{
         contract.testFunctionThrowsException().call();
     }
