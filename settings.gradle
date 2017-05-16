@@ -1,1 +1,1 @@
-include ':android-geth', 'ethereum-android', ':ethereum-android-sample', ':ethereum-java-core'
+include ':android-geth', ':ethdroid', 'ethereum-android', ':ethereum-android-sample', ':ethereum-java-core'
