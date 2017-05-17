@@ -1,8 +1,11 @@
 package com.sqli.blockchain.ethdroid;
 
+
 import org.ethereum.geth.Context;
+import org.ethereum.geth.EthereumClient;
 import org.ethereum.geth.Geth;
 import org.ethereum.geth.Node;
+import org.ethereum.geth.SyncProgress;
 
 /**
  * Created by gunicolas on 16/05/17.
@@ -14,25 +17,40 @@ public class EthDroid {
     private Context mainContext;
     private Node node;
     private ChainConfig chainConfig;
+    private EthereumClient client;
 
-    private EthDroid(){
-
-    }
+    private EthDroid(){}
 
     public void start() throws Exception {
         node.start();
+        client = node.getEthereumClient();
     }
+    public void stop() throws Exception{
+        node.stop();
+    }
+
+    public boolean isSyncing() throws Exception {
+        return client.syncProgress(mainContext) != null ;
+    }
+
+    public boolean isSynced() throws Exception {
+        SyncProgress progress = client.syncProgress(mainContext);
+        return progress.getCurrentBlock() >= progress.getHighestBlock();
+    }
+
+
+
 
     public static class Builder {
 
-        EthereumAndroid build;
+        EthDroid build;
 
         /**
          * Parameterized Builder with the default values :
          * - Context : @withDefaultContext
          */
         public Builder(String datadir) {
-            build = new EthereumAndroid();
+            build = new EthDroid();
             withDefaultContext();
             withDatadirPath(datadir);
         }
@@ -98,7 +116,8 @@ public class EthDroid {
             return this;
         }
 
-        public EthereumAndroid build(){
+        public EthDroid build() throws Exception {
+            build.node = Geth.newNode(build.datadir,build.chainConfig.nodeConfig);
             return build;
         }
 
