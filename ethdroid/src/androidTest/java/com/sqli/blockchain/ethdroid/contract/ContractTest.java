@@ -1,8 +1,11 @@
-package com.sqli.blockchain.ethdroid;
+package com.sqli.blockchain.ethdroid.contract;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+
+import com.sqli.blockchain.ethdroid.ChainConfig;
+import com.sqli.blockchain.ethdroid.EthDroid;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,22 +13,26 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 
+import ethereumjava.exception.SmartContractException;
+
 import static com.sqli.blockchain.ethdroid.Utils.deleteDirIfExists;
-import static org.junit.Assert.*;
 
 /**
- * Created by gunicolas on 16/05/17.
+ * Created by gunicolas on 17/05/17.
  */
 
 @RunWith(AndroidJUnit4.class)
-public class EthDroidTest {
+public class ContractTest {
+
 
     private Context appContext;
     private EthDroid ethdroid;
 
+    ITestContract contractInstance;
 
     @Before
     public void setUp() throws Exception {
+
         appContext = InstrumentationRegistry.getTargetContext();
         String datadir = appContext.getFilesDir().getAbsolutePath();
 
@@ -41,17 +48,68 @@ public class EthDroidTest {
             .build();
 
         ethdroid.start();
+
+
+
     }
 
     @Test
-    public void isSyncingTest() throws Exception {
-        assertFalse(ethdroid.isSyncing());
+    public void newInstanceTest() throws Exception{
+        contractInstance = ethdroid.getContractInstance(ITestContract.class,"");
     }
 
     @Test
-    public void isSynced() throws Exception {
-        boolean synced = ethdroid.isSynced();
-        assertTrue(synced);
+    public void testEventReturnsUInt() throws Exception {
+        newInstanceTest();
+        contractInstance.testEventReturnsUInt();
     }
 
+    @Test
+    public void testEventReturnsBool() throws Exception {
+    }
+
+    @Test
+    public void testEventReturnsMatrix() throws Exception {
+    }
+
+    @Test
+    public void testEventReturnsMultiple() throws Exception{
+    }
+
+    @Test
+    public void testFunctionOutputsVoid() throws Exception{
+    }
+
+    @Test
+    public void testFunctionOutputsBool() throws Exception{
+    }
+
+    @Test
+    public void testFunctionOutputsMatrix() throws Exception{
+    }
+
+    @Test
+    public void testFunctionOutputsPrimitive() throws Exception{
+    }
+
+    @Test
+    public void testFunctionOutputs2() throws Exception{
+    }
+
+    @Test
+    public void testFunctionOutputs3Matrix() throws Exception{
+    }
+
+    @Test(expected = SmartContractException.class )
+    public void testFunctionThrowsException() throws Exception{
+    }
+
+    @Test
+    public void testFunctionInputsPrimitives() throws Exception{
+    }
+
+    @Test
+    public void testFunctionInputsArray() throws Exception{
+
+    }
 }

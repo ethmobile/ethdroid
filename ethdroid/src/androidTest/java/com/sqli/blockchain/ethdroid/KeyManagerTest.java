@@ -7,14 +7,15 @@ import com.sqli.blockchain.ethdroid.sha3.Sha3;
 
 import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static com.sqli.blockchain.ethdroid.Utils.deleteDirIfExists;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Created by gunicolas on 16/05/17.
@@ -28,22 +29,11 @@ public class KeyManagerTest {
     private Account account;
     private static final String PASSWORD = "password";
 
-    private void deleteDir(File file) {
-        File[] contents = file.listFiles();
-        if (contents != null) {
-            for (File f : contents) {
-                deleteDir(f);
-            }
-        }
-        file.delete();
-    }
-
     @Before
     public void setUp() throws Exception {
         appContext = InstrumentationRegistry.getTargetContext();
         datadir = appContext.getFilesDir().getAbsolutePath();
-        File keystoreDirectory = new File(datadir+"/keystore");
-        if( keystoreDirectory.exists() ) deleteDir(keystoreDirectory);
+        deleteDirIfExists(new File(datadir+"/keystore"));
     }
 
     @Test
