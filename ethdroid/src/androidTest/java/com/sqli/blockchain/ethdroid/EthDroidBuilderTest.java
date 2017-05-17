@@ -11,6 +11,8 @@ import org.junit.Test;
 import java.io.File;
 import java.io.FilenameFilter;
 
+import static org.junit.Assert.*;
+
 /**
  * Created by gunicolas on 16/05/17.
  */
@@ -39,13 +41,13 @@ public class EthDroidBuilderTest {
                 .withChainConfig(new ChainConfig.Builder(networkID, genesis, enode).build())
                 .build();
         }catch(Exception e){
-            Assert.fail("Exception thrown : "+e.getMessage());
+            fail("Exception thrown : "+e.getMessage());
         }
-        Assert.assertTrue(ethdroid!=null);
+        assertTrue(ethdroid!=null);
         File dir = new File(datadir+"/GethDroid");
-        Assert.assertTrue(dir.exists() && dir.isDirectory() && dir.list().length==3);
+        assertTrue(dir.exists() && dir.isDirectory() && dir.list().length==3);
         for(String fileName : dir.list()){
-            Assert.assertTrue(fileName.compareTo("LOCK")==0 ||
+            assertTrue(fileName.compareTo("LOCK")==0 ||
                                 fileName.compareTo("nodekey")==0 ||
                                     fileName.compareTo("lightchaindata")==0 );
         }
@@ -60,13 +62,13 @@ public class EthDroidBuilderTest {
                 .build();
 
         }catch(Exception e){
-            Assert.fail("Exception thrown : "+e.getMessage());
+            fail("Exception thrown : "+e.getMessage());
         }
-        Assert.assertTrue(ethdroid!=null);
+        assertTrue(ethdroid!=null);
         File dir = new File(datadir+"/GethDroid");
-        Assert.assertTrue(dir.exists() && dir.isDirectory() && dir.list().length==3);
+        assertTrue(dir.exists() && dir.isDirectory() && dir.list().length==3);
         for(String fileName : dir.list()){
-            Assert.assertTrue(fileName.compareTo("LOCK")==0 ||
+            assertTrue(fileName.compareTo("LOCK")==0 ||
                 fileName.compareTo("nodekey")==0 ||
                 fileName.compareTo("lightchaindata")==0 );
         }
@@ -80,13 +82,13 @@ public class EthDroidBuilderTest {
                 .withChainConfig(ChainConfig.getTestnetConfig())
                 .build();
         }catch(Exception e){
-            Assert.fail("Exception thrown : "+e.getMessage());
+            fail("Exception thrown : "+e.getMessage());
         }
-        Assert.assertTrue(ethdroid!=null);
+        assertTrue(ethdroid!=null);
         File dir = new File(datadir+"/GethDroid");
-        Assert.assertTrue(dir.exists() && dir.isDirectory() && dir.list().length==3);
+        assertTrue(dir.exists() && dir.isDirectory() && dir.list().length==3);
         for(String fileName : dir.list()){
-            Assert.assertTrue(fileName.compareTo("LOCK")==0 ||
+            assertTrue(fileName.compareTo("LOCK")==0 ||
                 fileName.compareTo("nodekey")==0 ||
                 fileName.compareTo("lightchaindata")==0 );
         }
@@ -98,7 +100,7 @@ public class EthDroidBuilderTest {
         try{
             ethdroid.start();
         }catch (Exception e){
-            Assert.fail("Exception thrown : "+e.getMessage());
+            fail("Exception thrown : "+e.getMessage());
         }
     }
 
@@ -108,7 +110,7 @@ public class EthDroidBuilderTest {
         try {
             ethdroid.stop();
         }catch(Exception e){
-            Assert.fail("Exception thrown : "+e.getMessage());
+            fail("Exception thrown : "+e.getMessage());
         }
     }
 }

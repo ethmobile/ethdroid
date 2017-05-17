@@ -5,6 +5,7 @@ import org.ethereum.geth.Accounts;
 import org.ethereum.geth.Geth;
 import org.ethereum.geth.KeyStore;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +16,12 @@ import java.util.List;
 public class KeyManager {
 
     private KeyStore keystore;
+    private static final String KEYSTORE_DIRNAME = "/keystore";
 
     private KeyManager(String datadir){
-        keystore = Geth.newKeyStore(datadir,Geth.LightScryptN,Geth.LightScryptP);
+        File keystoreDir = new File(datadir+KEYSTORE_DIRNAME);
+        if( !keystoreDir.exists() ) keystoreDir.mkdir();
+        keystore = Geth.newKeyStore(keystoreDir.getAbsolutePath(),Geth.LightScryptN,Geth.LightScryptP);
     }
 
     public static KeyManager newKeyManager(String datadir){
@@ -47,6 +51,7 @@ public class KeyManager {
         return keystore.hasAddress(account.getAddress());
     }
 
+    // removes the private key with the given address from memory.
     public void lockAccount(Account account) throws Exception {
         keystore.lock(account.getAddress());
     }
@@ -54,9 +59,9 @@ public class KeyManager {
     public void unlockAccount(Account account,String passphrase) throws Exception{
         keystore.unlock(account,passphrase);
     }
-    // durationNanoseconds == 0 : until program exits
-    public void unlockAccountDuring(Account account,String passphrase,long durationNanoseconds) throws Exception {
-        keystore.timedUnlock(account,passphrase,durationNanoseconds);
+    // seconds == 0 : until program exits
+    public void unlockAccountDuring(Account account,String passphrase,long seconds) throws Exception {
+        keystore.timedUnlock(account,passphrase, (long) (seconds*Math.pow(10,9)));
     }
 
     public void deleteAccount(Account account,String passphrase) throws Exception{
@@ -67,6 +72,14 @@ public class KeyManager {
         keystore.updateAccount(account,passphrase,newPassphrase);
     }
 
+    public byte[] signString(Account account,String toSign) throws Exception{
+        return keystore.signHash(account.getAddress(),toSign.getBytes());
+
+    }
+    public byte[] unlockAndsignString(Account account,String password,String toSign) throws Exception{
+        return keystore.signHashPassphrase(account,password,toSign.getBytes());
+
+    }
 
 
 

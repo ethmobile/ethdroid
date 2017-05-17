@@ -17,6 +17,8 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
+import static org.junit.Assert.*;
+
 /**
  * Created by gunicolas on 16/05/17.
  */
@@ -50,13 +52,13 @@ public class EthDroidTest {
 
     @Test
     public void isSyncingTest() throws Exception {
-        Assert.assertFalse(ethdroid.isSyncing());
+        assertFalse(ethdroid.isSyncing());
     }
 
     @Test
     public void isSynced() throws Exception {
         boolean synced = ethdroid.isSynced();
-        Assert.assertTrue(synced);
+        assertTrue(synced);
     }
 
 }
