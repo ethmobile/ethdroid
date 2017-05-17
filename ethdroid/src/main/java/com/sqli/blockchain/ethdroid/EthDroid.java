@@ -1,6 +1,10 @@
 package com.sqli.blockchain.ethdroid;
 
 
+import com.sqli.blockchain.ethdroid.solidity.Contract;
+import com.sqli.blockchain.ethdroid.solidity.ContractType;
+
+import org.ethereum.geth.Address;
 import org.ethereum.geth.Context;
 import org.ethereum.geth.EthereumClient;
 import org.ethereum.geth.Geth;
@@ -38,8 +42,9 @@ public class EthDroid {
         return progress.getCurrentBlock() >= progress.getHighestBlock();
     }
 
-
-
+    public <T extends ContractType> T getContractInstance(Class<T> contractAbi, String address){
+        return Contract.getContractInstance(this,contractAbi,address);
+    }
 
     public static class Builder {
 

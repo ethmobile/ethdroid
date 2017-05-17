@@ -3,14 +3,12 @@ package com.sqli.blockchain.ethdroid;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 
-import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
-import java.io.FilenameFilter;
 
+import static com.sqli.blockchain.ethdroid.Utils.deleteDirIfExists;
 import static org.junit.Assert.*;
 
 /**
@@ -27,6 +25,7 @@ public class EthDroidBuilderTest {
     public void setUp() throws Exception {
         appContext = InstrumentationRegistry.getTargetContext();
         datadir = appContext.getFilesDir().getAbsolutePath();
+        deleteDirIfExists(new File(datadir+"/GethDroid"));
     }
 
     @Test
