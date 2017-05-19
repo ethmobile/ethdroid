@@ -27,7 +27,13 @@ With Ethereum-android it becomes easier to :
 
 Futhermore **Rx-java 1** and its extensions simplify control of asynchronous flows and background processes.
 
-This package can be used on **Android 21+** and with **Geth 1.4+**.
+This package can be used on **Android 21+** and with **Geth 1.4/1.5**.
+
+## Limitations / Roadmap
+
+- Rx-Java 1 only. It is planned to upgrade to Rx-Java 2
+- Geth v1.6+ compatibility. Work is in progress to be compatible with
+- Private Blockchains only, because of Geth 1.4/1.5 limitations. A feature is planned to allow testnet/mainnet connections and will be released as soon as Ethereum-Android will be compatible with Geth 1.6.
 
 ## Installation
 
