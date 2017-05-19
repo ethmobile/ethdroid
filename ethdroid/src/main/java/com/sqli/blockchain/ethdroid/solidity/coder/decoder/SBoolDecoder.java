@@ -1,7 +1,8 @@
 package com.sqli.blockchain.ethdroid.solidity.coder.decoder;
 
-import ethereumjava.solidity.types.SBool;
-import ethereumjava.solidity.types.SType;
+
+import com.sqli.blockchain.ethdroid.solidity.types.SBool;
+import com.sqli.blockchain.ethdroid.solidity.types.SType;
 
 /**
  * Created by gunicolas on 06/02/17.

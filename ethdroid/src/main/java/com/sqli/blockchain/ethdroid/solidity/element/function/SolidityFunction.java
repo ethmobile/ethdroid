@@ -58,6 +58,10 @@ public class SolidityFunction<T extends SType> extends SolidityElement {
         return "0x" + this.signature() + encodedParameters;
     }
 
+    public void sendTransaction(){
+
+    }
+
     /*private TransactionRequest formatRequest(String from, BigInteger gas, BigInteger value) {
         //TODO can estimate gas before
         String payload = encode();

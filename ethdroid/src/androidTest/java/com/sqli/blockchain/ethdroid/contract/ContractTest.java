@@ -6,14 +6,13 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.sqli.blockchain.ethdroid.ChainConfig;
 import com.sqli.blockchain.ethdroid.EthDroid;
+import com.sqli.blockchain.ethdroid.exception.SmartContractException;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
-
-import ethereumjava.exception.SmartContractException;
 
 import static com.sqli.blockchain.ethdroid.Utils.deleteDirIfExists;
 
@@ -48,9 +47,6 @@ public class ContractTest {
             .build();
 
         ethdroid.start();
-
-
-
     }
 
     @Test
