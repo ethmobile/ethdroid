@@ -47,6 +47,9 @@ public class ChainConfig {
         return config;
     }
 
+    public long getNetworkID() {
+        return networkID;
+    }
 
     public static class Builder{
 

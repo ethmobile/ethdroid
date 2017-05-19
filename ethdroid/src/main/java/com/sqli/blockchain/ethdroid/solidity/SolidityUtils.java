@@ -4,6 +4,7 @@ package com.sqli.blockchain.ethdroid.solidity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.sqli.blockchain.ethdroid.sha3.Sha3;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -11,7 +12,6 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
-import ethereumjava.sha3.Sha3;
 
 /**
  * Created by gunicolas on 08/08/16.

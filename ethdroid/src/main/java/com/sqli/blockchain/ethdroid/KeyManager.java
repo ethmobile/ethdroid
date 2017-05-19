@@ -4,6 +4,7 @@ import org.ethereum.geth.Account;
 import org.ethereum.geth.Accounts;
 import org.ethereum.geth.Geth;
 import org.ethereum.geth.KeyStore;
+import org.ethereum.geth.Transaction;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ public class KeyManager {
     }
 
     public boolean accountExists(Account account){
+        if( account == null ) return false;
         return keystore.hasAddress(account.getAddress());
     }
 
@@ -78,12 +80,9 @@ public class KeyManager {
     }
     public byte[] unlockAndsignString(Account account,String password,String toSign) throws Exception{
         return keystore.signHashPassphrase(account,password,toSign.getBytes());
-
     }
 
-
-
-
-
-
+    public KeyStore getKeystore() {
+        return keystore;
+    }
 }

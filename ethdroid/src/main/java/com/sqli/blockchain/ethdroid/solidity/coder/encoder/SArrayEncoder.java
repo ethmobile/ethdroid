@@ -1,11 +1,11 @@
 package com.sqli.blockchain.ethdroid.solidity.coder.encoder;
 
-import java.math.BigInteger;
+import com.sqli.blockchain.ethdroid.solidity.coder.SCoder;
+import com.sqli.blockchain.ethdroid.solidity.types.SArray;
+import com.sqli.blockchain.ethdroid.solidity.types.SInt;
+import com.sqli.blockchain.ethdroid.solidity.types.SType;
 
-import ethereumjava.solidity.coder.SCoder;
-import ethereumjava.solidity.types.SArray;
-import ethereumjava.solidity.types.SInt;
-import ethereumjava.solidity.types.SType;
+import java.math.BigInteger;
 
 /**
  * Created by gunicolas on 07/02/17.

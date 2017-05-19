@@ -1,13 +1,16 @@
 package com.sqli.blockchain.ethdroid;
 
 
+import com.sqli.blockchain.ethdroid.exception.EthDroidException;
+import com.sqli.blockchain.ethdroid.model.Transaction;
 import com.sqli.blockchain.ethdroid.solidity.Contract;
 import com.sqli.blockchain.ethdroid.solidity.ContractType;
 
-import org.ethereum.geth.Address;
+import org.ethereum.geth.Account;
 import org.ethereum.geth.Context;
 import org.ethereum.geth.EthereumClient;
 import org.ethereum.geth.Geth;
+import org.ethereum.geth.Hash;
 import org.ethereum.geth.Node;
 import org.ethereum.geth.SyncProgress;
 
@@ -22,6 +25,8 @@ public class EthDroid {
     private Node node;
     private ChainConfig chainConfig;
     private EthereumClient client;
+    private KeyManager keyManager;
+    private Account mainAccount;
 
     private EthDroid(){}
 
@@ -32,19 +37,20 @@ public class EthDroid {
     public void stop() throws Exception{
         node.stop();
     }
-
     public boolean isSyncing() throws Exception {
         return client.syncProgress(mainContext) != null ;
     }
-
     public boolean isSynced() throws Exception {
         SyncProgress progress = client.syncProgress(mainContext);
         return progress.getCurrentBlock() >= progress.getHighestBlock();
     }
-
     public <T extends ContractType> T getContractInstance(Class<T> contractAbi, String address){
         return Contract.getContractInstance(this,contractAbi,address);
     }
+    public Transaction newTransaction() throws Exception {
+        return new Transaction(this);
+    }
+
 
     public static class Builder {
 
@@ -121,10 +127,70 @@ public class EthDroid {
             return this;
         }
 
+        public Builder withKeyManager(KeyManager keyManager){
+            build.keyManager = keyManager;
+            return this;
+        }
+
+        public Builder withMainAccount(Account mainAccount){
+            setMainAccount(build,mainAccount);
+            return this;
+        }
+        public Builder withMainAccountAtIndex(int keyManagerIndex) throws Exception {
+            setMainAccountAtIndex(build,keyManagerIndex);
+            return this;
+        }
+
         public EthDroid build() throws Exception {
+            setDefaultMainAccount(build);
             build.node = Geth.newNode(build.datadir,build.chainConfig.nodeConfig);
             return build;
         }
-
     }
+
+    public ChainConfig getChainConfig() {
+        return chainConfig;
+    }
+    public Context getMainContext() {
+        return mainContext;
+    }
+    public EthereumClient getClient() {
+        return client;
+    }
+    public KeyManager getKeyManager() {
+        return keyManager;
+    }
+    public Account getMainAccount() {
+        return mainAccount;
+    }
+
+    private static void setMainAccountAtIndex(EthDroid context, int keyManagerIndex) throws Exception {
+        if( context.keyManager == null ) throw new EthDroidException("no key manager configured");
+        context.mainAccount = context.keyManager.getAccounts().get(keyManagerIndex);
+    }
+    private static void setDefaultMainAccount(EthDroid eth) throws Exception {
+        if( eth.mainAccount == null && eth.keyManager != null ){
+            eth.mainAccount = eth.keyManager.getAccounts().get(0);
+        }
+    }
+    private static void setMainAccount(EthDroid eth,Account mainAccount){
+        if( eth.keyManager != null && !eth.keyManager.accountExists(mainAccount)) throw new EthDroidException("given account doesn't exist in key manager");
+        eth.mainAccount = mainAccount;
+    }
+
+    /**
+     * Set a key manager to the context
+     * If the current main account is not in the given key manager, it became the default account of key manager.
+     * @param keyManager the new key manager
+     * @throws Exception Exceptions can be thrown by Geth through JNI
+     */
+    public void setKeyManager(KeyManager keyManager) throws Exception {
+        this.keyManager = keyManager;
+        if( !this.keyManager.accountExists(this.mainAccount)) this.mainAccount = null;
+        if( this.mainAccount == null ) setDefaultMainAccount(this);
+    }
+    public void setMainAccount(Account mainAccount) {
+        setMainAccount(this,mainAccount);
+    }
+    public void setMainAccountAtIndex(int keyManagerIndex) throws Exception { setMainAccountAtIndex(this,keyManagerIndex);}
 }

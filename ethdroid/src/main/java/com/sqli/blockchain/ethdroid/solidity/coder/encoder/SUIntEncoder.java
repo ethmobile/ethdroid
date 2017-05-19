@@ -1,11 +1,11 @@
 package com.sqli.blockchain.ethdroid.solidity.coder.encoder;
 
+import com.sqli.blockchain.ethdroid.solidity.SolidityUtils;
+import com.sqli.blockchain.ethdroid.solidity.types.SUInt;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-
-import ethereumjava.solidity.SolidityUtils;
-import ethereumjava.solidity.types.SUInt;
 
 
 /**
