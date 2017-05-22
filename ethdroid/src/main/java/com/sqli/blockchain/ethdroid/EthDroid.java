@@ -2,6 +2,7 @@ package com.sqli.blockchain.ethdroid;
 
 
 import com.sqli.blockchain.ethdroid.exception.EthDroidException;
+import com.sqli.blockchain.ethdroid.model.Filter;
 import com.sqli.blockchain.ethdroid.model.Transaction;
 import com.sqli.blockchain.ethdroid.solidity.Contract;
 import com.sqli.blockchain.ethdroid.solidity.ContractType;
@@ -11,8 +12,11 @@ import org.ethereum.geth.Context;
 import org.ethereum.geth.EthereumClient;
 import org.ethereum.geth.Geth;
 import org.ethereum.geth.Hash;
+import org.ethereum.geth.Header;
 import org.ethereum.geth.Node;
 import org.ethereum.geth.SyncProgress;
+
+import rx.Observable;
 
 /**
  * Created by gunicolas on 16/05/17.
@@ -50,7 +54,9 @@ public class EthDroid {
     public Transaction newTransaction() throws Exception {
         return new Transaction(this);
     }
-
+    public Observable<Header> newHeadFilter(){
+        return Filter.newHeadFilter(this);
+    }
 
     public static class Builder {
 
