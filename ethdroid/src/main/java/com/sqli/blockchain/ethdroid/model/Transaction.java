@@ -26,6 +26,11 @@ public class Transaction {
     private static final long DEFAULT_GAS_AMOUNT = 90000;
     private static final long DEFAULT_GAS_PRICE = 0;
 
+    private static final String NO_RECIPIENT_ERROR = "recipient can't be null";
+    private static final String NO_SENDER_ERROR = "sender can't be null";
+    private static final String NO_KEYMANAGER_ERROR = "no key manager defined";
+    private static final String NO_CONTEXT_ERROR = "context reference can't be null";
+
     private long nonce;
     private Address to;
     private Account from;
@@ -37,7 +42,6 @@ public class Transaction {
 
     private Context txContext;
     private EthDroid eth;
-    private org.ethereum.geth.Transaction raw;
 
     /**
      * Initialize transaction with default values :
@@ -52,7 +56,7 @@ public class Transaction {
      * @throws Exception //TODO
      */
     public Transaction(EthDroid eth) throws Exception {
-        if( eth == null ) throw new EthDroidException("context reference can't be null");
+        if( eth == null ) throw new EthDroidException(NO_CONTEXT_ERROR);
         this.eth = eth;
         this.txContext = eth.getMainContext();
         this.from = eth.getMainAccount();
@@ -69,7 +73,7 @@ public class Transaction {
         return this;
     }
     public Transaction to(Address account){
-        if( to == null ) throw new EthDroidException("recipient can't be null");
+        if( to == null ) throw new EthDroidException(NO_RECIPIENT_ERROR);
         this.to = account;
         return this;
     }
@@ -77,14 +81,14 @@ public class Transaction {
         return to(Geth.newAddressFromHex(address));
     }
     public Transaction from(Account account, String passphrase){
-        if( account == null ) throw new EthDroidException("sender can't be null");
+        if( account == null ) throw new EthDroidException(NO_SENDER_ERROR);
         this.from = account;
         this.fromPassphrase = passphrase;
         return this;
     }
     public Transaction from(Account account){
         //TODO test if account is unlocked
-        if( account == null ) throw new EthDroidException("sender can't be null");
+        if( account == null ) throw new EthDroidException(NO_SENDER_ERROR);
         this.from = account;
         return this;
     }
@@ -124,27 +128,54 @@ public class Transaction {
         return this;
     }
 
+    private boolean checkValidity() throws Exception{
+        if( to == null ) throw new EthDroidException(NO_RECIPIENT_ERROR);
+        if( from == null ) throw new EthDroidException(NO_SENDER_ERROR);
+        return true;
+    }
+
     /**
      * Get raw geth transaction.
      * Returned transaction is not signed, so it can't be sent.
      * @return not signed transaction
      */
     public org.ethereum.geth.Transaction getRawTransaction() throws Exception {
-        this.raw = Geth.newTransaction(nonce,to,value,gas,gasPrice,data);
-        return this.raw;
+        if( to == null ) throw new EthDroidException(NO_RECIPIENT_ERROR);
+        return Geth.newTransaction(nonce,to,value,gas,gasPrice,data);
+    }
+
+    private org.ethereum.geth.Transaction sign() throws Exception{
+        org.ethereum.geth.Transaction raw = getRawTransaction();
+        if( from == null ) throw new EthDroidException(NO_SENDER_ERROR);
+        if( this.eth.getKeyManager() == null ) throw new EthDroidException(NO_KEYMANAGER_ERROR);
+        KeyStore keystore = this.eth.getKeyManager().getKeystore();
+        BigInt networkId = Geth.newBigInt(eth.getChainConfig().getNetworkID());
+        if( this.fromPassphrase == null ) raw = keystore.signTx(from,raw,networkId);
+        else raw = keystore.signTxPassphrase(from,fromPassphrase,raw,networkId);
+        return raw;
+    }
+
+    private CallMsg toCallMessage() throws Exception{
+        checkValidity();
+        CallMsg ret = Geth.newCallMsg();
+        ret.setFrom(from.getAddress());
+        ret.setTo(to);
+        ret.setData(data);
+        ret.setValue(value);
+        ret.setGas(gas.getInt64());
+        ret.setGasPrice(gasPrice);
+        return ret;
+    }
+
+    public String call() throws Exception{
+        byte[] hexadecimalResult = this.eth.getClient().pendingCallContract(txContext,toCallMessage());
+        return ByteString.of(hexadecimalResult).hex();
     }
 
     public Hash send() throws Exception{
-        if( to == null ) throw new EthDroidException("recipient can't be null");
-        if( from == null ) throw new EthDroidException("sender can't be null");
-        if( this.eth.getKeyManager() == null ) throw new EthDroidException("no key manager defined");
-        org.ethereum.geth.Transaction raw = getRawTransaction();
-        KeyStore keystore = this.eth.getKeyManager().getKeystore();
-        BigInt networkId = Geth.newBigInt(eth.getChainConfig().getNetworkID());
-        if( this.fromPassphrase == null ) this.raw = keystore.signTx(from,raw,networkId);
-        else this.raw = keystore.signTxPassphrase(from,fromPassphrase,raw,networkId);
-        this.eth.getClient().sendTransaction(this.eth.getMainContext(),this.raw);
-        return this.raw.getHash();
+        org.ethereum.geth.Transaction raw = sign();
+        this.eth.getClient().sendTransaction(this.eth.getMainContext(),raw);
+        return raw.getHash();
     }
 }
 
