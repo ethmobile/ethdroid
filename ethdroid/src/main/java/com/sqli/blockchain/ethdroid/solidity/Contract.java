@@ -23,13 +23,9 @@ public class Contract<T extends ContractType> implements InvocationHandler {
     private Contract(EthDroid eth,Class<T> contractAbi,String address){
         this.address = address;
         this.eth = eth;
-        Class<T> contractAbi1 = contractAbi;
-        Object instanceObject = Proxy.newProxyInstance( contractAbi.getClassLoader(),
+        this.instance = (T) Proxy.newProxyInstance( contractAbi.getClassLoader(),
                                                         new Class[]{contractAbi},
                                                         this);
-        if( instanceObject.getClass().isAssignableFrom(contractAbi) ) {
-            this.instance = (T) instanceObject;
-        }
     }
 
     private T getInstance(){

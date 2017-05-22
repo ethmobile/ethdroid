@@ -10,6 +10,7 @@ import com.sqli.blockchain.ethdroid.solidity.types.SArray;
 import com.sqli.blockchain.ethdroid.solidity.types.SType;
 
 import org.ethereum.geth.Hash;
+import org.ethereum.geth.Transaction;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -58,8 +59,11 @@ public class SolidityFunction<T extends SType> extends SolidityElement {
         return "0x" + this.signature() + encodedParameters;
     }
 
-    public void sendTransaction(){
-
+    public Hash send() throws Exception {
+        return eth.newTransaction()
+            .to(address)
+            .data(encode())
+            .send();
     }
 
     /*private TransactionRequest formatRequest(String from, BigInteger gas, BigInteger value) {

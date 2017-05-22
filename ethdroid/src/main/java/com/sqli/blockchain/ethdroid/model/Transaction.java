@@ -6,10 +6,13 @@ import com.sqli.blockchain.ethdroid.exception.EthDroidException;
 import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
 import org.ethereum.geth.BigInt;
+import org.ethereum.geth.CallMsg;
 import org.ethereum.geth.Context;
 import org.ethereum.geth.Geth;
 import org.ethereum.geth.Hash;
 import org.ethereum.geth.KeyStore;
+
+import okio.ByteString;
 
 /**
  * Created by gunicolas on 19/05/17.
@@ -104,15 +107,22 @@ public class Transaction {
         this.data = data;
         return this;
     }
+
+    /**
+     * Set transaction data from given hexadecimal byte array in string format
+     * data can be prefixed by '0x' hexadecimal identifier
+     * @param data
+     * @return
+     */
     public Transaction data(String data){
-        this.data = data.getBytes();
+        if( data.contains("0x") ) data = data.substring(2);
+        data(ByteString.decodeHex(data).toByteArray());
         return this;
     }
     public Transaction context(Context context){
         this.txContext = context;
         return this;
     }
-
 
     /**
      * Get raw geth transaction.
