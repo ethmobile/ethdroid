@@ -18,9 +18,9 @@ public class SolidityFunction2<T1 extends SType, T2 extends SType> extends Solid
         super(address, method, eth, args);
     }
 
-   /* @Override
-    public PairReturn<T1,T2> call() {
+    @Override
+    public PairReturn<T1,T2> call() throws Exception{
         SType[] decodedParams = makeCallAndDecode();
         return new PairReturn<>((T1) decodedParams[0], (T2) decodedParams[1]);
-    }*/
+    }
 }

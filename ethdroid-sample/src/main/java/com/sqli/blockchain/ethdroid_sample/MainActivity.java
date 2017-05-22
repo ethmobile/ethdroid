@@ -25,8 +25,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ITestContract contract;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onStart() {
+        super.onStart();
         setContentView(R.layout.activity_main);
 
         sendMoneyButton = (Button) findViewById(R.id.sendmoney_button);
@@ -78,10 +78,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .value(30)
                     .send();
             } else if( v == sendTxSCButton ){
-                contract.bar(SUInt.SUInt8.fromShort((short) 3))
-                    .send();
+                contract.bar(SUInt.SUInt8.fromShort((short) 3)).send();
             } else if( v == callTxButton ){
-
+                Log.print(contract.value().call().getElement1().asString());
             }
         } catch (Exception e) {
             Log.print(e.getMessage());

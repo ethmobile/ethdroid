@@ -1,8 +1,12 @@
 package com.sqli.blockchain.ethdroid.solidity.element.function;
 
 
+import android.util.Log;
+
 import com.sqli.blockchain.ethdroid.EthDroid;
 import com.sqli.blockchain.ethdroid.Utils;
+import com.sqli.blockchain.ethdroid.exception.SmartContractException;
+import com.sqli.blockchain.ethdroid.model.Transaction;
 import com.sqli.blockchain.ethdroid.solidity.coder.SCoder;
 import com.sqli.blockchain.ethdroid.solidity.element.SolidityElement;
 import com.sqli.blockchain.ethdroid.solidity.element.returns.SingleReturn;
@@ -10,7 +14,6 @@ import com.sqli.blockchain.ethdroid.solidity.types.SArray;
 import com.sqli.blockchain.ethdroid.solidity.types.SType;
 
 import org.ethereum.geth.Hash;
-import org.ethereum.geth.Transaction;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -59,14 +62,31 @@ public class SolidityFunction<T extends SType> extends SolidityElement {
         return "0x" + this.signature() + encodedParameters;
     }
 
-    public Hash send() throws Exception {
+    private Transaction buildTransaction()throws Exception {
         return eth.newTransaction()
             .to(address)
-            .data(encode())
-            .send();
+            .data(encode());
     }
 
-    /*private TransactionRequest formatRequest(String from, BigInteger gas, BigInteger value) {
+    public Hash send() throws Exception {
+        return buildTransaction().send();
+    }
+
+    SType[] makeCallAndDecode() throws Exception{
+        String hexadecimalResult = buildTransaction().call();
+
+        if( returns.size() == 0 ) return null;
+        if( hexadecimalResult.length() == 0 ) throw new SmartContractException();
+        return SCoder.decodeParams(hexadecimalResult,returns);
+    }
+
+    public SingleReturn<T> call() throws Exception{
+        SType[] results = makeCallAndDecode();
+        return results != null ? new SingleReturn<>((T) results[0]) : null;
+    }
+
+    /*
+    private TransactionRequest formatRequest(String from, BigInteger gas, BigInteger value) {
         //TODO can estimate gas before
         String payload = encode();
         TransactionRequest request = new TransactionRequest(from, address);
