@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             contract = ethdroid.getContractInstance(ITestContract.class,"0xe39abb31c9e4f6b86a3f4ffc43942e908bce99f6");
 
+            ethdroid.newHeadFilter().subscribe(header -> Log.print(header.getHash().getHex()));
 
         }catch(Exception e){
             Log.print(e.getMessage());
