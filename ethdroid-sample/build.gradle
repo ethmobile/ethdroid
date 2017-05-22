@@ -1,17 +1,20 @@
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
 
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
 
+
     defaultConfig {
+        applicationId "com.sqli.blockchain.ethdroid_sample"
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -19,25 +22,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
-        sourceCompatibility JavaVersion.VERSION_1_8
-    }
 }
-
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestCompile 'com.android.support:support-annotations:25.1.0'
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
     compile 'com.android.support:appcompat-v7:25.1.0'
     testCompile 'junit:junit:4.12'
-    compile 'org.ethereum:geth:1.6.1'
-    compile 'io.reactivex:rxjava:1.1.6'
-    compile 'com.google.code.gson:gson:2.7'
-    compile 'com.squareup.okio:okio:1.13.0' /* ByteString.decodeHex */
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
+    compile project(':ethdroid')
 }

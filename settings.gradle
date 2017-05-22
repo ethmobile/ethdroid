@@ -1,1 +1,1 @@
-include ':ethdroid'
+include ':ethdroid', ':ethdroid-sample'
