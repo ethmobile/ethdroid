@@ -1,5 +1,8 @@
 package com.sqli.blockchain.ethdroid;
 
+import org.ethereum.geth.Hash;
+import org.ethereum.geth.Transactions;
+
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
@@ -185,6 +188,13 @@ public abstract class Utils {
             }
         }
         file.delete();
+    }
+
+    public static boolean transactionListContains(Transactions transactions, Hash txHash) throws Exception {
+        for(int i=0;i<transactions.size();i++){
+            if( transactions.get(i).getHash().getHex().compareTo(txHash.getHex())==0 ) return true;
+        }
+        return false;
     }
 
 

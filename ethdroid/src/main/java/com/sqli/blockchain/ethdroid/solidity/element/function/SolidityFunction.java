@@ -4,6 +4,7 @@ package com.sqli.blockchain.ethdroid.solidity.element.function;
 import com.sqli.blockchain.ethdroid.EthDroid;
 import com.sqli.blockchain.ethdroid.Utils;
 import com.sqli.blockchain.ethdroid.exception.SmartContractException;
+import com.sqli.blockchain.ethdroid.model.Filter;
 import com.sqli.blockchain.ethdroid.model.Transaction;
 import com.sqli.blockchain.ethdroid.solidity.coder.SCoder;
 import com.sqli.blockchain.ethdroid.solidity.element.SolidityElement;
@@ -11,6 +12,7 @@ import com.sqli.blockchain.ethdroid.solidity.element.returns.SingleReturn;
 import com.sqli.blockchain.ethdroid.solidity.types.SArray;
 import com.sqli.blockchain.ethdroid.solidity.types.SType;
 
+import org.ethereum.geth.Block;
 import org.ethereum.geth.Hash;
 
 import java.lang.annotation.Annotation;
@@ -19,6 +21,9 @@ import java.lang.reflect.Type;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Observable;
+import rx.Single;
 
 /**
  * Created by gunicolas on 4/08/16.
@@ -67,6 +72,9 @@ public class SolidityFunction<T extends SType> extends SolidityElement {
 
     public Hash send() throws Exception {
         return buildTransaction().send();
+    }
+    public Observable<Block> sendWithNotification() throws Exception {
+        return buildTransaction().sendWithNotification();
     }
 
     SType[] makeCallAndDecode() throws Exception{
