@@ -36,8 +36,9 @@ dependencies {
     androidTestCompile 'com.android.support.test:rules:0.5'
     compile 'com.android.support:appcompat-v7:25.1.0'
     testCompile 'junit:junit:4.12'
-    compile 'org.ethereum:geth:1.6.1'
+    compile 'org.ethereum:geth:1.6.2-SNAPSHOT'
     compile 'io.reactivex:rxjava:1.1.6'
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.squareup.okio:okio:1.13.0' /* ByteString.decodeHex */
+
 }

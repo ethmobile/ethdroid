@@ -1,6 +1,5 @@
 package com.sqli.blockchain.ethdroid_sample;
 
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -61,9 +60,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             ethdroid.start();
 
-            contract = ethdroid.getContractInstance(ITestContract.class,"0xe39abb31c9e4f6b86a3f4ffc43942e908bce99f6");
+            contract = ethdroid.getContractInstance(ITestContract.class,"0x06ad6dfb208e82a11dc244815498461ba21727af");
 
             ethdroid.newHeadFilter().subscribe(header -> Log.print(header.getHash().getHex()));
+
+            contract.simpleEvent().listen()
+                .subscribe(event -> Log.print(event.getElement1().asString()));
 
         }catch(Exception e){
             Log.print(e.getMessage());

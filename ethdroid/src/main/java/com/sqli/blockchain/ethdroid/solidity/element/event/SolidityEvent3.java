@@ -1,6 +1,7 @@
 package com.sqli.blockchain.ethdroid.solidity.element.event;
 
 import com.sqli.blockchain.ethdroid.EthDroid;
+import com.sqli.blockchain.ethdroid.solidity.element.returns.PairReturn;
 import com.sqli.blockchain.ethdroid.solidity.element.returns.TripleReturn;
 import com.sqli.blockchain.ethdroid.solidity.types.SType;
 
@@ -19,13 +20,8 @@ public class SolidityEvent3<T1 extends SType,T2 extends SType,T3 extends SType> 
         super(address, method, eth);
     }
 
-    /*@Override
-    protected Func1<SType[], TripleReturn<T1,T2,T3>> wrapDecodedLogs() {
-        return new Func1<SType[], TripleReturn<T1, T2, T3>>() {
-            @Override
-            public TripleReturn<T1, T2, T3> call(SType[] decodedParams) {
-                return new TripleReturn(decodedParams[0],decodedParams[1],decodedParams[2]);
-            }
-        };
-    }*/
+    @Override
+    TripleReturn<T1,T2,T3> wrapDecodedLogs(SType[] decodedLogs) {
+        return new TripleReturn(decodedLogs[0],decodedLogs[1],decodedLogs[2]);
+    }
 }
