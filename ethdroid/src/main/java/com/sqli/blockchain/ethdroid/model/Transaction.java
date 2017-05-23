@@ -1,11 +1,13 @@
 package com.sqli.blockchain.ethdroid.model;
 
 import com.sqli.blockchain.ethdroid.EthDroid;
+import com.sqli.blockchain.ethdroid.Utils;
 import com.sqli.blockchain.ethdroid.exception.EthDroidException;
 
 import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
 import org.ethereum.geth.BigInt;
+import org.ethereum.geth.Block;
 import org.ethereum.geth.CallMsg;
 import org.ethereum.geth.Context;
 import org.ethereum.geth.Geth;
@@ -13,6 +15,8 @@ import org.ethereum.geth.Hash;
 import org.ethereum.geth.KeyStore;
 
 import okio.ByteString;
+import rx.Observable;
+import rx.Single;
 
 /**
  * Created by gunicolas on 19/05/17.
@@ -176,6 +180,26 @@ public class Transaction {
         org.ethereum.geth.Transaction raw = sign();
         this.eth.getClient().sendTransaction(this.eth.getMainContext(),raw);
         return raw.getHash();
+    }
+
+    public Observable<Block> sendWithNotification() throws Exception{
+        Hash txHash = send();
+
+        return Filter.newHeadFilter(eth)
+            .flatMap(header -> {
+                try {
+                    return Observable.just(eth.getClient().getBlockByHash(eth.getMainContext(), header.getHash()));
+                } catch (Exception e) {
+                    return Observable.error(e.getCause());
+                }
+            })
+            .filter(block -> {
+                try {
+                    return Utils.transactionListContains(block.getTransactions(), txHash);
+                } catch (Exception e) {
+                    return false;
+                }
+            });
     }
 }
 
