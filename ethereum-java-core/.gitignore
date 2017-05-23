@@ -1,8 +1,0 @@
-# Created by .ignore support plugin (hsz.mobi)
-
-/build
-*.iml
-.classpath
-.project
-.settings/
-bin
