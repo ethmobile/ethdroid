@@ -1,5 +1,7 @@
 package com.sqli.blockchain.ethdroid;
 
+import com.sqli.blockchain.ethdroid.sha3.Sha3;
+
 import org.ethereum.geth.Account;
 import org.ethereum.geth.Accounts;
 import org.ethereum.geth.Geth;
@@ -53,6 +55,15 @@ public class KeyManager {
         return keystore.hasAddress(account.getAddress());
     }
 
+    public boolean accountIsLocked(Account account){
+        try {
+            signString(account,"test");
+            return false;
+        } catch (Exception e) {
+            return true;
+        }
+    }
+
     // removes the private key with the given address from memory.
     public void lockAccount(Account account) throws Exception {
         keystore.lock(account.getAddress());
@@ -75,11 +86,13 @@ public class KeyManager {
     }
 
     public byte[] signString(Account account,String toSign) throws Exception{
-        return keystore.signHash(account.getAddress(),toSign.getBytes());
+        String hash =  Sha3.hash(toSign);
+        return keystore.signHash(account.getAddress(),Geth.newHashFromHex(hash).getBytes());
 
     }
     public byte[] unlockAndsignString(Account account,String password,String toSign) throws Exception{
-        return keystore.signHashPassphrase(account,password,toSign.getBytes());
+        String hash =  Sha3.hash(toSign);
+        return keystore.signHashPassphrase(account,password,Geth.newHashFromHex(hash).getBytes());
     }
 
     public KeyStore getKeystore() {

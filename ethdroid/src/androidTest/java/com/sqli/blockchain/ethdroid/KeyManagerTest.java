@@ -7,13 +7,16 @@ import com.sqli.blockchain.ethdroid.sha3.Sha3;
 
 import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
+import org.ethereum.geth.Geth;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static com.sqli.blockchain.ethdroid.Utils.deleteDirIfExists;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -53,7 +56,7 @@ public class KeyManagerTest {
         assertTrue(hex.length() > 0 && hex.startsWith("0x"));
         File file = new File(url.substring(11));
         assertTrue(file.exists() && !file.isDirectory());
-        //TODO test account locked
+        assertTrue(keyManager.accountIsLocked(account));
     }
 
     @Test
@@ -66,7 +69,7 @@ public class KeyManagerTest {
         assertTrue(hex.length() > 0 && hex.startsWith("0x"));
         File file = new File(url.substring(11));
         assertTrue(file.exists() && !file.isDirectory());
-        //TODO test account unlocked
+        assertFalse(keyManager.accountIsLocked(account));
     }
 
     @Test
@@ -89,7 +92,7 @@ public class KeyManagerTest {
         newKeyManager();
         newAccount();
         keyManager.lockAccount(account);
-        //TODO test account locked
+        assertTrue(keyManager.accountIsLocked(account));
     }
 
     @Test
@@ -97,7 +100,7 @@ public class KeyManagerTest {
         newKeyManager();
         newAccount();
         keyManager.unlockAccount(account,PASSWORD);
-        //TODO test account unlocked
+        assertFalse(keyManager.accountIsLocked(account));
     }
 
     @Test
@@ -105,7 +108,9 @@ public class KeyManagerTest {
         newKeyManager();
         newAccount();
         keyManager.unlockAccountDuring(account,PASSWORD,1);
-        //TODO test account locked after 1 sec
+        assertFalse(keyManager.accountIsLocked(account));
+        TimeUnit.SECONDS.sleep(1);
+        assertTrue(keyManager.accountIsLocked(account));
     }
 
     @Test
@@ -138,8 +143,31 @@ public class KeyManagerTest {
     public void signString() throws Exception {
         newKeyManager();
         newAccount();
-        String hash =  Sha3.hash("tosign");
-        keyManager.unlockAndsignString(account,PASSWORD, hash);
+        keyManager.unlockAndsignString(account,PASSWORD, "hello");
     }
+
+    @Test(expected = Exception.class)
+    public void signStringError() throws Exception {
+        newKeyManager();
+        newAccount();
+        keyManager.signString(account, "hello");
+    }
+
+    @Test
+    public void accountIsLocked() throws Exception {
+        newKeyManager();
+        newAccount();
+        boolean got = keyManager.accountIsLocked(account);
+        assertTrue(got);
+    }
+
+    @Test
+    public void accountIsUnLocked() throws Exception {
+        newKeyManager();
+        newUnlockedAccount();
+        boolean got = keyManager.accountIsLocked(account);
+        assertFalse(got);
+    }
+
 
 }
