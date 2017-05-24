@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 
+group='com.github.ethmobile'
 
 android {
     compileSdkVersion 25
@@ -25,7 +27,6 @@ android {
     }
 }
 
-
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -36,7 +37,7 @@ dependencies {
     androidTestCompile 'com.android.support.test:rules:0.5'
     compile 'com.android.support:appcompat-v7:25.1.0'
     testCompile 'junit:junit:4.12'
-    compile 'org.ethereum:geth:1.6.2-SNAPSHOT'
+    compile 'org.ethereum:geth:1.6.2-SNAPSHOT' //Temporary maven url (until geth 1.6.2)
     compile 'io.reactivex:rxjava:1.2.4'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.google.code.gson:gson:2.8.0'
