@@ -23,7 +23,6 @@ import static io.ethmobile.ethdroid.Utils.deleteDirIfExists;
 @RunWith(AndroidJUnit4.class)
 public class ContractTest {
 
-
     private Context appContext;
     private EthDroid ethdroid;
 
@@ -49,62 +48,62 @@ public class ContractTest {
         ethdroid.start();
     }
 
-    @Test
+    //@Test
     public void newInstanceTest() throws Exception{
         contractInstance = ethdroid.getContractInstance(ITestContract.class,"");
     }
 
-    @Test
+    //@Test
     public void testEventReturnsUInt() throws Exception {
         newInstanceTest();
         contractInstance.testEventReturnsUInt();
     }
 
-    @Test
+    //@Test
     public void testEventReturnsBool() throws Exception {
     }
 
-    @Test
+    //@Test
     public void testEventReturnsMatrix() throws Exception {
     }
 
-    @Test
+    //@Test
     public void testEventReturnsMultiple() throws Exception{
     }
 
-    @Test
+    //@Test
     public void testFunctionOutputsVoid() throws Exception{
     }
 
-    @Test
+    //@Test
     public void testFunctionOutputsBool() throws Exception{
     }
 
-    @Test
+    //@Test
     public void testFunctionOutputsMatrix() throws Exception{
     }
 
-    @Test
+    //@Test
     public void testFunctionOutputsPrimitive() throws Exception{
     }
 
-    @Test
+    //@Test
     public void testFunctionOutputs2() throws Exception{
     }
 
-    @Test
+    //@Test
     public void testFunctionOutputs3Matrix() throws Exception{
     }
 
-    @Test(expected = SmartContractException.class )
+    //@Test(expected = SmartContractException.class )
     public void testFunctionThrowsException() throws Exception{
     }
 
-    @Test
+    //@Test
     public void testFunctionInputsPrimitives() throws Exception{
     }
 
-    @Test
+    //@Test
     public void testFunctionInputsArray() throws Exception{
 
     }

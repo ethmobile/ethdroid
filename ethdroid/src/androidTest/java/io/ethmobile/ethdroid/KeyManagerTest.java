@@ -105,9 +105,9 @@ public class KeyManagerTest {
     public void unlockAccountDuring() throws Exception {
         newKeyManager();
         newAccount();
-        keyManager.unlockAccountDuring(account,PASSWORD,1);
+        keyManager.unlockAccountDuring(account,PASSWORD,5);
         assertFalse(keyManager.accountIsLocked(account));
-        TimeUnit.SECONDS.sleep(1);
+        TimeUnit.SECONDS.sleep(5);
         assertTrue(keyManager.accountIsLocked(account));
     }
 
