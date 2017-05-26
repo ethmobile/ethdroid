@@ -1,22 +1,18 @@
-# Ethereum-android : Easy-to-use Ethereum client wrapper for Android 
+# Ethdroid : Easy-to-use Ethereum client wrapper for Android 
 
-[![Build Status](https://travis-ci.org/sqli-nantes/ethereum-android.svg?branch=master)](https://travis-ci.org/sqli-nantes/ethereum-android)
-[ ![Download Android-geth](https://api.bintray.com/packages/sqli-nantes/ethereum-android/android-geth/images/download.svg) ](https://bintray.com/sqli-nantes/ethereum-android/android-geth/_latestVersion)
-[ ![Download Ethereum-android](https://api.bintray.com/packages/sqli-nantes/ethereum-android/ethereum-android/images/download.svg) ](https://bintray.com/sqli-nantes/ethereum-android/ethereum-android/_latestVersion)
-[ ![Download Ethereum-java-core](https://api.bintray.com/packages/sqli-nantes/ethereum-android/ethereum-java-core/images/download.svg) ](https://bintray.com/sqli-nantes/ethereum-android/ethereum-java-core/_latestVersion)
+## Why using Ethdroid
 
-## Why using Ethereum-Android
+If you think that smartphone is future of blockchain, **Ethdroid** is here to help you building amazing decentralized smartphone apps. 
 
-If you think that smartphone is future of blockchain, **Ethereum-android** is here to help you building amazing decentralized smartphone apps. 
-
-This project was born as soon as the Geth community built the first android archive. Our needs was to allow an Android App communicate with an inproc Geth node through IPC and RPC. 
+This project was born as soon as the Geth community built the first android archive. Our needs was 
+to allow an Android App communicate with an inproc Geth node.
 
 Thanks to our hard work, we've reached our goals and built 3 differents use-cases of decentralized smartphone apps : 
 * decentralized car sharing
 * voting through blockchain
 * location of peoples all arround the world
 
-Contact us for more informations on our works.
+[Contact us](mailto:ethereummobile@gmail.com) for more informations on our works.
 
 With Ethereum-android it becomes easier to :
 * instanciate an Ethereum go-ethereum inproc node, 
@@ -27,36 +23,21 @@ With Ethereum-android it becomes easier to :
 
 Futhermore **Rx-java 1** and its extensions simplify control of asynchronous flows and background processes.
 
-This package can be used on **Android 21+** and with **Geth 1.4+**.
+This package can be used on **Android 21+** and with **Geth 1.6+**.
 
 ## Installation
 
-1. Start an Android project
+1. Create an Android project
+
 2. In you build.gradle, add these dependencies :
+    //TODO
 
+    For a snapshot version, you must add this repository :
+     ```
+         repositories {
+           maven { url 'https://jitpack.io' }
+         }
     ```
-    compile 'com.sqli:ethereum-android:0.1.20170320@aar'
-    compile 'com.sqli:android-geth:0.1.20170320@aar'
-    compile 'com.sqli:ethereum-java-core:0.1.20170320'
-    compile 'ethereumandroid:geth:1.5.0-unstable'
-    ```
-    and these related repositories :
-    ```
-    repositories {
-        maven { url "http://dl.bintray.com/sqli-nantes/ethereum-android"}
-        maven { url "http://dl.bintray.com/androidgeth/Geth" }
-    }
-    ```
-
-3. Put the *genesis.json* of your private blockchain in the *src/main/assets* folder
-4. Add these permissions in *AndroidManifest.xml* :
-
-    ```
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    ```
-4. Rebuild project to download dependencies
-5. Start building awesome apps.
 
 ## Getting Started
 ### Start an inproc node
