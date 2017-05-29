@@ -1,8 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
-group='io.ethmobile'
-
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -48,3 +46,27 @@ dependencies {
     compile 'com.squareup.okio:okio:1.13.0' /* ByteString.decodeHex */
 
 }
+
+ext {
+    bintrayRepo = 'ethmobile'
+    bintrayName = 'ethdroid'
+    bintrayOrg = 'sqli-nantes'
+
+    publishedGroupId = 'io.ethmobile'
+    libraryName = 'ethdroid'
+    artifact = 'ethdroid'
+
+    libraryDescription = 'Easy-to-use Ethereum client wrapper for Android http://ethmobile.io/ethdroid'
+
+    siteUrl = 'http://ethmobile.io/ethdroid'
+    gitUrl = 'https://github.com/ethmobile/ethdroid.git'
+
+    libraryVersion = '2.0'
+
+    licenseName = 'GNU Lesser General Public License, version 3.0'
+    licenseUrl = 'https://opensource.org/licenses/lgpl-3.0.html'
+    allLicenses = ["LGPL-3.0"]
+}
+
+apply from: 'install.gradle'
+apply from: 'bintray.gradle'
