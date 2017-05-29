@@ -1,6 +1,7 @@
 package io.ethmobile.ethdroid;
 
 import io.ethmobile.ethdroid.exception.EthDroidException;
+import io.ethmobile.ethdroid.model.Balance;
 import io.ethmobile.ethdroid.model.Filter;
 import io.ethmobile.ethdroid.model.Transaction;
 import io.ethmobile.ethdroid.solidity.Contract;
@@ -54,6 +55,14 @@ public class EthDroid {
     }
     public Observable<Header> newHeadFilter(){
         return Filter.newHeadFilter(this);
+    }
+
+    public Balance getBalance() throws Exception {
+        return getBalanceOf(mainAccount);
+    }
+
+    public Balance getBalanceOf(Account account) throws Exception {
+        return Balance.of(client.getPendingBalanceAt(mainContext,account.getAddress()).getInt64());
     }
 
     public static class Builder {
