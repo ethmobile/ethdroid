@@ -20,7 +20,7 @@ import static io.ethmobile.ethdroid.Utils.deleteDirIfExists;
  * Created by gunicolas on 17/05/17.
  */
 
-@RunWith(AndroidJUnit4.class)
+//@RunWith(AndroidJUnit4.class)
 public class ContractTest {
 
     private Context appContext;
@@ -28,7 +28,7 @@ public class ContractTest {
 
     ITestContract contractInstance;
 
-    @Before
+    //@Before
     public void setUp() throws Exception {
 
         appContext = InstrumentationRegistry.getTargetContext();
