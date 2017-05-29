@@ -257,10 +257,15 @@ From Android app, subscribe to Solidity events in a background process and be no
 
 ## Contribute
 //TODO
-## Licence
+## Licencing
 
-```
-The MIT License (MIT)
-```
-See [Licence](LICENSE).
+Ethdroid is released under the MIT License (MIT), see [Licence](LICENSE).
+
+Ethdroid depends on libraries with different licenses:
+- Geth: LGPL-3.0
+- RxJava : Apache 2.0
+- Google Gson: Apache 2.0
+- Squareup Okio: Apache 2.0
+
+Please respect terms and conditions of each licenses.
 
