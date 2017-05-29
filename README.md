@@ -30,51 +30,35 @@ This package can be used on **Android 21+** and with **Geth 1.6+**.
 1. Create an Android project
 
 2. In you build.gradle, add these dependencies :
-    //TODO
 
     For a snapshot version, you must add this repository :
      ```
          repositories {
            maven { url 'https://jitpack.io' }
+           maven { url "https://oss.sonatype.org/content/groups/public" }
+         }
+         
+         dependencies {
+            compile 'com.github.ethmobile:ethdroid:2.0-SNAPSHOT-1'
          }
     ```
 
 ## Getting Started
 ### Start an inproc node
 
-Create your Application subclass of EthereumApplication
-
-:warning: don't forget to declare the Application in *AndroidManifest.xml*
 ```java
-import com.sqli.blockchain.android_geth.EthereumApplication;
 
-public class MyApplication extends EthereumApplication{
-    [...]
-}
+String datadir = getFilesDir().getAbsolutePath();
+
+EthDroid ethdroid = EthDroid.Builder(datadir)
+    .withChainConfig(new ChainConfig.Builder(networkID, genesis, enode).build())
+    .withKeyManager(keyManager)
+    .build();
+
+ethdroid.start();
+
 ```
 
-In each activity you can be notified when Geth service is available, registering to the event in onCreate method.
-
-When onEthereumServiceReady is called, you can do everything you want, like update UI, or create instanciate EthereumJava (see next section).
-```java
-import com.sqli.blockchain.android_geth.EthereumService;
-
-public class MainActivity implements EthereumService.EthereumServiceInterface{
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        [...]
-        MyApplication application = (MyApplication) getApplication();
-        application.registerGethReady(this);
-    }
-
-    @Override
-    public void onEthereumServiceReady() {
-        //Update UI to start comunication
-        super.onEthereumServiceReady();
-    }
-}
-```
 
 ### Communicate with a node
 

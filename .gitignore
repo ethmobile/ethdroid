@@ -2,7 +2,7 @@
 /.idea/
 /local.properties
 /.gradle
-/ethereum-android.iml
+*.iml
 .classpath
 .project
 .settings/
