@@ -61,7 +61,7 @@ ext {
     siteUrl = 'http://ethmobile.io/ethdroid'
     gitUrl = 'https://github.com/ethmobile/ethdroid.git'
 
-    libraryVersion = '2.0'
+    libraryVersion = 'geth-1.6-SNAPSHOT'
 
     licenseName = 'The MIT License'
     licenseUrl = 'https://opensource.org/licenses/MIT'
@@ -70,3 +70,4 @@ ext {
 
 apply from: 'install.gradle'
 apply from: 'bintray.gradle'
+apply from: 'release.gradle'
