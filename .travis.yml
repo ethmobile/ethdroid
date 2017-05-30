@@ -34,7 +34,7 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-    - if [ "$TRAVIS_BRANCH" = "master" ]; then clean build connectedCheck -PdisablePreDex bintrayUpload --stacktrace --info ; else ./gradlew build connectedCheck -PdisablePreDex --stacktrace --info; fi
+    - ./gradlew clean build connectedCheck -PdisablePreDex bintrayUpload --stacktrace --info
 
 
 after_failure:
