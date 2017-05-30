@@ -63,9 +63,9 @@ ext {
 
     libraryVersion = '2.0'
 
-    licenseName = 'GNU Lesser General Public License, version 3.0'
-    licenseUrl = 'https://opensource.org/licenses/lgpl-3.0.html'
-    allLicenses = ["LGPL-3.0"]
+    licenseName = 'The MIT License'
+    licenseUrl = 'https://opensource.org/licenses/MIT'
+    allLicenses = ["MIT"]
 }
 
 apply from: 'install.gradle'
