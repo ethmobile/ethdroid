@@ -1,6 +1,7 @@
 apply plugin: 'net.researchgate.release'
 
 release {
+    buildTasks = ['build','bintrayUpload']
     git {
         requireBranch = ''
     }
