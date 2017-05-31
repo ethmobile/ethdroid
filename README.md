@@ -23,24 +23,17 @@ With Ethereum-android it becomes easier to :
 
 Futhermore **Rx-java 1** and its extensions simplify control of asynchronous flows and background processes.
 
-This package can be used on **Android 21+** and with **Geth 1.6+**.
+This package can be used on **Android 22+** and with **Geth 1.6.2+**.
 
-## Installation
+## Download Ethdroid and set Geth version
 
-1. Create an Android project
+* via Gradle
 
-2. In you build.gradle, add these dependencies :
-
-    For a snapshot version, you must add this repository :
-     ```
-         repositories {
-           maven { url 'https://jitpack.io' }
-           maven { url "https://oss.sonatype.org/content/groups/public" }
-         }
-         
-         dependencies {
-            compile 'com.github.ethmobile:ethdroid:2.0-SNAPSHOT-1'
-         }
+    ```Kotlin
+    dependencies {
+        compile "io.ethmobile:ethdroid:2.0.0-m1"
+        compile "org.ethereum:geth:1.6.2"
+    }
     ```
 
 ## Getting Started
