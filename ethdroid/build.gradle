@@ -61,7 +61,7 @@ ext {
     siteUrl = 'http://ethmobile.io/ethdroid'
     gitUrl = 'https://github.com/ethmobile/ethdroid.git'
 
-    libraryVersion = 'geth-1.6-SNAPSHOT'
+    libraryVersion = version
 
     licenseName = 'The MIT License'
     licenseUrl = 'https://opensource.org/licenses/MIT'
