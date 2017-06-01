@@ -33,90 +33,97 @@ This package can be used on **Android 22+** and with **Geth 1.6.2+**.
 
 ## Download Ethdroid and set Geth version
 
-* via Gradle
+Ethdroid and Geth are distribued throught ***jCenter***.
 
-    ```Kotlin
-    dependencies {
-        compile "io.ethmobile:ethdroid:2.0.0-m1"
-        compile "org.ethereum:geth:1.6.2"
-    }
-    ```
+```Kotlin
+repositories {
+    jCenter()
+}
+```
+
+Get it via Gradle with :
+
+```Kotlin
+dependencies {
+    compile 'io.ethmobile:ethdroid:2.0.0-m1'
+    compile 'org.ethereum:geth:1.6.2'
+}
+```
 
 ## Getting Started
-### Start an inproc node
+### Start a Geth node 
+
+With Ethdroid you can easly connect a smartphone to an Ethereum blockchain. 
+
+You can connect to :
+* Main network
+* test network
+* private network
+
+Thanks to the Ethdroid.Builder class, you can customize your node. 
+
+First of all, to create a Builder you have to provide the directory path where blockchain data files will be saved. 
+
+Then, provide the chain configuration, or use the default ones. 
+
+*Optionally*, reference a *Key Manager* if you have already built it.
+It's mandatory in order to use account related node functions, but you can reference it later.
+
+*Optionally*, reference a Go Context to use as default when making calls to node (See [golang doc](https://golang.org/pkg/context/)). Default is *backgroundContext*.
+
+Finally, build to get the node reference and start communication with it.
+
+
+#### on **main network**
 
 ```java
 
-String datadir = getFilesDir().getAbsolutePath();
-
-EthDroid ethdroid = EthDroid.Builder(datadir)
-    .withChainConfig(new ChainConfig.Builder(networkID, genesis, enode).build())
-    .withKeyManager(keyManager)
-    .build();
-
-ethdroid.start();
+new EthDroid.Builder(datadir)  //Whatever directory path where blockchain files must be saved.
+    .onMainnet()
+    .build()
+    .start();
 
 ```
 
+#### on **test network**
 
-### Communicate with a node
 
-In your Application class :
 ```java
-[...]
-public EthereumJava ethereumjava;
-[...]
 
-public EthereumJava getEthereumJava() {
-    return ethereumjava;
-}
+new EthDroid.Builder(datadir)  //Whatever directory path where blockchain files must be saved.
+    .onTestnet()
+    .build()
+    .start();
 
-@Override
-public void onEthereumServiceReady() {
-    ethereumjava = new EthereumJava.Builder()
-            .provider(new AndroidIpcProvider(ethereumService.getIpcFilePath()))
-            .build();
-
-    super.onEthereumServiceReady();
-}  
 ```
+
+#### on **private network**
+
+```java
+
+EthDroid ethdroid = EthDroid.Builder(datadir) //Whatever directory path where blockchain files must be saved.
+    .withChainConfig(new ChainConfig.Builder(networkID, genesis, bootnode).build())
+    .build()
+    .start();
+
+```
+
 
 ### Accounts management
 
-```java
-String password = "passwd";
-String accountId = ethereumJava.personal.createAccount(password);
-boolean unlocked = ethereumJava.personal.unlockAccount(accountId);
-```
+//TODO
 
-### Call a node module
-**Example :** get node information asynchronously 
-```java
-EthereumJava ethereumJava = ((MyApplication) getApplication()).getEthereumJava()
-Observable<NodeInfo> observable = ethereumJava.admin.getNodeInfo()
-observable.subscribe(nodeInfo -> System.out.println(nodeInfo));
+### Send Ether
 
-```
+//TODO
 
+### Interact with a *smart-contract* 
 
-### Send 1 Ether
+#### Instanciate the *smart-contract* interface
 
-```java
-String from = "0xaaaa...";
-String to = "0xbbbb...";
+From the following Solidity smart-contract source code:
 
-TransactionRequest tr = new TransactionRequest("","");
-tr.setValueHex(SolidityUtils.toWei(BigInteger.ONE.toString(),"ether").toBigInteger());        
-Hash transactionHash = ethereumJava.eth.sendTransaction(tr);
-
-```
-
-
-
-### Instanciate a *smart-contract* 
-
-1. From the following Solidity smart-contract source code:
-    ```javascript
+```javascript
     contract ContractExample {
 
         event e(bool);
@@ -146,10 +153,11 @@ Hash transactionHash = ethereumJava.eth.sendTransaction(tr);
             [...]
         }
     }    
-    ```
+```
 
-2. Create the related Java interface :
-    ```java
+1. Create the related Java interface :
+   
+```java
     interface ContractExample extends ContractType{
        
        SolidityEvent<SBool> e();
@@ -173,40 +181,32 @@ Hash transactionHash = ethereumJava.eth.sendTransaction(tr);
        SolidityFunction2<SBool,SArray<SArray<SUInt.SUInt8>>> functionOutputMultiple();
        
     }
-    ```
+```
     
-    When an input/output parameter of a function/event is an array, you have to specify its size with 
-    the annotation : **@SArray.Size**. 
-    
-    Its parameter is an array of integers like **@SArray.Size{2,3,4}** (its equivalent to an array
-    of a size *type*[2][3][4])
-    
-    When your function/event returns an array, to specify its length you have to use the annotation 
-    **@SolidityElement.ReturnParameters({})** which takes an array of @SArray.Size annotations as value.
-    
-    When your function returns multiple types, you have to specify the related SolidityFunction.
-    For exemple, if your function returns 2 booleans you must use return **SolidityFunction2<SBool,SBool>**
-    
-    Table of multiple return type elements and their related wrapper :
-    
-    |Number of Returns  |Function                       |Event                      |Output                     |
-    |--:                |---                            |---                        |---                        |
-    |0                  |SolidityFunction               |SolidityEvent              |SType                      |
-    |1                  |SolidityFunction`<T>`          |SolidityEvent`<T>`         |SingleReturn`<T>`          |
-    |2                  |SolidityFunction2`<T1,T2>`     |SolidityEvent2`<T1,T2>`    |PairReturn`<T1,T2>`        |
-    |3                  |SolidityFunction3`<T1,T2,T3>`  |SolidityEvent3`<T1,T2,T3>` |TripleReturn`<T1,T2,T3>`   |
-    
-3. Instanciate the *smart-contract* available on the blockchain at the given address
+When an input/output parameter of a function/event is an array, you have to specify its size with 
+the annotation : **@SArray.Size**. 
 
-    ```java
-    
-       ContractExample contract = ethereumJava.contract.withAbi(ContractExample.class).at("0xcccc...");
-    
-    ```
-        
-### Interact with deployed *smart-contract*
+Its parameter is an array of integers like **@SArray.Size{2,3,4}** (its equivalent to an array
+of a size *type*[2][3][4])
 
-[**Official doc of smart-contract interaction**](https://github.com/ethereum/go-ethereum/wiki/Contracts-and-Transactions#interacting-with-contracts)
+When your function/event returns an array, to specify its length you have to use the annotation 
+**@SolidityElement.ReturnParameters({})** which takes an array of @SArray.Size annotations as value.
+
+When your function returns multiple types, you have to specify the related SolidityFunction.
+For exemple, if your function returns 2 booleans you must use return **SolidityFunction2<SBool,SBool>**
+
+Table of multiple return type elements and their related wrapper :
+
+|Number of Returns  |Function                       |Event                      |Output                     |
+|--:                |---                            |---                        |---                        |
+|0                  |SolidityFunction               |SolidityEvent              |SType                      |
+|1                  |SolidityFunction`<T>`          |SolidityEvent`<T>`         |SingleReturn`<T>`          |
+|2                  |SolidityFunction2`<T1,T2>`     |SolidityEvent2`<T1,T2>`    |PairReturn`<T1,T2>`        |
+|3                  |SolidityFunction3`<T1,T2,T3>`  |SolidityEvent3`<T1,T2,T3>` |TripleReturn`<T1,T2,T3>`   |
+    
+2. Instanciate the *smart-contract* available on the blockchain at the given address
+
+    //TODO
 
 #### Make a local then reverted call to a *smart-contract* function 
 
@@ -222,40 +222,31 @@ Hash transactionHash = ethereumJava.eth.sendTransaction(tr);
 
 #### Make a persistent call to a *smart-contract* function and be notified when it's mined
 
-```java
-    String from = "0xaaaa..."; /* put here the account which call the function */
-    
-    contract.foo().sendTransactionAndGetMined(from,new BigInteger("90000"))
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(minedTransaction -> doWhenMined()); 
-    
-    /*
-        doWhenMined is a local method called when transaction has been mined.
-        You can refresh the view directly in this method
-    */
-```
+    //TODO
 
-### Listen to *smart-contract* events
+#### Listen to *smart-contract* events
 
 From Android app, subscribe to Solidity events in a background process and be notified in main thread to update the view.
 
 ```java
-    contract.e.watch()
+    contract.e.listen()
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(booleanAnswer -> doWhenEventTriggered());
     
     /*
-        doWhenEvent is a local method called when event is triggered by the deployed smart-contract
+        doWhenEventTriggered is a local method called when event is triggered by the deployed smart-contract
         booleanAnswer is the parameter returned by the triggered event. 
         You can directly update your app view
     */
 ```
 
 ## Project Architecture 
-![library architecture](./ressources/images/library_architecture.png)
+
+//TODO
 
 ## Contribute
 //TODO
+
 ## Licencing
 
 Ethdroid is released under the MIT License (MIT), see [Licence](LICENSE).
