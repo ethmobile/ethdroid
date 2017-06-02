@@ -2,7 +2,6 @@ apply plugin: "com.jfrog.artifactory"
 
 def userProp = System.getenv('ARTIFACTORY_USER_ETHDROID')
 def passProp = System.getenv('ARTIFACTORY_PASS_ETHDROID')
-def contextProp = System.getenv('ARTIFACTORY_CONTEXT_ETHDROID')
 
 File propertiesFile = project.rootProject.file('local.properties')
 
@@ -12,18 +11,25 @@ if( propertiesFile.exists() ){
 
     userProp = properties.getProperty("artifactory_user")
     passProp = properties.getProperty("artifactory_password")
-    contextProp = properties.getProperty("artifactory_contextUrl")
+}
+
+artifactoryPublish {
+    dependsOn sourcesJar, javadocJar
 }
 
 artifactory {
-    contextUrl = contextProp   //The base Artifactory URL if not overridden by the publisher/resolver
+    contextUrl = "https://oss.jfrog.org/artifactory"
     publish {
         repository {
             repoKey = 'oss-snapshot-local'
             username = userProp
             password = passProp
             maven = true
-
+        }
+        defaults {
+            publishConfigs('archives')
+            publishPom = true //Publish generated POM files to Artifactory (true by default)
+            publishIvy = false //Publish generated Ivy descriptor files to Artifactory (true by default)
         }
     }
     resolve {

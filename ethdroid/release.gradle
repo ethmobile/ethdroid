@@ -1,4 +1,52 @@
 apply plugin: 'net.researchgate.release'
+apply plugin: 'com.jfrog.bintray'
+
+
+// Bintray
+def userProp = System.getenv('BINTRAY_USER_ETHDROID')
+def keyProp = System.getenv('BINTRAY_KEY_ETHDROID')
+def passProp = System.getenv('BINTRAY_PASS_ETHDROID')
+
+File propertiesFile = project.rootProject.file('local.properties')
+
+if( propertiesFile.exists() ){
+    Properties properties = new Properties()
+    properties.load(propertiesFile.newDataInputStream())
+
+    userProp = properties.getProperty("bintray.user")
+    keyProp = properties.getProperty("bintray.apikey")
+    passProp = properties.getProperty("bintray.gpg.password")
+}
+
+bintray {
+    user = userProp
+    key = keyProp
+
+    configurations = ['archives']
+
+    override = true
+
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        userOrg = bintrayOrg
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        publish = true
+        publicDownloadNumbers = true
+        version {
+            desc = libraryDescription
+            gpg {
+                sign = true //Determines whether to GPG sign the files. The default is false
+                passphrase = passProp
+                //Optional. The passphrase for GPG signing'
+            }
+        }
+    }
+}
+
 
 release {
     buildTasks = ['build','bintrayUpload']
