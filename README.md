@@ -33,22 +33,33 @@ This package can be used on **Android 22+** and with **Geth 1.6.2+**.
 
 ## Download Ethdroid and set Geth version
 
-Ethdroid and Geth are distribued throught ***jCenter***.
+Ethdroid and Geth ***stable*** versions are distribued throught ***jCenter***.
+
+Because Geth project evolves independently of Ethdroid library. That's why you are free to set the 
+latest compatible Geth version as dependency.
 
 ```Kotlin
 repositories {
     jCenter()
 }
-```
-
-Get it via Gradle with :
-
-```Kotlin
 dependencies {
-    compile 'io.ethmobile:ethdroid:2.0.0-m1'
-    compile 'org.ethereum:geth:1.6.2'
+    compile 'io.ethmobile:ethdroid:2.0.0-m2'
+    compile 'org.ethereum:geth:1.6.3'
 }
 ```
+
+For current ***develop*** version of Ethdroid, you can download via : 
+
+```Kotlin
+repositories {
+    maven { url "https://oss.jfrog.org/artifactory/oss-snapshot-local" }
+}
+dependencies {
+    compile 'io.ethmobile:ethdroid:2.0.0-m2-SNAPSHOT'
+    compile 'org.ethereum:geth:1.6.3'
+}
+```
+
 
 ## Getting Started
 ### Start a Geth node 
