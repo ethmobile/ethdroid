@@ -1,0 +1,38 @@
+apply plugin: "com.jfrog.artifactory"
+
+def userProp = System.getenv('ARTIFACTORY_USER_ETHDROID')
+def passProp = System.getenv('ARTIFACTORY_PASS_ETHDROID')
+def contextProp = System.getenv('ARTIFACTORY_CONTEXT_ETHDROID')
+
+File propertiesFile = project.rootProject.file('local.properties')
+
+if( propertiesFile.exists() ){
+    Properties properties = new Properties()
+    properties.load(propertiesFile.newDataInputStream())
+
+    userProp = properties.getProperty("artifactory_user")
+    passProp = properties.getProperty("artifactory_password")
+    contextProp = properties.getProperty("artifactory_contextUrl")
+}
+
+artifactory {
+    contextUrl = contextProp   //The base Artifactory URL if not overridden by the publisher/resolver
+    publish {
+        repository {
+            repoKey = 'oss-snapshot-local'
+            username = userProp
+            password = passProp
+            maven = true
+
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'libs-snapshot'
+            username = userProp
+            password = passProp
+            maven = true
+
+        }
+    }
+}

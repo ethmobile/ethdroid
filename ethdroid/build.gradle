@@ -70,3 +70,4 @@ ext {
 apply from: 'install.gradle'
 apply from: 'bintray.gradle'
 apply from: 'release.gradle'
+apply from: 'snapshot.gradle'
