@@ -15,6 +15,8 @@ import org.ethereum.geth.Header;
 import org.ethereum.geth.Node;
 import org.ethereum.geth.SyncProgress;
 
+import java.util.List;
+
 import rx.Observable;
 
 /**
@@ -184,9 +186,19 @@ public class EthDroid {
         if( context.keyManager == null ) throw new EthDroidException("no key manager configured");
         context.mainAccount = context.keyManager.getAccounts().get(keyManagerIndex);
     }
+
+    /*
+    * Set the main account by default if none has been defined.
+    * By default the main account is the first one in the key manager.
+    * If no key manager is referenced, main account is null.
+    * If there is no accounts in key manager, main account is null.
+    */
     private static void setDefaultMainAccount(EthDroid eth) throws Exception {
         if( eth.mainAccount == null && eth.keyManager != null ){
-            eth.mainAccount = eth.keyManager.getAccounts().get(0);
+            List<Account> accounts = eth.keyManager.getAccounts();
+            if( accounts.size() > 0 ) {
+                eth.mainAccount = accounts.get(0);
+            }
         }
     }
     private static void setMainAccount(EthDroid eth,Account mainAccount){
