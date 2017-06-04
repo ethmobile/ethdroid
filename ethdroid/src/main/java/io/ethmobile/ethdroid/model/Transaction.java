@@ -118,14 +118,20 @@ public class Transaction {
     /**
      * Set transaction data from given hexadecimal byte array in string format
      * data can be prefixed by '0x' hexadecimal identifier
-     * @param data
-     * @return
+     * @param data String date used to build the transaction
+     * @return Transaction built from data
      */
     public Transaction data(String data){
         if( data.contains("0x") ) data = data.substring(2);
         data(ByteString.decodeHex(data).toByteArray());
         return this;
     }
+
+    /**
+     * Set context in the transaction
+     * @param context Context to set in the transaction
+     * @return Updated current transaction
+     */
     public Transaction context(Context context){
         this.txContext = context;
         return this;
@@ -141,6 +147,7 @@ public class Transaction {
      * Get raw geth transaction.
      * Returned transaction is not signed, so it can't be sent.
      * @return not signed transaction
+     * @throws Exception An error occured
      */
     public org.ethereum.geth.Transaction getRawTransaction() throws Exception {
         if( to == null ) throw new EthDroidException(NO_RECIPIENT_ERROR);

@@ -23,8 +23,8 @@ public class Balance {
 
     /**
      * Build a balance object with the given value (in wei === 10^18 ether)
-     * @param value
-     * @return
+     * @param value Value ti use in wei (1 wei === 10^18 ether)
+     * @return balance built from value
      */
     public static Balance of(long value){
         return new Balance(value);

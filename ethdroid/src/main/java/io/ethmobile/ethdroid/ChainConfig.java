@@ -104,7 +104,7 @@ public class ChainConfig {
         /**
          * Set the size of the blockchain database in cache
          * Cf. //TODO
-         * @param dbCache
+         * @param dbCache Megabytes of memory allocated to internal caching
          * @return reference on the parametrized builder
          */
         public Builder withDbCache(long dbCache){
