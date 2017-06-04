@@ -70,8 +70,11 @@ public class EthDroid {
         EthDroid build;
 
         /**
-         * Parameterized Builder with the default values :
-         * - Context : @withDefaultContext
+         * Parametrized Builder with the default values :
+         * <ul>
+         *     <li>Context : @{@link Builder#withCancelContext()}</li>
+         * </ul>
+         * @param datadir Directory where to store Geth files
          */
         public Builder(String datadir) {
             build = new EthDroid();
