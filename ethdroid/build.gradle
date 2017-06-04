@@ -84,7 +84,7 @@ ext {
     libraryName = 'ethdroid'
     artifact = 'ethdroid'
 
-    libraryDescription = 'Easy-to-use Ethereum client wrapper for Android http://ethmobile.io/ethdroid'
+    libraryDescription = 'Easy-to-use Ethereum client wrapper for Android'
 
     siteUrl = 'http://ethmobile.io/ethdroid'
     gitUrl = 'https://github.com/ethmobile/ethdroid.git'
