@@ -5,6 +5,10 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
 
+    configurations {
+        javadocDeps
+    }
+
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 25
@@ -30,6 +34,8 @@ android {
 }
 
 dependencies {
+    ext.gethDep = 'org.ethereum:geth:1.6.3'
+
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -39,8 +45,9 @@ dependencies {
     androidTestCompile 'com.android.support.test:rules:0.5'
     compile 'com.android.support:appcompat-v7:25.1.0'
     testCompile 'junit:junit:4.12'
-    compileOnly 'org.ethereum:geth:1.6.3'
-    androidTestCompile 'org.ethereum:geth:1.6.3'
+    compileOnly gethDep
+    androidTestCompile gethDep
+    javadocDeps gethDep
     compile 'io.reactivex:rxjava:1.2.4'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.google.code.gson:gson:2.8.0'
@@ -58,6 +65,7 @@ if (project.hasProperty("android")) { // Android libraries
         source = android.sourceSets.main.java.srcDirs
         classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
         classpath += configurations.compile
+        classpath += configurations.javadocDeps
     }
 } else { // Java libraries
     task sourcesJar(type: Jar, dependsOn: classes) {
