@@ -46,5 +46,5 @@ before_cache:
  -rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
  directories:
-  -$HOME/.gradle/caches/
-  -$HOME/.gradle/wrapper/
+  - $HOME/.gradle
+  - $HOME/.m2
