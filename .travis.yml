@@ -1,7 +1,9 @@
 language: android
 sudo: required
+dist: trusty
+group: edge
 jdk:
-  - oraclejdk8
+  - openjdk8
 
 env:
  global:
