@@ -1,3 +1,8 @@
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.io.FileOutputStream
+import java.util.zip.ZipFile
+
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
@@ -76,6 +81,25 @@ if (project.hasProperty("android")) { // Android libraries
         classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
         classpath += configurations.compile
         classpath += configurations.javadocDeps
+        afterEvaluate {
+            // Wait after evaluation to add the android classpath
+            // to avoid "buildToolsVersion is not specified" error
+            classpath += files(android.getBootClasspath())
+
+            // Process AAR dependencies
+            def aarDependencies = classpath.filter { it.name.endsWith('.aar') }
+            classpath -= aarDependencies
+            aarDependencies.each { aar ->
+                // Extract classes.jar from the AAR dependency, and add it to the javadoc classpath
+                def outputPath = "$buildDir/tmp/aarJar/${aar.name.replace('.aar', '.jar')}"
+                classpath += files(outputPath)
+
+                // Use a task so the actual extraction only happens before the javadoc task is run
+                dependsOn task(name: "extract ${aar.name}").doLast {
+                    extractEntry(aar, 'classes.jar', outputPath)
+                }
+            }
+        }
     }
 } else { // Java libraries
     task sourcesJar(type: Jar, dependsOn: classes) {
@@ -87,6 +111,25 @@ if (project.hasProperty("android")) { // Android libraries
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
     from javadoc.destinationDir
+}
+
+// Utility method to extract only one entry in a zip file
+private def extractEntry(archive, entryPath, outputPath) {
+    if (!archive.exists()) {
+        throw new GradleException("archive $archive not found")
+    }
+
+    def path = Paths.get(outputPath)
+    if (!Files.exists(path)) {
+        def zip = new ZipFile(archive)
+        zip.entries().each {
+            if (it.name == entryPath) {
+                Files.createDirectories(path.getParent())
+                Files.copy(zip.getInputStream(it), path)
+            }
+        }
+        zip.close()
+    }
 }
 
 artifacts {
