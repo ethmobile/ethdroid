@@ -50,6 +50,9 @@ bintray {
 
 release {
     buildTasks = ['build','bintrayUpload']
+    preTagCommitMessage = '[Gradle Release Plugin] [skip ci] - pre tag commit: '
+    tagCommitMessage = '[Gradle Release Plugin] [skip ci] - creating tag: '
+    newVersionCommitMessage = '[Gradle Release Plugin] [skip ci] - new version commit: '
     git {
         requireBranch = ''
     }
