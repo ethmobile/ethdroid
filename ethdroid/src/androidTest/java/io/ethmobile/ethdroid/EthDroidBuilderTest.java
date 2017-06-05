@@ -3,6 +3,7 @@ package io.ethmobile.ethdroid;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -91,6 +92,23 @@ public class EthDroidBuilderTest {
             fail("Exception thrown : "+e.getMessage());
         }
         checkNodeBuilt();
+    }
+
+    @Test
+    public void builderEmptyKeyManager() throws Exception{
+        try {
+
+            ethdroid = new EthDroid.Builder(datadir)
+                .withDefaultContext()
+                .withChainConfig(ChainConfig.getTestnetConfig())
+                .withKeyManager(KeyManager.newKeyManager(datadir))
+                .build();
+
+            Assert.assertNull(ethdroid.getMainAccount());
+
+        }catch(Exception e){
+            fail("Exception thrown : "+e.getMessage());
+        }
     }
 
 }
