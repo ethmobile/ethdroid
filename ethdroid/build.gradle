@@ -4,6 +4,7 @@ import java.util.zip.ZipFile
 
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 25
