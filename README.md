@@ -1,5 +1,9 @@
 # Ethdroid : Easy-to-use Ethereum client wrapper for Android 
 
+[![Build Status](https://travis-ci.org/ethmobile/ethdroid.svg?branch=master)](https://travis-ci.org/ethmobile/ethdroid)
+
+
+
 ## Why using Ethdroid
 
 If you think that smartphone is future of blockchain, **Ethdroid** is here to help you building amazing decentralized smartphone apps. 
