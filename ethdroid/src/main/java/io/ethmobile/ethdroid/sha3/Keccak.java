@@ -135,7 +135,7 @@ public class Keccak {
             }
         }
 
-        //ρ and π steps
+        //Rhô and π steps
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 B[j][(2 * i + 3 * j) % 5] = rot(A[i][j], r[i][j]);
