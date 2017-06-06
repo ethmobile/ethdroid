@@ -18,7 +18,7 @@ public abstract class Sha3 {
     }
 
     private static String getHexStringByByteArray(byte[] array) {
-        if (array == null){
+        if (array == null) {
             return null;
         }
         StringBuilder stringBuilder = new StringBuilder(array.length * 2);

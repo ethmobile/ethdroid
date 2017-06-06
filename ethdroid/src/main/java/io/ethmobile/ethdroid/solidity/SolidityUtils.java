@@ -4,7 +4,6 @@ package io.ethmobile.ethdroid.solidity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import io.ethmobile.ethdroid.sha3.Sha3;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -12,37 +11,39 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
+import io.ethmobile.ethdroid.sha3.Sha3;
+
 
 /**
  * Created by gunicolas on 08/08/16.
  */
 public abstract class SolidityUtils {
 
-    public static final HashMap<String,BigDecimal> UNIT = new HashMap<String,BigDecimal>(){{
-        put("noether", new BigDecimal(  0));
-        put("wei", new BigDecimal(      1));
-        put("kwei", new BigDecimal(     "1000"));
-        put("babbage", new BigDecimal(  "1000"));
-        put("femtoether",new BigDecimal("1000"));
-        put("mwei", new BigDecimal(     "1000000"));
-        put("lovelace", new BigDecimal( "1000000"));
+    public static final HashMap<String, BigDecimal> UNIT = new HashMap<String, BigDecimal>() {{
+        put("noether", new BigDecimal(0));
+        put("wei", new BigDecimal(1));
+        put("kwei", new BigDecimal("1000"));
+        put("babbage", new BigDecimal("1000"));
+        put("femtoether", new BigDecimal("1000"));
+        put("mwei", new BigDecimal("1000000"));
+        put("lovelace", new BigDecimal("1000000"));
         put("picoether", new BigDecimal("1000000"));
-        put("gwei", new BigDecimal(     "1000000000"));
-        put("shannon", new BigDecimal(  "1000000000"));
+        put("gwei", new BigDecimal("1000000000"));
+        put("shannon", new BigDecimal("1000000000"));
         put("nanoether", new BigDecimal("1000000000"));
-        put("nano", new BigDecimal(     "1000000000"));
-        put("szabo", new BigDecimal(    "1000000000000"));
-        put("microether",new BigDecimal("1000000000000"));
-        put("micro", new BigDecimal(    "1000000000000"));
-        put("finney", new BigDecimal(   "1000000000000000"));
+        put("nano", new BigDecimal("1000000000"));
+        put("szabo", new BigDecimal("1000000000000"));
+        put("microether", new BigDecimal("1000000000000"));
+        put("micro", new BigDecimal("1000000000000"));
+        put("finney", new BigDecimal("1000000000000000"));
         put("milliether", new BigDecimal("1000000000000000"));
-        put("milli", new BigDecimal(    "1000000000000000"));
-        put("ether", new BigDecimal(    "1000000000000000000"));
-        put("kether", new BigDecimal(   "1000000000000000000000"));
-        put("grand", new BigDecimal(    "1000000000000000000000"));
-        put("mether", new BigDecimal(   "1000000000000000000000000"));
-        put("gether", new BigDecimal(   "1000000000000000000000000000"));
-        put("tether", new BigDecimal(   "1000000000000000000000000000000"));
+        put("milli", new BigDecimal("1000000000000000"));
+        put("ether", new BigDecimal("1000000000000000000"));
+        put("kether", new BigDecimal("1000000000000000000000"));
+        put("grand", new BigDecimal("1000000000000000000000"));
+        put("mether", new BigDecimal("1000000000000000000000000"));
+        put("gether", new BigDecimal("1000000000000000000000000000"));
+        put("tether", new BigDecimal("1000000000000000000000000000000"));
     }};
 
 
@@ -118,7 +119,7 @@ public abstract class SolidityUtils {
     public static String utf8ToHex(String utf8) {
         byte bytes[] = utf8.getBytes(Charset.forName("UTF-8"));
         StringBuilder sb = new StringBuilder(bytes.length * 2);
-        for (byte b : bytes){
+        for (byte b : bytes) {
             sb.append(String.format("%02x", b & 0xff));
         }
         return "0x" + sb.toString();
@@ -351,7 +352,8 @@ public abstract class SolidityUtils {
     public static BigDecimal toTwosComplement(String value) {
         BigDecimal valueBD = toBigDecimal(value);
         if (valueBD.signum() == -1) {
-            BigInteger complement = new BigInteger("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", 16);
+            BigInteger complement = new BigInteger(
+                "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", 16);
             return valueBD.add(new BigDecimal(complement)).add(new BigDecimal(1));
         }
         return valueBD;
@@ -363,7 +365,8 @@ public abstract class SolidityUtils {
     }
 
     public static boolean isAddress(String value) {
-        Pattern requirementsPattern = Pattern.compile("^(0x)?[0-9a-f]{40}$", Pattern.CASE_INSENSITIVE);
+        Pattern requirementsPattern = Pattern.compile("^(0x)?[0-9a-f]{40}$",
+            Pattern.CASE_INSENSITIVE);
         boolean requirements = requirementsPattern.matcher(value).matches();
         if (!requirements) {
             return false; //

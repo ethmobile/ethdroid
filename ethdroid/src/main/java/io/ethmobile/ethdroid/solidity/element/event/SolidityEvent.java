@@ -1,5 +1,11 @@
 package io.ethmobile.ethdroid.solidity.element.event;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
+
 import io.ethmobile.ethdroid.EthDroid;
 import io.ethmobile.ethdroid.model.Filter;
 import io.ethmobile.ethdroid.model.FilterOptions;
@@ -8,13 +14,6 @@ import io.ethmobile.ethdroid.solidity.element.SolidityElement;
 import io.ethmobile.ethdroid.solidity.element.returns.SingleReturn;
 import io.ethmobile.ethdroid.solidity.types.SArray;
 import io.ethmobile.ethdroid.solidity.types.SType;
-
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.List;
-
 import okio.ByteString;
 import rx.Observable;
 
@@ -29,7 +28,7 @@ public class SolidityEvent<T extends SType> extends SolidityElement {
     }
 
     @Override
-    protected List<AbstractMap.SimpleEntry<Type,SArray.Size>> getParametersType() {
+    protected List<AbstractMap.SimpleEntry<Type, SArray.Size>> getParametersType() {
         return returns;
     }
 
@@ -44,11 +43,14 @@ public class SolidityEvent<T extends SType> extends SolidityElement {
     Observable<SType[]> createFilterAndDecode() throws Exception {
         FilterOptions options = encode();
 
-        return Filter.newLogFilter(eth,options)
-                    .map(log -> {
-                        if( returns.size() == 0 ) return null;
-                        else return SCoder.decodeParams(ByteString.of(log.getData()).hex(),returns);
-                    });
+        return Filter.newLogFilter(eth, options)
+            .map(log -> {
+                if (returns.size() == 0) {
+                    return null;
+                } else {
+                    return SCoder.decodeParams(ByteString.of(log.getData()).hex(), returns);
+                }
+            });
     }
 
 

@@ -12,8 +12,8 @@ public class SInt64Decoder implements SDecoder<SInt.SInt64> {
 
     @Override
     public SInt.SInt64 decode(String toDecode) {
-        if( !toDecode.toLowerCase().startsWith("0x") ){
-            toDecode = "0x"+toDecode;
+        if (!toDecode.toLowerCase().startsWith("0x")) {
+            toDecode = "0x" + toDecode;
         }
         return SInt.fromLong(SolidityUtils.hexToBigDecimal(toDecode).toBigInteger().longValue());
     }

@@ -12,8 +12,8 @@ public class SUInt16Decoder implements SDecoder<SUInt.SUInt16> {
 
     @Override
     public SUInt.SUInt16 decode(String toDecode) {
-        if( !toDecode.toLowerCase().startsWith("0x") ){
-            toDecode = "0x"+toDecode;
+        if (!toDecode.toLowerCase().startsWith("0x")) {
+            toDecode = "0x" + toDecode;
         }
         return SUInt.fromInteger(SolidityUtils.hexToBigDecimal(toDecode).toBigInteger().intValue());
     }

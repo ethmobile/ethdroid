@@ -12,8 +12,8 @@ public class SInt256Decoder implements SDecoder<SInt.SInt256> {
 
     @Override
     public SInt.SInt256 decode(String toDecode) {
-        if( !toDecode.toLowerCase().startsWith("0x") ){
-            toDecode = "0x"+toDecode;
+        if (!toDecode.toLowerCase().startsWith("0x")) {
+            toDecode = "0x" + toDecode;
         }
         return SInt.fromBigInteger256(SolidityUtils.hexToBigDecimal(toDecode).toBigInteger());
     }

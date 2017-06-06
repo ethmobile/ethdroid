@@ -1,8 +1,8 @@
 package io.ethmobile.ethdroid.solidity.types;
 
-import io.ethmobile.ethdroid.exception.EthDroidException;
-
 import java.util.regex.Pattern;
+
+import io.ethmobile.ethdroid.exception.EthDroidException;
 
 
 /**
@@ -15,8 +15,9 @@ public class SAddress extends SType<String> {
     }
 
     public static SAddress fromString(String from) throws EthDroidException {
-        if (!isAddress(from))
+        if (!isAddress(from)) {
             throw new EthDroidException("illegal argument. " + from + " is not a solidity address");
+        }
         return new SAddress(from);
     }
 
@@ -28,13 +29,13 @@ public class SAddress extends SType<String> {
         return Pattern.compile("^address(\\[([0-9])*\\])*$").matcher(name).matches();
     }
 
+    public static Class<? extends SType> getClazz() {
+        return SAddress.class;
+    }
+
     @Override
     public String asString() {
         return value;
-    }
-
-    public static Class<? extends SType> getClazz() {
-        return SAddress.class;
     }
 
 }

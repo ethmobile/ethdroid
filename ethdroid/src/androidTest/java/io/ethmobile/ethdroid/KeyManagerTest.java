@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static io.ethmobile.ethdroid.Utils.deleteDirIfExists;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -24,24 +25,24 @@ import static org.junit.Assert.fail;
 public class KeyManagerTest {
 
 
+    private static final String PASSWORD = "password";
     private Context appContext;
     private String datadir;
     private KeyManager keyManager;
     private Account account;
-    private static final String PASSWORD = "password";
 
     @Before
     public void setUp() throws Exception {
         appContext = InstrumentationRegistry.getTargetContext();
         datadir = appContext.getFilesDir().getAbsolutePath();
-        deleteDirIfExists(new File(datadir+"/keystore"));
+        deleteDirIfExists(new File(datadir + "/keystore"));
     }
 
     @Test
     public void newKeyManager() throws Exception {
         keyManager = KeyManager.newKeyManager(datadir);
-        File dir = new File(datadir+"/keystore");
-        assertTrue(dir.exists() && dir.isDirectory() && dir.list().length==0);
+        File dir = new File(datadir + "/keystore");
+        assertTrue(dir.exists() && dir.isDirectory() && dir.list().length == 0);
     }
 
     @Test
@@ -75,7 +76,7 @@ public class KeyManagerTest {
         newKeyManager();
         newAccount();
         List<Account> accounts = keyManager.getAccounts();
-        assertTrue(accounts.size()==1 && accounts.get(0).equals(account));
+        assertTrue(accounts.size() == 1 && accounts.get(0).equals(account));
     }
 
     @Test
@@ -97,7 +98,7 @@ public class KeyManagerTest {
     public void unlockAccount() throws Exception {
         newKeyManager();
         newAccount();
-        keyManager.unlockAccount(account,PASSWORD);
+        keyManager.unlockAccount(account, PASSWORD);
         assertFalse(keyManager.accountIsLocked(account));
     }
 
@@ -105,7 +106,7 @@ public class KeyManagerTest {
     public void unlockAccountDuring() throws Exception {
         newKeyManager();
         newAccount();
-        keyManager.unlockAccountDuring(account,PASSWORD,5);
+        keyManager.unlockAccountDuring(account, PASSWORD, 5);
         assertFalse(keyManager.accountIsLocked(account));
         TimeUnit.SECONDS.sleep(5);
         assertTrue(keyManager.accountIsLocked(account));
@@ -115,7 +116,7 @@ public class KeyManagerTest {
     public void deleteAccount() throws Exception {
         newKeyManager();
         newAccount();
-        keyManager.deleteAccount(account,PASSWORD);
+        keyManager.deleteAccount(account, PASSWORD);
         File file = new File(account.getURL().substring(11));
         assertTrue(!file.exists());
     }
@@ -124,15 +125,16 @@ public class KeyManagerTest {
     public void updateAccountPassphrase() throws Exception {
         newKeyManager();
         newAccount();
-        String newPassword = PASSWORD+"2";
-        keyManager.updateAccountPassphrase(account,PASSWORD,newPassword);
+        String newPassword = PASSWORD + "2";
+        keyManager.updateAccountPassphrase(account, PASSWORD, newPassword);
         try {
-            keyManager.unlockAccount(account,PASSWORD);
+            keyManager.unlockAccount(account, PASSWORD);
             fail("passphrase not updated");
-        }catch(Exception e ){}
+        } catch (Exception e) {
+        }
         try {
             keyManager.unlockAccount(account, newPassword);
-        }catch(Exception e){
+        } catch (Exception e) {
             fail("passphrase updated but can't unlock with the new one");
         }
     }
@@ -141,7 +143,7 @@ public class KeyManagerTest {
     public void signString() throws Exception {
         newKeyManager();
         newAccount();
-        keyManager.unlockAndsignString(account,PASSWORD, "hello");
+        keyManager.unlockAndsignString(account, PASSWORD, "hello");
     }
 
     @Test(expected = Exception.class)

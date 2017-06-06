@@ -1,9 +1,9 @@
 package io.ethmobile.ethdroid.solidity.types;
 
 
-import io.ethmobile.ethdroid.exception.EthDroidException;
-
 import java.util.regex.Pattern;
+
+import io.ethmobile.ethdroid.exception.EthDroidException;
 
 
 /**
@@ -17,8 +17,9 @@ public class SBytes extends SType<Byte[]> {
 
 
     public static SBytes fromByteArray(Byte[] value) {
-        if (value.length > 32)
+        if (value.length > 32) {
             throw new EthDroidException("illegal argument. SBytes is limited to 32 bytes length.");
+        }
         return new SBytes(value);
     }
 

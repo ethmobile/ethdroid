@@ -1,5 +1,8 @@
 package io.ethmobile.ethdroid.solidity.coder;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import io.ethmobile.ethdroid.solidity.coder.decoder.SBoolDecoder;
 import io.ethmobile.ethdroid.solidity.coder.decoder.SDecoder;
 import io.ethmobile.ethdroid.solidity.coder.decoder.sintdecoder.SInt128Decoder;
@@ -26,39 +29,40 @@ import io.ethmobile.ethdroid.solidity.types.SBytes;
 import io.ethmobile.ethdroid.solidity.types.SInt;
 import io.ethmobile.ethdroid.solidity.types.SUInt;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Mapping between Solidity types and coders (Encoders/Decoders).
  * Created by gunicolas on 08/09/16.
  */
 public abstract class SCoderMapper {
 
-    private static final Map<Class, Class<? extends SEncoder>> encoderMapping = new HashMap<Class, Class<? extends SEncoder>>() {{
-        put(SInt.class, SIntEncoder.class);
-        put(SUInt.class, SUIntEncoder.class); //TODO SUIntEncoder == SIntEncoder --> Refactor to use the same encoder
-        put(SBytes.class, SBytesEncoder.class);
-        put(SBool.class, SBoolEncoder.class);
-        put(SArray.class, SArrayEncoder.class);
-    }};
+    private static final Map<Class, Class<? extends SEncoder>> encoderMapping =
+        new HashMap<Class, Class<? extends SEncoder>>() {{
+            put(SInt.class, SIntEncoder.class);
+            put(SUInt.class,
+                SUIntEncoder.class); //TODO SUIntEncoder == SIntEncoder --> Refactor to use the
+            // same encoder
+            put(SBytes.class, SBytesEncoder.class);
+            put(SBool.class, SBoolEncoder.class);
+            put(SArray.class, SArrayEncoder.class);
+        }};
 
 
-    private static final Map<Class, Class<? extends SDecoder>> decoderMapping = new HashMap<Class, Class<? extends SDecoder>>() {{
-        put(SInt.SInt8.class, SInt8Decoder.class);
-        put(SInt.SInt16.class, SInt16Decoder.class);
-        put(SInt.SInt32.class, SInt32Decoder.class);
-        put(SInt.SInt64.class, SInt64Decoder.class);
-        put(SInt.SInt128.class, SInt128Decoder.class);
-        put(SInt.SInt256.class, SInt256Decoder.class);
-        put(SUInt.SUInt8.class, SUInt8Decoder.class);
-        put(SUInt.SUInt16.class, SUInt16Decoder.class);
-        put(SUInt.SUInt32.class, SUInt32Decoder.class);
-        put(SUInt.SUInt64.class, SUInt64Decoder.class);
-        put(SUInt.SUInt128.class, SUInt128Decoder.class);
-        put(SUInt.SUInt256.class, SUInt256Decoder.class);
-        put(SBool.class, SBoolDecoder.class);
-    }};
+    private static final Map<Class, Class<? extends SDecoder>> decoderMapping =
+        new HashMap<Class, Class<? extends SDecoder>>() {{
+            put(SInt.SInt8.class, SInt8Decoder.class);
+            put(SInt.SInt16.class, SInt16Decoder.class);
+            put(SInt.SInt32.class, SInt32Decoder.class);
+            put(SInt.SInt64.class, SInt64Decoder.class);
+            put(SInt.SInt128.class, SInt128Decoder.class);
+            put(SInt.SInt256.class, SInt256Decoder.class);
+            put(SUInt.SUInt8.class, SUInt8Decoder.class);
+            put(SUInt.SUInt16.class, SUInt16Decoder.class);
+            put(SUInt.SUInt32.class, SUInt32Decoder.class);
+            put(SUInt.SUInt64.class, SUInt64Decoder.class);
+            put(SUInt.SUInt128.class, SUInt128Decoder.class);
+            put(SUInt.SUInt256.class, SUInt256Decoder.class);
+            put(SBool.class, SBoolDecoder.class);
+        }};
 
 
     /**

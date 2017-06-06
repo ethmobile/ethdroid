@@ -12,8 +12,8 @@ public class SInt32Decoder implements SDecoder<SInt.SInt32> {
 
     @Override
     public SInt.SInt32 decode(String toDecode) {
-        if( !toDecode.toLowerCase().startsWith("0x") ){
-            toDecode = "0x"+toDecode;
+        if (!toDecode.toLowerCase().startsWith("0x")) {
+            toDecode = "0x" + toDecode;
         }
         return SInt.fromInteger(SolidityUtils.hexToBigDecimal(toDecode).toBigInteger().intValue());
     }

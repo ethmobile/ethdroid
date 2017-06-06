@@ -12,8 +12,8 @@ public class SInt16Decoder implements SDecoder<SInt.SInt16> {
 
     @Override
     public SInt.SInt16 decode(String toDecode) {
-        if( !toDecode.toLowerCase().startsWith("0x") ){
-        toDecode = "0x"+toDecode;
+        if (!toDecode.toLowerCase().startsWith("0x")) {
+            toDecode = "0x" + toDecode;
         }
         return SInt.fromShort(SolidityUtils.hexToBigDecimal(toDecode).toBigInteger().shortValue());
     }

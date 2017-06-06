@@ -18,8 +18,11 @@ import java.math.BigInteger;
  */
 public abstract class Utils {
 
-/*    *//**
-     * Check given method to extract it's return type or parametized type with the exact generic type
+/*    */
+
+    /**
+     * Check given method to extract it's return type or parametized type with the exact generic
+     * type
      * (must be defined in parameters and method annotated with GenericTypeIndex ).
      * The return type can be the generic of an Observable.
      * <p>
@@ -35,10 +38,12 @@ public abstract class Utils {
 
         Type returnType = null;
         if (m.getReturnType().isAssignableFrom(Observable.class)) { // Case of Observable<Object>
-            ParameterizedType returnParameterizedType = (ParameterizedType) m.getGenericReturnType();
+            ParameterizedType returnParameterizedType = (ParameterizedType) m
+            .getGenericReturnType();
             returnType = returnParameterizedType.getActualTypeArguments()[0]; // Extract Object type
             if (returnType instanceof ParameterizedType) { // If Object is Object<?>
-                returnType = ((ParameterizedType) returnType).getRawType(); // Extract Object class type
+                returnType = ((ParameterizedType) returnType).getRawType(); // Extract Object
+                class type
             }
         } else {
             returnType = m.getReturnType();
@@ -51,11 +56,11 @@ public abstract class Utils {
                 throw new EthereumJavaException("GenericTypeIndex value out of bounds");
             }
             Class genericType = (Class) args[index];
-            returnType = getType((Class<?>) returnType, genericType); //TODO Dangerous cast -- check why getType can't take "Type" parameters
+            returnType = getType((Class<?>) returnType, genericType); //TODO Dangerous cast --
+            check why getType can't take "Type" parameters
         }
         return returnType;
     }*/
-
     static Type getType(final Class<?> rawClass, final Class<?> parameter) {
         return new ParameterizedType() {
             @Override
@@ -119,7 +124,8 @@ public abstract class Utils {
                 Class module = method.getDeclaringClass();
                 methodName = methodName.substring(3, methodName.length()); // Remove get keyword
                 char charArray[] = methodName.toCharArray();              //------------------
-                charArray[0] = Character.toLowerCase(charArray[0]);       // respect method name format
+                charArray[0] = Character.toLowerCase(charArray[0]);       // respect method name
+                format
                 methodName = new String(charArray);                       //------------------
                 for (Method m : module.getMethods()) {
                     if (m.getName().equals(methodName)
@@ -129,19 +135,22 @@ public abstract class Utils {
                 }
             }
         }
-        throw new EthereumJavaException("InvocationHandler error: No Ethereum method Found for " + method.getName());
+        throw new EthereumJavaException("InvocationHandler error: No Ethereum method Found for "
+        + method.getName());
     }*/
 
     /**
      * Returns first occurence of annotationType in annotationArray or null if doesn't exist
+     *
      * @param annotationArray the annotation array to test
-     * @param annotationType the annotation type to find
-     * @param <T> the annotation type
+     * @param annotationType  the annotation type to find
+     * @param <T>             the annotation type
      * @return the first occurence of annotationType in annotationArray or null if doesn't exist
      */
-    public static <T extends Annotation> T arrayContainsAnnotation(Annotation[] annotationArray, Class<T> annotationType ){
-        for(Annotation annotation : annotationArray ){
-            if( annotationType.isInstance(annotation) ){
+    public static <T extends Annotation> T arrayContainsAnnotation(Annotation[] annotationArray,
+        Class<T> annotationType) {
+        for (Annotation annotation : annotationArray) {
+            if (annotationType.isInstance(annotation)) {
                 return (T) annotation;
             }
         }
@@ -153,13 +162,14 @@ public abstract class Utils {
      * {@literal
      * Ex: (3,[1,2,3]) -> 3*1*2*3=18
      * }
-     * @param a the base value
+     *
+     * @param a     the base value
      * @param array an array of values to multiply by
      * @return the multiplication of the given value by values contained in the array
      */
-    public static int multiplyByArrayValues(int a,int[] array){
+    public static int multiplyByArrayValues(int a, int[] array) {
         int ret = a;
-        for(int value : array){
+        for (int value : array) {
             ret *= value;
         }
         return ret;
@@ -167,15 +177,16 @@ public abstract class Utils {
 
     /**
      * Test if the first parameter is a class or a subclass of the second parameter.
+     *
      * @param toTest the (sub)class to test
-     * @param clazz the reference class
+     * @param clazz  the reference class
      * @return true if the first parameter is a class or a subclass of the second parameter.
      */
-    public static boolean isClassOrSubclass(Class toTest,Class clazz){
-        try{
+    public static boolean isClassOrSubclass(Class toTest, Class clazz) {
+        try {
             toTest.asSubclass(clazz);
             return true;
-        } catch( ClassCastException e){
+        } catch (ClassCastException e) {
             return false;
         }
     }
@@ -190,9 +201,10 @@ public abstract class Utils {
         file.delete();
     }
 
-    public static boolean transactionListContains(Transactions transactions, Hash txHash) throws Exception {
-        for(int i=0;i<transactions.size();i++){
-            if( transactions.get(i).getHash().getHex().compareTo(txHash.getHex())==0 ) return true;
+    public static boolean transactionListContains(Transactions transactions, Hash txHash)
+        throws Exception {
+        for (int i = 0; i < transactions.size(); i++) {
+            if (transactions.get(i).getHash().getHex().compareTo(txHash.getHex()) == 0) return true;
         }
         return false;
     }
