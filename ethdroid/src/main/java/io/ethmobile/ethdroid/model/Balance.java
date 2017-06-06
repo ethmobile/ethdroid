@@ -21,64 +21,65 @@ public class Balance {
 
     private BigDecimal value;
 
-    /**
-     * Build a balance object with the given value (in wei === 10^18 ether)
-     * @param value Value ti use in wei (1 wei === 10^18 ether)
-     * @return balance built from value
-     */
-    public static Balance of(long value){
-        return new Balance(value);
-    }
-
     private Balance(long value) {
         this.value = BigDecimal.valueOf(value);
     }
 
-    public long inWei(){
+    /**
+     * Build a balance object with the given value (in wei === 10^18 ether)
+     *
+     * @param value Value ti use in wei (1 wei === 10^18 ether)
+     * @return balance built from value
+     */
+    public static Balance of(long value) {
+        return new Balance(value);
+    }
+
+    public long inWei() {
         return this.value.longValue();
     }
 
-    public double inKWei(){
+    public double inKWei() {
         return this.value.divide(KWEI).doubleValue();
     }
 
-    public double inPicoEther(){
+    public double inPicoEther() {
         return this.value.divide(PICOETHER).doubleValue();
     }
 
-    public double inNanoEther(){
+    public double inNanoEther() {
         return this.value.divide(NANOETHER).doubleValue();
     }
 
-    public double inMicroEther(){
+    public double inMicroEther() {
         return this.value.divide(MICROETHER).doubleValue();
     }
 
-    public double inMilliEther(){
+    public double inMilliEther() {
         return this.value.divide(MILLIETHER).doubleValue();
     }
 
-    public double inEther(){
+    public double inEther() {
         return this.value.divide(ETHER).doubleValue();
     }
 
-    public double inKEther(){
+    public double inKEther() {
         return this.value.divide(KETHER).doubleValue();
     }
 
-    public double inMEther(){
+    public double inMEther() {
         return this.value.divide(METHER).doubleValue();
     }
 
-    public double inGEther(){
+    public double inGEther() {
         return this.value.divide(GETHER).doubleValue();
     }
 
-    public double inTEther(){
+    public double inTEther() {
         return this.value.divide(TETHER).doubleValue();
     }
 
-    public String string(){
+    public String string() {
         return this.value.toString();
     }
 

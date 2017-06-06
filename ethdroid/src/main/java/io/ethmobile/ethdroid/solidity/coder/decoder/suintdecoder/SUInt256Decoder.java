@@ -13,8 +13,8 @@ public class SUInt256Decoder implements SDecoder<SUInt.SUInt256> {
 
     @Override
     public SUInt.SUInt256 decode(String toDecode) {
-        if( !toDecode.toLowerCase().startsWith("0x") ){
-            toDecode = "0x"+toDecode;
+        if (!toDecode.toLowerCase().startsWith("0x")) {
+            toDecode = "0x" + toDecode;
         }
         return SUInt.fromBigInteger256(SolidityUtils.hexToBigDecimal(toDecode).toBigInteger());
     }

@@ -12,19 +12,19 @@ public abstract class SType<T> {
         this.value = value;
     }
 
+    public static Class<? extends SType> getClazz() {
+        return SType.class;
+    }
+
     public final T get() {
         return value;
     }
 
     public abstract String asString();
 
-    public static Class<? extends SType> getClazz(){
-        return SType.class;
-    }
-
     @Override
     public boolean equals(Object o) {
-        if( !(o instanceof SType) ) return false;
+        if (!(o instanceof SType)) return false;
         SType toCompare = (SType) o;
         return get().equals(toCompare.get());
     }

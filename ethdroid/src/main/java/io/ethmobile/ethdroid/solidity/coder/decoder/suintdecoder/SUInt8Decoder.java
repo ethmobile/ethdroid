@@ -13,8 +13,8 @@ public class SUInt8Decoder implements SDecoder<SUInt.SUInt8> {
 
     @Override
     public SUInt.SUInt8 decode(String toDecode) {
-        if( !toDecode.toLowerCase().startsWith("0x") ){
-            toDecode = "0x"+toDecode;
+        if (!toDecode.toLowerCase().startsWith("0x")) {
+            toDecode = "0x" + toDecode;
         }
         return SUInt.fromShort(SolidityUtils.hexToBigDecimal(toDecode).toBigInteger().shortValue());
     }

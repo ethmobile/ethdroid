@@ -1,13 +1,12 @@
 package io.ethmobile.ethdroid.model;
 
-import io.ethmobile.ethdroid.EthDroid;
-
 import org.ethereum.geth.FilterLogsHandler;
 import org.ethereum.geth.Header;
 import org.ethereum.geth.Log;
 import org.ethereum.geth.NewHeadHandler;
 import org.ethereum.geth.Subscription;
 
+import io.ethmobile.ethdroid.EthDroid;
 import rx.Observable;
 import rx.Scheduler;
 import rx.Subscriber;
@@ -22,12 +21,17 @@ public class Filter {
     private static final Scheduler DEFAULT_SCHEDULER = Schedulers.newThread();
     private static final long DEFAULT_BUFFER_SIZE = 16; //See go-ethereum tests https://git.io/v9X1O
 
-    public static Observable<Header> newHeadFilter(EthDroid eth){
+    public static Observable<Header> newHeadFilter(EthDroid eth) {
         return Observable.create(new HeadFilterSubscriber(eth))
             .subscribeOn(DEFAULT_SCHEDULER);
     }
 
-    private static class HeadFilterSubscriber implements Observable.OnSubscribe<Header>{
+    public static Observable<Log> newLogFilter(EthDroid eth, FilterOptions options) {
+        return Observable.create(new LogFilterSubscriber(eth, options))
+            .subscribeOn(DEFAULT_SCHEDULER);
+    }
+
+    private static class HeadFilterSubscriber implements Observable.OnSubscribe<Header> {
 
         EthDroid eth;
 
@@ -39,12 +43,14 @@ public class Filter {
         public void call(Subscriber<? super Header> subscriber) {
             HeadListener listener = new HeadListener(subscriber);
             try {
-                listener.subscription = eth.getClient().subscribeNewHead(eth.getMainContext(),listener,DEFAULT_BUFFER_SIZE);
+                listener.subscription = eth.getClient().subscribeNewHead(eth.getMainContext(),
+                    listener, DEFAULT_BUFFER_SIZE);
             } catch (Exception e) {
                 listener.onError(e.getMessage());
             }
         }
     }
+
     private static class HeadListener implements NewHeadHandler {
 
         Subscriber<? super Header> subscriber;
@@ -56,32 +62,24 @@ public class Filter {
 
         @Override
         public void onError(String s) {
-            if( subscriber.isUnsubscribed() ){
+            if (subscriber.isUnsubscribed()) {
                 subscription.unsubscribe();
-            } else{
+            } else {
                 subscriber.onError(new Throwable(s));
             }
         }
 
         @Override
         public void onNewHead(Header header) {
-            if( subscriber.isUnsubscribed() ){
+            if (subscriber.isUnsubscribed()) {
                 subscription.unsubscribe();
-            } else{
+            } else {
                 subscriber.onNext(header);
             }
         }
     }
 
-
-
-    public static Observable<Log> newLogFilter(EthDroid eth, FilterOptions options) {
-        return Observable.create(new LogFilterSubscriber(eth,options))
-            .subscribeOn(DEFAULT_SCHEDULER);
-    }
-
-
-    private static class LogFilterSubscriber implements Observable.OnSubscribe<Log>{
+    private static class LogFilterSubscriber implements Observable.OnSubscribe<Log> {
 
         EthDroid eth;
         FilterOptions filterOptions;
@@ -95,12 +93,14 @@ public class Filter {
         public void call(Subscriber<? super Log> subscriber) {
             LogListener listener = new LogListener(subscriber);
             try {
-                listener.subscription = eth.getClient().subscribeFilterLogs(eth.getMainContext(),filterOptions.getQuery(),listener,DEFAULT_BUFFER_SIZE);
+                listener.subscription = eth.getClient().subscribeFilterLogs(eth.getMainContext(),
+                    filterOptions.getQuery(), listener, DEFAULT_BUFFER_SIZE);
             } catch (Exception e) {
                 listener.onError(e.getMessage());
             }
         }
     }
+
     private static class LogListener implements FilterLogsHandler {
 
         Subscriber<? super Log> subscriber;
@@ -112,18 +112,18 @@ public class Filter {
 
         @Override
         public void onError(String s) {
-            if( subscriber.isUnsubscribed() ){
+            if (subscriber.isUnsubscribed()) {
                 subscription.unsubscribe();
-            } else{
+            } else {
                 subscriber.onError(new Throwable(s));
             }
         }
 
         @Override
         public void onFilterLogs(Log log) {
-            if( subscriber.isUnsubscribed() ){
+            if (subscriber.isUnsubscribed()) {
                 subscription.unsubscribe();
-            } else{
+            } else {
                 subscriber.onNext(log);
             }
         }

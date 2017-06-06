@@ -22,6 +22,14 @@ public class FilterOptions {
         query.setAddresses(Geth.newAddressesEmpty());
     }
 
+    private static Hashes fromListToHashes(List<String> list) throws Exception {
+        Hashes ret = Geth.newHashes(list.size());
+        for (String hash : list) {
+            ret.append(Geth.newHashFromHex(hash));
+        }
+        return ret;
+    }
+
     public FilterOptions addTopics(List<String> topicList) throws Exception {
         Topics topics = query.getTopics();
         topics.append(fromListToHashes(topicList));
@@ -29,7 +37,7 @@ public class FilterOptions {
         return this;
     }
 
-    public FilterOptions addAddress(Address address){
+    public FilterOptions addAddress(Address address) {
         Addresses addresses = query.getAddresses();
         addresses.append(address);
         query.setAddresses(addresses);
@@ -40,26 +48,18 @@ public class FilterOptions {
         return addAddress(Geth.newAddressFromHex(address));
     }
 
-    public FilterOptions fromBlock(long blockNumber){
+    public FilterOptions fromBlock(long blockNumber) {
         query.setFromBlock(Geth.newBigInt(blockNumber));
         return this;
     }
 
-    public FilterOptions toBlock(long blockNumber){
+    public FilterOptions toBlock(long blockNumber) {
         query.setToBlock(Geth.newBigInt(blockNumber));
         return this;
     }
 
     public FilterQuery getQuery() {
         return query;
-    }
-
-    private static Hashes fromListToHashes(List<String> list) throws Exception {
-        Hashes ret = Geth.newHashes(list.size());
-        for(String hash : list){
-            ret.append(Geth.newHashFromHex(hash));
-        }
-        return ret;
     }
 
 

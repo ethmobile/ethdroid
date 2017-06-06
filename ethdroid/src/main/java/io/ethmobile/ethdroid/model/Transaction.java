@@ -1,9 +1,5 @@
 package io.ethmobile.ethdroid.model;
 
-import io.ethmobile.ethdroid.EthDroid;
-import io.ethmobile.ethdroid.Utils;
-import io.ethmobile.ethdroid.exception.EthDroidException;
-
 import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
 import org.ethereum.geth.BigInt;
@@ -14,6 +10,9 @@ import org.ethereum.geth.Geth;
 import org.ethereum.geth.Hash;
 import org.ethereum.geth.KeyStore;
 
+import io.ethmobile.ethdroid.EthDroid;
+import io.ethmobile.ethdroid.Utils;
+import io.ethmobile.ethdroid.exception.EthDroidException;
 import okio.ByteString;
 import rx.Observable;
 
@@ -55,62 +54,75 @@ public class Transaction {
      * - default gas amount
      * - gas price suggested by geth via JNI
      * - default data
+     *
      * @param eth base context of the transaction
      * @throws Exception //TODO
      */
     public Transaction(EthDroid eth) throws Exception {
-        if( eth == null ) throw new EthDroidException(NO_CONTEXT_ERROR);
+        if (eth == null) throw new EthDroidException(NO_CONTEXT_ERROR);
         this.eth = eth;
         this.txContext = eth.getMainContext();
         this.from = eth.getMainAccount();
         this.to = this.from.getAddress();
-        if( this.from != null ) this.nonce = eth.getClient().getPendingNonceAt(txContext,from.getAddress());
+        if (this.from != null) {
+            this.nonce = eth.getClient().getPendingNonceAt(txContext,
+                from.getAddress());
+        }
         this.value = Geth.newBigInt(DEFAULT_VALUE);
         this.gas = Geth.newBigInt(DEFAULT_GAS_AMOUNT);
         this.gasPrice = eth.getClient().suggestGasPrice(txContext);
         this.data = new byte[]{};
     }
 
-    public Transaction nonce(long nonce){
+    public Transaction nonce(long nonce) {
         this.nonce = nonce;
         return this;
     }
-    public Transaction to(Address account){
-        if( to == null ) throw new EthDroidException(NO_RECIPIENT_ERROR);
+
+    public Transaction to(Address account) {
+        if (to == null) throw new EthDroidException(NO_RECIPIENT_ERROR);
         this.to = account;
         return this;
     }
+
     public Transaction to(String address) throws Exception {
         return to(Geth.newAddressFromHex(address));
     }
-    public Transaction from(Account account, String passphrase){
-        if( account == null ) throw new EthDroidException(NO_SENDER_ERROR);
+
+    public Transaction from(Account account, String passphrase) {
+        if (account == null) throw new EthDroidException(NO_SENDER_ERROR);
         this.from = account;
         this.fromPassphrase = passphrase;
         return this;
     }
-    public Transaction from(Account account){
+
+    public Transaction from(Account account) {
         //TODO test if account is unlocked
-        if( account == null ) throw new EthDroidException(NO_SENDER_ERROR);
+        if (account == null) throw new EthDroidException(NO_SENDER_ERROR);
         this.from = account;
         return this;
     }
-    public Transaction value(BigInt value){
+
+    public Transaction value(BigInt value) {
         this.value = value;
         return this;
     }
-    public Transaction value(long value){
+
+    public Transaction value(long value) {
         return value(Geth.newBigInt(value));
     }
-    public Transaction gasAmount(BigInt gas){
+
+    public Transaction gasAmount(BigInt gas) {
         this.gas = gas;
         return this;
     }
-    public Transaction gasPrice(BigInt gasPrice){
+
+    public Transaction gasPrice(BigInt gasPrice) {
         this.gasPrice = gasPrice;
         return this;
     }
-    public Transaction data(byte[] data){
+
+    public Transaction data(byte[] data) {
         this.data = data;
         return this;
     }
@@ -118,54 +130,60 @@ public class Transaction {
     /**
      * Set transaction data from given hexadecimal byte array in string format
      * data can be prefixed by '0x' hexadecimal identifier
+     *
      * @param data String date used to build the transaction
      * @return Transaction built from data
      */
-    public Transaction data(String data){
-        if( data.contains("0x") ) data = data.substring(2);
+    public Transaction data(String data) {
+        if (data.contains("0x")) data = data.substring(2);
         data(ByteString.decodeHex(data).toByteArray());
         return this;
     }
 
     /**
      * Set context in the transaction
+     *
      * @param context Context to set in the transaction
      * @return Updated current transaction
      */
-    public Transaction context(Context context){
+    public Transaction context(Context context) {
         this.txContext = context;
         return this;
     }
 
-    private boolean checkValidity() throws Exception{
-        if( to == null ) throw new EthDroidException(NO_RECIPIENT_ERROR);
-        if( from == null ) throw new EthDroidException(NO_SENDER_ERROR);
+    private boolean checkValidity() throws Exception {
+        if (to == null) throw new EthDroidException(NO_RECIPIENT_ERROR);
+        if (from == null) throw new EthDroidException(NO_SENDER_ERROR);
         return true;
     }
 
     /**
      * Get raw geth transaction.
      * Returned transaction is not signed, so it can't be sent.
+     *
      * @return not signed transaction
      * @throws Exception An error occured
      */
     public org.ethereum.geth.Transaction getRawTransaction() throws Exception {
-        if( to == null ) throw new EthDroidException(NO_RECIPIENT_ERROR);
-        return Geth.newTransaction(nonce,to,value,gas,gasPrice,data);
+        if (to == null) throw new EthDroidException(NO_RECIPIENT_ERROR);
+        return Geth.newTransaction(nonce, to, value, gas, gasPrice, data);
     }
 
-    private org.ethereum.geth.Transaction sign() throws Exception{
+    private org.ethereum.geth.Transaction sign() throws Exception {
         org.ethereum.geth.Transaction raw = getRawTransaction();
-        if( from == null ) throw new EthDroidException(NO_SENDER_ERROR);
-        if( this.eth.getKeyManager() == null ) throw new EthDroidException(NO_KEYMANAGER_ERROR);
+        if (from == null) throw new EthDroidException(NO_SENDER_ERROR);
+        if (this.eth.getKeyManager() == null) throw new EthDroidException(NO_KEYMANAGER_ERROR);
         KeyStore keystore = this.eth.getKeyManager().getKeystore();
         BigInt networkId = Geth.newBigInt(eth.getChainConfig().getNetworkID());
-        if( this.fromPassphrase == null ) raw = keystore.signTx(from,raw,networkId);
-        else raw = keystore.signTxPassphrase(from,fromPassphrase,raw,networkId);
+        if (this.fromPassphrase == null) {
+            raw = keystore.signTx(from, raw, networkId);
+        } else {
+            raw = keystore.signTxPassphrase(from, fromPassphrase, raw, networkId);
+        }
         return raw;
     }
 
-    private CallMsg toCallMessage() throws Exception{
+    private CallMsg toCallMessage() throws Exception {
         checkValidity();
         CallMsg ret = Geth.newCallMsg();
         ret.setFrom(from.getAddress());
@@ -177,24 +195,26 @@ public class Transaction {
         return ret;
     }
 
-    public String call() throws Exception{
-        byte[] hexadecimalResult = this.eth.getClient().pendingCallContract(txContext,toCallMessage());
+    public String call() throws Exception {
+        byte[] hexadecimalResult = this.eth.getClient().pendingCallContract(txContext,
+            toCallMessage());
         return ByteString.of(hexadecimalResult).hex();
     }
 
-    public Hash send() throws Exception{
+    public Hash send() throws Exception {
         org.ethereum.geth.Transaction raw = sign();
-        this.eth.getClient().sendTransaction(this.eth.getMainContext(),raw);
+        this.eth.getClient().sendTransaction(this.eth.getMainContext(), raw);
         return raw.getHash();
     }
 
-    public Observable<Block> sendWithNotification() throws Exception{
+    public Observable<Block> sendWithNotification() throws Exception {
         Hash txHash = send();
 
         return Filter.newHeadFilter(eth)
             .flatMap(header -> {
                 try {
-                    return Observable.just(eth.getClient().getBlockByHash(eth.getMainContext(), header.getHash()));
+                    return Observable.just(
+                        eth.getClient().getBlockByHash(eth.getMainContext(), header.getHash()));
                 } catch (Exception e) {
                     return Observable.error(e.getCause());
                 }
