@@ -258,6 +258,14 @@ From Android app, subscribe to Solidity events in a background process and be no
 ## Contribute
 //TODO
 
+## Authors and contributors
+
+- Guillaume Nicolas
+- Damien Lecan
+- Kevin Biger
+- Alice Le Bars
+- Mickael Came
+
 ## Licencing
 
 Ethdroid is released under the MIT License (MIT), see [Licence](LICENSE).
