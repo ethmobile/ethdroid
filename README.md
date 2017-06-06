@@ -59,7 +59,7 @@ repositories {
     maven { url "https://oss.jfrog.org/artifactory/oss-snapshot-local" }
 }
 dependencies {
-    compile 'io.ethmobile:ethdroid:2.0.0-m2-SNAPSHOT'
+    compile 'io.ethmobile:ethdroid:2.0.0-m3-SNAPSHOT'
     compile 'org.ethereum:geth:1.6.3'
 }
 ```
