@@ -52,4 +52,4 @@ addons:
     notification_email: ethereummobile@gmail.com
     build_command_prepend: "./gradlew clean --stacktrace --info"
     build_command:   "./gradlew build --stacktrace --info"
-    branch_pattern: master
+    branch_pattern: coverity_scan
