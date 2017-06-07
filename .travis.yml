@@ -9,6 +9,7 @@ env:
   - ANDROID_BUILD_TOOLS=25.0.2
   - secure: R1QtzqSo1+wHcpLVHE8ulBJgTvx1r6kXxfMaHHcnUxlTorw0U/v1LZmzO8cKQRgrhIt2oPE5o7fLN4JNRCyopv9nEEW4PWYbM+OZ74joSbFUHVydZY69cJneFjX/sgGey1tlcnx3rqq7rHkdU3lMTJzXtFqDAoQbW6kMLPW6R1xZDB+n6WmCoKowQiFJYdtE9YH1UJt4m0nz0lSglxSA59twH2wjHy1IF9k9D0CWh7d9ChAFfnYg6C6t69NQ6Z/MFElz6eccvqPmi/pMhkYJZ9S2915RMZ9SOo7Nb+g+mttB5mlInc4UdicnaM/+BGUk5O4bIR1nNK3zED12GUQUrQ64ke+5Y7i9CzT3opO2DUrhS0RpQbLPqnpCs4JZCYrJs3hSGkdtI0N+OhQyGIsqWpf6/irsX2Yyw9hMM7W3O5RglZm6sr76IFWkjPPzcZc7pcdqq6Si3W4SIr//aVEfuSWOADqtYkVF5CvVzofNq7UTLcWWXoxPihpBHPTOK1RZCTq/3A1F7g3U7MkIBeKU3x9jCzZtyVQ4eTSMy76BrrwYokjwXgOjh3xFt2ezyVZRXZGYnhYdaxLovg/HuPq+4kr6QDGlpi40m18lCYsk3Q9U2xtaSg7Rx4X31yBxCD/xJBM/hTbHb6GSaWYSAzkUdMak8e0mOgDYUJ9/H8BkR/E=
   - secure: rz7pQWcs6WR2PPQELr6Zpfy0/+cj9xDLABMKwvhJaTJHNknGmGtSJKtg1L5PfKmxqhZXV77Bcswna+NrosRPcPUUNSHSwQaxvyoqAfp3tmfi464siNyFrI9U7PtfCaJGdLneSpAaItoWvokkwhoQJDrXLypaJklOtpz2NNkk4EOOZXouIraCD+0VdpBkeKXrocCuvVX+D39FG5T9jet7Aua8URGiCLWK8qh8dSTLackYFlklHcqwC4rDfm05YPlKpI8geCCvs/cnlvmNkgGAT9WaXuB8VDK9vxSSfRVZ2/9juj2yvRNzXfP0Fz+BPXfNOzl7GGqOFDaUgX/YBf8nH5AO+dWFxb/dSouqvldkq7XuyeYTkcN1v6x7qYmct17a8PUSqNVw01v/CkYrqaCfAU7p8dTRcCWzGYULBaMB7LwbbOXj0pheh6jmcFt3d5ylTIr2pSwfRxGDSbp+ceTzcE+Cdi84mavd3walTCkZ4WTy5gOdD86EenYbqbovEN69Fv5RjBOvP8/oMsqP45La3FFd2xOeDbDjDlSl9H6y71ntr3Vf6mdL+W3IZzL8cNTgPFKqx6rOZi1LtwbCzpJESzZu+t6MDZ8ZIpQ55R42TGo2t1beDxL+y3NSFzfssy0ZrirZro6hFPqLWHHVfvWprxyY3pwS6szk64mGB7vu6mM=
+  - secure: TRmBDIWjg8feVE2TbiOC3M9YofJV43FKDZ42etkSiBOQ1r6qjfztCtuN7ndKb2ozvkYV006Ph/na7FjDXfbtfMq8jP+GsYDeHA3GlgOKj6lvYWZPkrlB2+Pa73S+PqOvt7nROGk6VFiZFuzqNNXOR50LPUQFgdzz5bAhXCdzvgyQBMgdZap4BW2DLl5RJ88JwdVF9SA3q9iIMgwJoePa9oZ/YMywn/pZTZUoAHXl7edNMsxpY51rf2X5sNnmCBUEpv+HQ+O3/jw/pqB3FffWjRAuSFBJ5D9iVc57NMWkOQNnRml36zAU2lDJ8gkcHMvh0cjvbVUEFLGa2CyK72ib5Se8LGs0D1QdpLmPMMWrqpsnRXk6Jq3RkGUfoE5DGwLr1ml3kQy3ZevMDlFz7tr+sSegkdXk6nUVbQxMF4l0w3VSI/SMM/FEAAMJIqE86fGc3VfFOiH4rq3z8BbJnLPNEr7oYPQN7rwDlh5Y72QReYYvue2bhkXlq8qQNRcrybyGC2OCp0vHiL1kMtRQn+gz9oofVDGhzVlHVPElYXHoOfvX/2MaVsiHtWQwM2wnnpiRta4rr/HXhRtEQiMDPVWNJjNWWfb07mizJyPBlvE964NbEOnA4NsZF7dHAs22z2cL7/XLxd+cOFE8LiKQ2CyaFm0aYDDShlzzX0nfexRyYAE=
 android:
   components:
   - tools
@@ -25,6 +26,7 @@ android:
   - sys-img-armeabi-v7a-android-$EMULATOR_API
 before_install:
 - chmod +x gradlew
+- echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 before_script:
 - echo no | android create avd --force -n test -t android-$EMULATOR_API --abi armeabi-v7a
 - emulator -avd test -no-skin -no-audio -no-window &
@@ -42,3 +44,12 @@ cache:
   directories:
   - "$HOME/.gradle"
   - "$HOME/.m2"
+addons:
+  coverity_scan:
+    project:
+      name: "ethmobile/ethdroid"
+      description: "Ethdroid Coverity Scan submitted via Travis CI"
+    notification_email: ethereummobile@gmail.com
+    build_command_prepend: "./gradlew clean --stacktrace --info"
+    build_command:   "./gradlew build --stacktrace --info"
+    branch_pattern: master
