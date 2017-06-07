@@ -45,7 +45,6 @@ dependencies {
     // For compilation
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'io.reactivex:rxjava:1.2.4'
-    compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.squareup.okio:okio:1.13.0' /* ByteString.decodeHex */
     compile "com.android.support:appcompat-v7:$googleDepsVersion"
