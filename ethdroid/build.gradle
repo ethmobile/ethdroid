@@ -47,7 +47,8 @@ dependencies {
     compile 'io.reactivex:rxjava:1.2.4'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.squareup.okio:okio:1.13.0' /* ByteString.decodeHex */
-    compile "com.android.support:appcompat-v7:$googleDepsVersion"
+
+    compileOnly "com.android.support:appcompat-v7:$googleDepsVersion"
 
     // For compilation, but provided at runtime
     // Configure also them for javadoc generation bellow
