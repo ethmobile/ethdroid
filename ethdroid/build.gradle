@@ -24,8 +24,12 @@ android {
     }
     buildTypes {
         release {
+            testCoverageEnabled true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            testCoverageEnabled true
         }
     }
     compileOptions {
@@ -33,7 +37,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
     }
 
-    lintOptions{
+    lintOptions {
         abortOnError false
     }
 }
@@ -156,6 +160,9 @@ ext {
     allLicenses = ["MIT"]
 }
 
+
+
 apply from: 'install.gradle'
 apply from: 'release.gradle'
 apply from: 'snapshot.gradle'
+apply from: 'coverage.gradle'

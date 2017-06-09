@@ -12,6 +12,7 @@ buildscript {
         classpath 'net.researchgate:gradle-release:2.4.0'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.18"
         classpath 'me.tatarka:gradle-retrolambda:3.6.1'
+        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
     }
 }
 
