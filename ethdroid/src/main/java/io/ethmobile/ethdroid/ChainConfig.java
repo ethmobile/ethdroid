@@ -169,7 +169,6 @@ public class ChainConfig {
          */
         public Builder connectedToBootnodes(List<String> bootnodeURLList) {
             build.bootnodes = bootnodeURLList;
-            build.nodeConfig.setBootstrapNodes(listToEnodes(bootnodeURLList));
             return this;
         }
 
