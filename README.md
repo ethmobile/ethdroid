@@ -1,4 +1,4 @@
-# Ethdroid : Easy-to-use Ethereum client wrapper for Android 
+# Ethdroid : Easy-to-use Ethereum Geth wrapper for Android 
 
 [![Build Status](https://travis-ci.org/ethmobile/ethdroid.svg?branch=master)](https://travis-ci.org/ethmobile/ethdroid)
 [![Coverity Status](https://scan.coverity.com/projects/12878/badge.svg)](https://scan.coverity.com/projects/ethdroid)
