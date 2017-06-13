@@ -45,7 +45,9 @@ cache:
   - "$HOME/.gradle"
   - "$HOME/.m2"
 after_success:
-- bash <(curl -s https://codecov.io/bash)
+- ./gradlew jacocoTestReport
+- pip install --user codecov
+- codecov
 
 addons:
   coverity_scan:
