@@ -6,4 +6,4 @@ if [[ $TRAVIS_PULL_REQUEST == "false" ]] && [[ $TRAVIS_BRANCH == "master" ]]; th
     PUBLISH="artifactoryPublish"
 fi
 
-./gradlew clean build connectedCheck -PdisablePreDex $PUBLISH --stacktrace --info
+./gradlew clean build connectedCheck -PdisablePreDex $PUBLISH --stacktrace --info --debug
