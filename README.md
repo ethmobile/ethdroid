@@ -48,7 +48,7 @@ repositories {
 }
 dependencies {
     compile 'io.ethmobile:ethdroid:2.0.0-m2'
-    compile 'org.ethereum:geth:1.6.3'
+    compile 'org.ethereum:geth:1.6.5'
 }
 ```
 
@@ -61,7 +61,7 @@ repositories {
 }
 dependencies {
     compile 'io.ethmobile:ethdroid:2.0.0-m3-SNAPSHOT'
-    compile 'org.ethereum:geth:1.6.3'
+    compile 'org.ethereum:geth:1.6.5'
 }
 ```
 
