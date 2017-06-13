@@ -56,6 +56,7 @@ For current ***develop*** version of Ethdroid, you can download via :
 
 ```Kotlin
 repositories {
+    jCenter()
     maven { url "https://oss.jfrog.org/artifactory/oss-snapshot-local" }
 }
 dependencies {
