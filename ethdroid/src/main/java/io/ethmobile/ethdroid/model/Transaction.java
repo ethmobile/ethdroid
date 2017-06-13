@@ -10,6 +10,8 @@ import org.ethereum.geth.Geth;
 import org.ethereum.geth.Hash;
 import org.ethereum.geth.KeyStore;
 
+import java.util.Arrays;
+
 import io.ethmobile.ethdroid.EthDroid;
 import io.ethmobile.ethdroid.Utils;
 import io.ethmobile.ethdroid.exception.EthDroidException;
@@ -198,6 +200,10 @@ public class Transaction {
     public String call() throws Exception {
         byte[] hexadecimalResult = this.eth.getClient().pendingCallContract(txContext,
             toCallMessage());
+        if (hexadecimalResult == null) { // Temporary fix for issue #31
+            hexadecimalResult = this.eth.getClient().pendingCallContract(txContext,
+                toCallMessage());
+        }
         return ByteString.of(hexadecimalResult).hex();
     }
 
