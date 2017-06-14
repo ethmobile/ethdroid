@@ -2,8 +2,10 @@
 
 set -ev
 
-if [[ $TRAVIS_PULL_REQUEST == "false" ]] && [[ $TRAVIS_BRANCH == "master" ]]; then
-    PUBLISH="artifactoryPublish"
-fi
+./gradlew clean
+./gradlew build --info -PdisablePreDex
+./gradlew connectedCheck --info -PdisablePreDex
 
-./gradlew clean build connectedCheck -PdisablePreDex $PUBLISH --stacktrace --info --debug
+if [[ $TRAVIS_PULL_REQUEST == "false" ]] && [[ $TRAVIS_BRANCH == "master" ]]; then
+    ./gradlew artifactoryPublish --info
+fi
