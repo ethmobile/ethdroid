@@ -16,7 +16,7 @@ import io.ethmobile.ethdroid.model.Filter;
 import io.ethmobile.ethdroid.model.Transaction;
 import io.ethmobile.ethdroid.solidity.Contract;
 import io.ethmobile.ethdroid.solidity.ContractType;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Created by gunicolas on 16/05/17.

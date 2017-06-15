@@ -20,7 +20,7 @@ import io.ethmobile.ethdroid.solidity.element.SolidityElement;
 import io.ethmobile.ethdroid.solidity.element.returns.SingleReturn;
 import io.ethmobile.ethdroid.solidity.types.SArray;
 import io.ethmobile.ethdroid.solidity.types.SType;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Created by gunicolas on 4/08/16.

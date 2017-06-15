@@ -33,7 +33,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
     }
 
-    lintOptions{
+    lintOptions {
         abortOnError false
     }
 }
@@ -44,7 +44,7 @@ dependencies {
 
     // For compilation
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'io.reactivex:rxjava:1.2.4'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.squareup.okio:okio:1.13.0' /* ByteString.decodeHex */
 

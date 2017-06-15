@@ -10,14 +10,12 @@ import org.ethereum.geth.Geth;
 import org.ethereum.geth.Hash;
 import org.ethereum.geth.KeyStore;
 
-import java.util.Arrays;
-
 import io.ethmobile.ethdroid.EthDroid;
 import io.ethmobile.ethdroid.Utils;
 import io.ethmobile.ethdroid.exception.EthDroidException;
 import io.ethmobile.ethdroid.exception.SmartContractException;
+import io.reactivex.Observable;
 import okio.ByteString;
-import rx.Observable;
 
 /**
  * Created by gunicolas on 19/05/17.

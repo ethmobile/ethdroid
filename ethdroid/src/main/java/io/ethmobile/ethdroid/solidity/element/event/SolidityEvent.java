@@ -14,8 +14,8 @@ import io.ethmobile.ethdroid.solidity.element.SolidityElement;
 import io.ethmobile.ethdroid.solidity.element.returns.SingleReturn;
 import io.ethmobile.ethdroid.solidity.types.SArray;
 import io.ethmobile.ethdroid.solidity.types.SType;
+import io.reactivex.Observable;
 import okio.ByteString;
-import rx.Observable;
 
 
 /**
