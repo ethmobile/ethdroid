@@ -263,6 +263,21 @@ From Android app, subscribe to Solidity events in a background process and be no
 ## Contribute
 //TODO
 
+### Add code style to Android Studio
+
+* For IntelliJ 13+ :
+
+    1. Edit -> Macros -> Start Macro Recording
+    2. Code -> Reformat Code
+    3. File -> Save all
+    4. Edit -> Macros -> Stop Macro Recording
+    5. Name the macro (something like "formatted save")
+    6. File -> Settings -> Keymap
+    7. Right click on the macro. Add Keyboard Shortcut. Set the keyboard shortcut to Control + S. 
+    8. IntelliJ will inform you of a hotkey conflict. Select "remove" to remove other assignments.
+
+* For previous versions [click here](https://stackoverflow.com/a/5581992)
+
 ## Authors and contributors
 
 - Guillaume Nicolas
