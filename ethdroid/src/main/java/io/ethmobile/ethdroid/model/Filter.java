@@ -5,7 +5,6 @@ import org.ethereum.geth.Header;
 import org.ethereum.geth.Log;
 import org.ethereum.geth.NewHeadHandler;
 import org.ethereum.geth.Subscription;
-import org.reactivestreams.Subscriber;
 
 import io.ethmobile.ethdroid.EthDroid;
 import io.reactivex.Observable;

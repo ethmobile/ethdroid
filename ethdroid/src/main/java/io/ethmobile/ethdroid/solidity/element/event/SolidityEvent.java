@@ -1,5 +1,7 @@
 package io.ethmobile.ethdroid.solidity.element.event;
 
+import org.ethereum.geth.Log;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.AbstractMap;
@@ -40,26 +42,25 @@ public class SolidityEvent<T extends SType> extends SolidityElement {
             .addAddress(this.address);
     }
 
-    Observable<SType[]> createFilterAndDecode() throws Exception {
+    Observable<Log> createFilter() throws Exception{
         FilterOptions options = encode();
-
-        return Filter.newLogFilter(eth, options)
-            .map(log -> {
-                if (returns.size() == 0) {
-                    return null;
-                } else {
-                    return SCoder.decodeParams(ByteString.of(log.getData()).hex(), returns);
-                }
-            });
+        return Filter.newLogFilter(eth, options);
     }
 
-
     public Observable<SingleReturn<T>> listen() throws Exception {
-        return createFilterAndDecode().map(this::wrapDecodedLogs);
+        Observable<Log> logObservable = createFilter();
+        if( returns.size() == 0 ){
+            return logObservable.map(log -> wrapDecodedLogs(null));
+        } else{
+            return logObservable.map(log -> {
+               SType[] decodedParams = SCoder.decodeParams(ByteString.of(log.getData()).hex(), returns);
+               return wrapDecodedLogs(decodedParams);
+            });
+        }
     }
 
     SingleReturn<T> wrapDecodedLogs(SType[] decodedLogs) {
-        return new SingleReturn(decodedLogs[0]);
+        return decodedLogs != null ? new SingleReturn(decodedLogs[0]) : new SingleReturn<>(null);
     }
 
 }
