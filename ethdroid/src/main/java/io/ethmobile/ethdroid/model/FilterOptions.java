@@ -23,7 +23,7 @@ public class FilterOptions {
     }
 
     private static Hashes fromListToHashes(List<String> list) throws Exception {
-        Hashes ret = Geth.newHashes(list.size());
+        Hashes ret = Geth.newHashesEmpty();
         for (String hash : list) {
             ret.append(Geth.newHashFromHex(hash));
         }
