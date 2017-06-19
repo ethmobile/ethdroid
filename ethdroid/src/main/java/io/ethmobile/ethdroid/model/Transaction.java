@@ -15,6 +15,7 @@ import java.util.Arrays;
 import io.ethmobile.ethdroid.EthDroid;
 import io.ethmobile.ethdroid.Utils;
 import io.ethmobile.ethdroid.exception.EthDroidException;
+import io.ethmobile.ethdroid.exception.SmartContractException;
 import okio.ByteString;
 import rx.Observable;
 
@@ -200,10 +201,7 @@ public class Transaction {
     public String call() throws Exception {
         byte[] hexadecimalResult = this.eth.getClient().pendingCallContract(txContext,
             toCallMessage());
-        if (hexadecimalResult == null) { // Temporary fix for issue #31
-            hexadecimalResult = this.eth.getClient().pendingCallContract(txContext,
-                toCallMessage());
-        }
+        if( hexadecimalResult == null ) throw new SmartContractException("Smart-Contract function ("+data+") throws Exception or doesn't exist" );
         return ByteString.of(hexadecimalResult).hex();
     }
 

@@ -10,4 +10,8 @@ public class SmartContractException extends EthDroidException {
     public SmartContractException() {
         super("Exception thrown by contract");
     }
+
+    public SmartContractException(String message) {
+        super(message);
+    }
 }
