@@ -29,12 +29,6 @@ Futhermore **Rx-java 1** and its extensions simplify control of asynchronous flo
 
 This package can be used on **Android 22+** and with **Geth 1.6.2+**.
 
-## Limitations / Roadmap
-
-- Rx-Java 1 only. It is planned to upgrade to Rx-Java 2
-- Geth v1.6+ compatibility. Work is in progress to be compatible with
-- Private Blockchains only, because of Geth 1.4/1.5 limitations. A feature is planned to allow testnet/mainnet connections and will be released as soon as Ethereum-Android will be compatible with Geth 1.6.
-
 ## Download Ethdroid and set Geth version
 
 Ethdroid and Geth ***stable*** versions are distribued throught ***jCenter***.
