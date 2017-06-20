@@ -225,6 +225,11 @@ public class EthDroid {
             return this;
         }
 
+        public Builder onRinkeby() {
+            build.chainConfig = ChainConfig.getRinkebyConfig();
+            return this;
+        }
+
         public Builder withChainConfig(ChainConfig chainConfig) {
             build.chainConfig = chainConfig;
             return this;
