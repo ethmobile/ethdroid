@@ -215,6 +215,19 @@ public class EthDroid {
             return this;
         }
 
+        public Builder onPublicNetwork(ChainConfig.NETWORK network) {
+            switch (network) {
+                case HOMESTEAD:
+                    return onMainnet();
+                case ROPSTEN:
+                    return onTestnet();
+                case RINKEBY:
+                    return onRinkeby();
+                default:
+                    throw new IllegalArgumentException("Unknwon network id : " + network);
+            }
+        }
+
         public Builder onMainnet() {
             build.chainConfig = ChainConfig.getMainnetConfig();
             return this;
