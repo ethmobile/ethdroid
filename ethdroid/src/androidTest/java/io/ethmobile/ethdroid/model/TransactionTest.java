@@ -1,21 +1,17 @@
 package io.ethmobile.ethdroid.model;
 
+import static io.ethmobile.ethdroid.Utils.deleteDirIfExists;
+
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
+
+import org.ethereum.geth.Account;
+
+import java.io.File;
 
 import io.ethmobile.ethdroid.ChainConfig;
 import io.ethmobile.ethdroid.EthDroid;
 import io.ethmobile.ethdroid.KeyManager;
-
-import org.ethereum.geth.Account;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import java.io.File;
-
-import static io.ethmobile.ethdroid.Utils.deleteDirIfExists;
 
 /**
  * Created by gunicolas on 19/05/17.

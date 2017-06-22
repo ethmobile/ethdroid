@@ -199,7 +199,10 @@ public class Transaction {
     public String call() throws Exception {
         byte[] hexadecimalResult = this.eth.getClient().pendingCallContract(txContext,
             toCallMessage());
-        if( hexadecimalResult == null ) throw new SmartContractException("Smart-Contract function ("+data+") throws Exception or doesn't exist" );
+        if (hexadecimalResult == null) {
+            throw new SmartContractException(
+                "Smart-Contract function (" + data + ") throws Exception or doesn't exist");
+        }
         return ByteString.of(hexadecimalResult).hex();
     }
 

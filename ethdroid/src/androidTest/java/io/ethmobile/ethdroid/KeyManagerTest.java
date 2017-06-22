@@ -1,8 +1,13 @@
 package io.ethmobile.ethdroid;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import static io.ethmobile.ethdroid.Utils.deleteDirIfExists;
+
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
-
 
 import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
@@ -12,12 +17,6 @@ import org.junit.Test;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import static io.ethmobile.ethdroid.Utils.deleteDirIfExists;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * Created by gunicolas on 16/05/17.

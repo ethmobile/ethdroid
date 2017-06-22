@@ -1,5 +1,10 @@
 package io.ethmobile.ethdroid;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import static io.ethmobile.ethdroid.Utils.deleteDirIfExists;
+
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 
@@ -8,10 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
-
-import static io.ethmobile.ethdroid.Utils.deleteDirIfExists;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by gunicolas on 16/05/17.
