@@ -109,6 +109,14 @@ new EthDroid.Builder(datadir)  //Whatever directory path where blockchain files 
 
 #### on **private network**
 
+Private network is a little bit trickier because you have to provide more information.
+
+* the genesis : String (standard genesis json file)
+* the network id : long (you can find it in your genesis)
+* peer node url : String (at least one. It can be a [bootnode](https://github.com/ethereum/go-ethereum/blob/master/cmd/bootnode/main.go) or any other node of the private network. Format is : "enode://*${id}*@*${ip}*:*${port}*?discport:*${port}+1*)
+
+You can find an example at [EthdroidBuilderTest](https://github.com/ethmobile/ethdroid/blob/master/ethdroid/src/androidTest/java/io/ethmobile/ethdroid/EthDroidBuilderTest.java#L48)
+
 ```java
 
 EthDroid ethdroid = EthDroid.Builder(datadir) //Whatever directory path where blockchain files must be saved.
