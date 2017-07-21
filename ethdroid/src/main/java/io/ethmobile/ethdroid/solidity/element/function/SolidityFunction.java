@@ -62,22 +62,22 @@ public class SolidityFunction<T extends SType> extends SolidityElement {
         return "0x" + this.signature() + encodedParameters;
     }
 
-    private Transaction buildTransaction() throws Exception {
+    public Transaction getTransaction() throws Exception {
         return eth.newTransaction()
             .to(address)
             .data(encode());
     }
 
     public Hash send() throws Exception {
-        return buildTransaction().send();
+        return getTransaction().send();
     }
 
     public Observable<Block> sendWithNotification() throws Exception {
-        return buildTransaction().sendWithNotification();
+        return getTransaction().sendWithNotification();
     }
 
     SType[] makeCallAndDecode() throws Exception {
-        String hexadecimalResult = buildTransaction().call();
+        String hexadecimalResult = getTransaction().call();
 
         if (returns.size() == 0) return null;
         if (hexadecimalResult.length() == 0) throw new SmartContractException();
