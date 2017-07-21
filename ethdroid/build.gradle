@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-    ext.gethDep = 'org.ethereum:geth:1.6.5'
+    ext.gethDep = 'org.ethereum:geth:1.6.7'
     ext.googleDepsVersion = '25.1.0'
 
     // For compilation
