@@ -1,7 +1,7 @@
 # Ethdroid : Easy-to-use Ethereum Geth wrapper for Android 
 
-  This project isn't maintained anymore, this is why it is read-only.
-  If you are interested to work on it, feel free to contact us at ethereummobile@gmail.com, we will be happy to help you.
+    ⚠️ This project isn't maintained anymore, this is why it is read-only.
+    If you are interested to work on it, feel free to contact us at ethereummobile@gmail.com, we will be happy to help you.
 
 [![Build Status](https://travis-ci.org/ethmobile/ethdroid.svg?branch=master)](https://travis-ci.org/ethmobile/ethdroid)
 [![Coverity Status](https://scan.coverity.com/projects/12878/badge.svg)](https://scan.coverity.com/projects/ethdroid)
